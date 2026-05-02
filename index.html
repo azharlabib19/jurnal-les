@@ -1,47 +1,62 @@
+<!-- 
+  Thumbnail Postingan Blogger (Tersembunyi)
+  <div style="display:none;"><img src="URL_GAMBAR_THUMBNAIL_ANDA" alt="Thumbnail"></div>
+-->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Aplikasi Jurnal Les Privat - LBB SAINSPIQ</title>
+    <title>Aplikasi Jurnal Les Privat</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2pdf untuk Export PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- SUPABASE JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
-        body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; }
-        #app-container { position:fixed; top:0; left:0; right:0; bottom:0; background-color:#f3f4f6; z-index:999999; overflow:hidden; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
-        .hide { display:none !important; }
-        .spinner { border:4px solid #f3f3f3; border-top:4px solid #3b82f6; border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; }
-        @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden; 
+        }
+        #app-container {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #f3f4f6;
+            z-index: 999999;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .hide { display: none !important; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
             .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem) !important; }
         }
-        .hide-scrollbar::-webkit-scrollbar { display:none; }
-        .hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
-        /* Jadwal checkbox grid */
-        .hari-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
-        .hari-btn { padding:6px 2px; border-radius:8px; border:2px solid #e5e7eb; font-size:11px; font-weight:700; text-align:center; cursor:pointer; transition:all 0.15s; color:#6b7280; background:white; }
-        .hari-btn.active { border-color:#3b82f6; background:#eff6ff; color:#1d4ed8; }
-        /* Notif pulse */
-        @keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:.6} }
-        .pulse-red { animation: pulse-red 2s infinite; }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
-<div id="app-container">
 
-    <!-- ===== MODALS ===== -->
-    <!-- AI Modal -->
-    <div id="aiModal" class="fixed inset-0 bg-black bg-opacity-60 z-[1000002] flex items-center justify-center hide p-4 backdrop-blur-sm">
+<div id="app-container">
+    
+    <!-- AI Result Modal -->
+    <div id="aiModal" class="fixed inset-0 bg-black bg-opacity-60 z-[1000002] flex items-center justify-center hide p-4 backdrop-blur-sm transition-opacity">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
             <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 flex justify-between items-center">
-                <h3 class="text-white font-bold text-lg flex items-center gap-2" id="aiModalTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Hasil AI</h3>
-                <button onclick="closeAiModal()" class="text-white hover:text-purple-200"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <h3 class="text-white font-bold text-lg flex items-center gap-2" id="aiModalTitle"><i class="fa-solid fa-wand-magic-sparkles"></i> ✨ Hasil AI</h3>
+                <button onclick="closeAiModal()" class="text-white hover:text-purple-200 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             <div class="p-6 overflow-y-auto text-gray-700 text-sm whitespace-pre-wrap leading-relaxed" id="aiModalContent"></div>
             <div class="p-4 border-t bg-gray-50 text-right">
-                <button onclick="closeAiModal()" class="bg-purple-600 text-white font-bold px-5 py-2 rounded-lg hover:bg-purple-700">Tutup</button>
+                <button onclick="closeAiModal()" class="bg-purple-600 text-white font-bold px-5 py-2 rounded-lg hover:bg-purple-700 transition shadow-sm">Tutup</button>
             </div>
         </div>
     </div>
@@ -55,9 +70,9 @@
                 </div>
                 <h3 class="text-gray-800 font-bold text-xl mb-2" id="confirmModalTitle">Konfirmasi</h3>
                 <p class="text-gray-500 text-sm mb-6" id="confirmModalText">Apakah Anda yakin?</p>
-                <div class="flex gap-3">
-                    <button onclick="closeConfirmModal()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-4 py-2.5 rounded-lg hover:bg-gray-200">Batal</button>
-                    <button id="confirmBtnYes" class="flex-1 bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg hover:bg-red-600">Yakin Hapus</button>
+                <div class="flex gap-3 justify-center">
+                    <button onclick="closeConfirmModal()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-4 py-2.5 rounded-lg hover:bg-gray-200 transition">Batal</button>
+                    <button id="confirmBtnYes" class="flex-1 bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg hover:bg-red-600 transition shadow-sm">Yakin Hapus</button>
                 </div>
             </div>
         </div>
@@ -69,16 +84,16 @@
             <div class="p-6">
                 <h3 class="text-gray-800 font-bold text-lg mb-1" id="promptModalTitle">Input</h3>
                 <p class="text-gray-500 text-sm mb-4" id="promptModalText">Masukkan nilai:</p>
-                <textarea id="promptModalInput" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 mb-6 font-medium text-gray-700"></textarea>
-                <div class="flex gap-3">
-                    <button onclick="closePromptModal()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-4 py-2.5 rounded-lg hover:bg-gray-200">Batal</button>
-                    <button id="promptBtnSubmit" class="flex-1 bg-green-500 text-white font-bold px-4 py-2.5 rounded-lg hover:bg-green-600">Simpan</button>
+                <textarea id="promptModalInput" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 mb-6 font-medium text-gray-700"></textarea>
+                <div class="flex gap-3 justify-end">
+                    <button onclick="closePromptModal()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-4 py-2.5 rounded-lg hover:bg-gray-200 transition">Batal</button>
+                    <button id="promptBtnSubmit" class="flex-1 bg-green-500 text-white font-bold px-4 py-2.5 rounded-lg hover:bg-green-600 transition shadow-sm">Simpan</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Loading -->
+    <!-- LOADING OVERLAY -->
     <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-[1000000] flex items-center justify-center hide">
         <div class="bg-white p-5 rounded-lg flex flex-col items-center">
             <div class="spinner mb-3"></div>
@@ -86,10 +101,10 @@
         </div>
     </div>
 
-    <!-- Toast -->
+    <!-- NOTIFICATION TOAST -->
     <div id="toast" class="fixed top-5 right-5 z-[1000000] px-4 py-3 rounded shadow-lg text-white font-bold transition-opacity duration-300 opacity-0 pointer-events-none"></div>
 
-    <!-- ===== LOGIN ===== -->
+    <!-- HALAMAN LOGIN -->
     <div id="pageLogin" class="absolute inset-0 w-full h-full flex items-center justify-center p-4 bg-gray-100 z-50">
         <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
             <div class="text-center mb-8">
@@ -99,123 +114,43 @@
                 <h1 class="text-2xl font-bold text-gray-800">LBB SAINSPIQ</h1>
                 <p class="text-gray-500 text-sm mt-1">Silakan login untuk melanjutkan</p>
             </div>
-            <form onsubmit="handleLogin(event)">
+            <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-2 text-sm">Username</label>
-                    <input type="text" id="loginUsername" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" required>
+                    <input type="text" id="loginUsername" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition" required>
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 font-semibold mb-2 text-sm">Password</label>
-                    <input type="password" id="loginPassword" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" required>
+                    <input type="password" id="loginPassword" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition" required>
                 </div>
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 shadow-md">LOGIN</button>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition shadow-md hover:shadow-lg">LOGIN</button>
             </form>
         </div>
     </div>
 
-    <!-- ===== MAIN LAYOUT ===== -->
+    <!-- LAYOUT UTAMA -->
     <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col bg-gray-50 overflow-hidden">
-
-        <!-- Header -->
-        <div class="flex-none bg-blue-800 text-white p-4 shadow-md flex justify-between items-center z-40">
+        
+        <!-- HEADER TOP -->
+        <div class="flex-none bg-blue-800 text-white p-4 shadow-md flex justify-between items-center z-40 w-full">
             <div class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-graduation-cap"></i> LBB SAINSPIQ</div>
-            <div class="flex items-center gap-2">
-                <!-- Notif Bell (admin only) -->
-                <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-blue-700 hover:bg-blue-600 p-2 rounded-full transition">
-                    <i class="fa-solid fa-bell text-white"></i>
-                    <span id="notifBadge" class="hide absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center pulse-red">0</span>
-                </button>
+            <div class="flex items-center gap-3">
                 <div class="text-sm bg-blue-900/50 px-3 py-1 rounded-full border border-blue-700 hidden sm:block">Hi, <span id="desktopUserName" class="font-bold"></span></div>
                 <div class="text-sm bg-blue-900/50 px-3 py-1 rounded-full border border-blue-700 sm:hidden"><i class="fa-solid fa-user"></i> <span id="mobileUserName" class="font-bold"></span></div>
             </div>
         </div>
 
-        <!-- Pages Container -->
-        <div id="pagesContainer" class="flex-1 overflow-y-auto p-4 md:p-6 w-full relative">
-            <div class="max-w-4xl mx-auto space-y-6 pb-6">
-
-                <!-- ===== PAGE: DASHBOARD ===== -->
-                <div id="pageDashboard" class="page-content hide">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-5 hide">Dashboard</h2>
-
-                    <!-- Banner -->
-                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 shadow-lg text-white mb-6 flex items-center gap-5 relative overflow-hidden mt-2">
-                        <div class="absolute -right-6 -top-6 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
-                        <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-3 right-3 text-white hover:text-yellow-300 bg-black/30 rounded-full p-2 w-8 h-8 flex items-center justify-center z-20">
-                            <i class="fa-solid fa-pencil"></i>
-                        </button>
-                        <div class="hidden sm:flex bg-white/20 p-4 rounded-full flex-shrink-0 border border-white/30 z-10">
-                            <i class="fa-solid fa-hand-holding-heart text-3xl text-white"></i>
-                        </div>
-                        <div class="z-10 pr-6">
-                            <h3 class="font-bold text-xl md:text-2xl mb-2">Selamat Datang Tutor Hebat!</h3>
-                            <p id="bannerText" class="text-yellow-300 font-medium text-sm md:text-base leading-relaxed">"Amanah yang kamu jalankan dengan penuh keikhlasan hari ini akan menjadi kebaikan dan amal jariyah di masa mendatang. Tetap semangat mencerdaskan generasi penerus bangsa!"</p>
-                        </div>
-                    </div>
-
-                    <!-- Stats Cards -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6" id="dashboardStats"></div>
-
-                    <!-- ===== NOTIFIKASI MISSING SESI (Admin Only) ===== -->
-                    <div id="missingSesiCard" class="hide mb-6">
-                        <div class="bg-white rounded-2xl shadow-sm border border-red-100 overflow-hidden">
-                            <div class="bg-gradient-to-r from-red-500 to-orange-500 px-6 py-4 flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="bg-white/20 p-2 rounded-full">
-                                        <i class="fa-solid fa-triangle-exclamation text-white text-lg"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-white font-bold text-base">⚠️ Sesi Belum Diinput Hari Ini</h3>
-                                        <p class="text-red-100 text-xs mt-0.5">Jadwal les sudah lewat jam 20.00 tapi belum ada laporan masuk</p>
-                                    </div>
-                                </div>
-                                <span id="missingSesiCount" class="bg-white text-red-600 font-black text-lg px-3 py-1 rounded-full shadow-sm min-w-[2rem] text-center">0</span>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left">
-                                    <thead>
-                                        <tr class="bg-red-50 border-b border-red-100">
-                                            <th class="p-3 text-xs font-bold text-red-700 uppercase tracking-wide">Siswa</th>
-                                            <th class="p-3 text-xs font-bold text-red-700 uppercase tracking-wide">Program / Kelas</th>
-                                            <th class="p-3 text-xs font-bold text-red-700 uppercase tracking-wide">Jadwal Hari Ini</th>
-                                            <th class="p-3 text-xs font-bold text-red-700 uppercase tracking-wide">Tutor</th>
-                                            <th class="p-3 text-xs font-bold text-red-700 uppercase tracking-wide">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="missingSesiBody" class="divide-y divide-red-50"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- AI Asisten -->
-                    <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-2xl border border-purple-100 shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-4 opacity-10">
-                            <i class="fa-solid fa-robot text-8xl text-purple-900"></i>
-                        </div>
-                        <div class="relative z-10">
-                            <h3 class="font-bold text-purple-800 text-lg mb-2 flex items-center gap-2">
-                                <i class="fa-solid fa-lightbulb text-yellow-500"></i> ✨ AI Asisten Mengajar
-                            </h3>
-                            <p class="text-sm text-purple-700 font-medium mb-4">Buntu ide mengajar? Beritahu AI topik yang akan dibahas dan dapatkan 3 ide aktivitas interaktif!</p>
-                            <div class="flex flex-col sm:flex-row gap-3">
-                                <input type="text" id="aiTopicInput" class="flex-1 px-4 py-3 border border-purple-200 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200" placeholder="Cth: Belajar pecahan matematika kelas 4 SD">
-                                <button onclick="getTeachingIdeasWithAI()" id="btnAIIdeas" class="bg-purple-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-purple-700 flex items-center justify-center gap-2 whitespace-nowrap">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>✨ Cari Ide</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===== PAGE: DATA SISWA ===== -->
+        <!-- AREA KONTEN TENGAH -->
+        <div id="pagesContainer" class="flex-1 overflow-y-auto p-4 md:p-6 scroll-smooth w-full relative">
+            <div class="max-w-4xl mx-auto space-y-6 relative pb-6">
+                
+                <!-- PAGE: DATA SISWA -->
                 <div id="pageDataSiswa" class="page-content hide">
                     <h2 class="text-2xl font-bold text-gray-800 mb-5">Kelola Data Siswa</h2>
-
+                    
                     <form id="formSiswa" onsubmit="handleSaveSiswa(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
                         <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-user-plus text-blue-500"></i> Tambah / Edit Siswa</h3>
                         <input type="hidden" id="siswaIdInput">
-
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2 text-sm">Nama Siswa</label>
@@ -226,8 +161,8 @@
                                 <input type="text" id="siswaProgram" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" required>
                             </div>
                         </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+                        <!-- FIX #1: grid diubah jadi 3 kolom, tambah input siswaSisaSesi -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
                             <div class="md:col-span-2">
                                 <label class="block text-gray-700 font-medium mb-2 text-sm">Alamat Rumah Lengkap</label>
                                 <textarea id="siswaAlamat" rows="2" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" placeholder="Masukkan alamat lengkap siswa..." required></textarea>
@@ -239,51 +174,20 @@
                             </div>
                         </div>
 
-                        <!-- ===== JADWAL LES ===== -->
-                        <div class="mb-6 bg-blue-50 p-4 rounded-xl border border-blue-100">
-                            <label class="block text-gray-700 font-bold mb-3 text-sm flex items-center gap-2">
-                                <i class="fa-solid fa-calendar-days text-blue-500"></i> Jadwal Les Rutin
-                            </label>
-
-                            <!-- Hari dalam seminggu -->
-                            <div class="mb-3">
-                                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Pilih Hari</p>
-                                <div class="hari-grid" id="jadwalHariGrid">
-                                    <button type="button" data-hari="Senin" onclick="toggleHari(this)" class="hari-btn">Sen</button>
-                                    <button type="button" data-hari="Selasa" onclick="toggleHari(this)" class="hari-btn">Sel</button>
-                                    <button type="button" data-hari="Rabu" onclick="toggleHari(this)" class="hari-btn">Rab</button>
-                                    <button type="button" data-hari="Kamis" onclick="toggleHari(this)" class="hari-btn">Kam</button>
-                                    <button type="button" data-hari="Jumat" onclick="toggleHari(this)" class="hari-btn">Jum</button>
-                                    <button type="button" data-hari="Sabtu" onclick="toggleHari(this)" class="hari-btn">Sab</button>
-                                    <button type="button" data-hari="Minggu" onclick="toggleHari(this)" class="hari-btn">Min</button>
-                                </div>
-                            </div>
-
-                            <!-- Tanggal spesifik per bulan -->
-                            <div>
-                                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Atau Tanggal Tetap Per Bulan <span class="normal-case font-normal text-gray-400">(pisahkan dengan koma, cth: 1,8,15,22)</span></p>
-                                <input type="text" id="siswaTanggalTetap" class="w-full px-3 py-2 border border-blue-200 rounded-lg bg-white focus:outline-none focus:border-blue-400 text-sm" placeholder="Cth: 1, 8, 15, 22">
-                            </div>
-
-                            <p class="text-xs text-blue-600 font-medium mt-2 flex items-center gap-1">
-                                <i class="fa-solid fa-circle-info"></i> Bisa pilih keduanya. Notifikasi muncul jika sesi belum diinput setelah jam 20.00.
-                            </p>
-                        </div>
-
                         <div class="flex gap-3">
-                            <button type="submit" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 shadow-sm">Simpan Siswa</button>
-                            <button type="button" onclick="resetFormSiswa()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200">Batal</button>
+                            <button type="submit" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm">Simpan Siswa</button>
+                            <button type="button" onclick="resetFormSiswa()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200 transition">Batal</button>
                         </div>
                     </form>
 
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left">
+                            <table class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="bg-gray-50 border-b border-gray-100">
+                                        <th class="p-4 font-semibold text-gray-600 text-sm whitespace-nowrap">ID</th>
                                         <th class="p-4 font-semibold text-gray-600 text-sm whitespace-nowrap">Nama Siswa</th>
                                         <th class="p-4 font-semibold text-gray-600 text-sm whitespace-nowrap">Program / Kelas</th>
-                                        <th class="p-4 font-semibold text-gray-600 text-sm whitespace-nowrap">Jadwal</th>
                                         <th class="p-4 font-semibold text-gray-600 text-sm whitespace-nowrap">Sisa Sesi</th>
                                         <th class="p-4 font-semibold text-gray-600 text-sm whitespace-nowrap">Aksi & AI</th>
                                     </tr>
@@ -294,10 +198,10 @@
                     </div>
                 </div>
 
-                <!-- ===== PAGE: DATA GURU ===== -->
+                <!-- PAGE: DATA GURU -->
                 <div id="pageDataGuru" class="page-content hide">
                     <h2 class="text-2xl font-bold text-gray-800 mb-5">Kelola Data Guru / Tutor</h2>
-
+                    
                     <form id="formGuru" onsubmit="handleSaveGuru(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
                         <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-chalkboard-user text-blue-500"></i> Tambah / Edit Tutor</h3>
                         <input type="hidden" id="guruUsernameOld">
@@ -316,20 +220,20 @@
                             </div>
                         </div>
                         <div class="mb-6">
-                            <label class="block text-gray-700 font-medium mb-3 text-sm">Tugaskan Siswa</label>
+                            <label class="block text-gray-700 font-medium mb-3 text-sm">Tugaskan Siswa (Bisa pilih lebih dari 1)</label>
                             <div id="guruAssignSiswaContainer" class="grid grid-cols-1 md:grid-cols-3 gap-3 border border-gray-200 p-4 rounded-xl bg-gray-50 max-h-48 overflow-y-auto">
                                 <span class="text-sm text-gray-500 italic">Memuat data siswa...</span>
                             </div>
                         </div>
                         <div class="flex gap-3">
-                            <button type="submit" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 shadow-sm">Simpan Tutor</button>
-                            <button type="button" onclick="resetFormGuru()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200">Batal</button>
+                            <button type="submit" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm">Simpan Tutor</button>
+                            <button type="button" onclick="resetFormGuru()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200 transition">Batal</button>
                         </div>
                     </form>
 
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left">
+                            <table class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="bg-gray-50 border-b border-gray-100">
                                         <th class="p-4 font-semibold text-gray-600 text-sm whitespace-nowrap">Nama Tutor</th>
@@ -344,63 +248,113 @@
                     </div>
                 </div>
 
-                <!-- ===== PAGE: INPUT SESI ===== -->
+                <!-- PAGE: DASHBOARD -->
+                <div id="pageDashboard" class="page-content hide">
+                    
+                    <h2 class="text-2xl font-bold text-gray-800 mb-5 hide">Dashboard</h2>
+                    
+                    <!-- BANNER -->
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 shadow-lg shadow-blue-900/20 text-white mb-6 flex items-center gap-5 relative overflow-hidden group mt-2">
+                        <div class="absolute -right-6 -top-6 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-indigo-500 opacity-20 rounded-full blur-2xl"></div>
+                        
+                        <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-3 right-3 text-white hover:text-yellow-300 bg-black/30 hover:bg-black/50 rounded-full p-2 w-8 h-8 flex items-center justify-center transition z-20" title="Edit Pesan Banner">
+                            <i class="fa-solid fa-pencil"></i>
+                        </button>
+
+                        <div class="hidden sm:flex bg-white/20 p-4 rounded-full flex-shrink-0 backdrop-blur-sm border border-white/30 relative z-10">
+                            <i class="fa-solid fa-hand-holding-heart text-3xl text-white"></i>
+                        </div>
+                        <div class="relative z-10 pr-6">
+                            <h3 class="font-bold text-xl md:text-2xl mb-2 text-white">Selamat Datang Tutor Hebat!</h3>
+                            <p id="bannerText" class="text-yellow-300 font-medium text-sm md:text-base leading-relaxed">"Amanah yang kamu jalankan dengan penuh keikhlasan hari ini akan menjadi kebaikan dan amal jariyah di masa mendatang. Tetap semangat mencerdaskan generasi penerus bangsa!"</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6" id="dashboardStats"></div>
+                    
+                    <!-- AI ASISTEN MENGAJAR -->
+                    <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-2xl border border-purple-100 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10">
+                            <i class="fa-solid fa-robot text-8xl text-purple-900"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <h3 class="font-bold text-purple-800 text-lg mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-lightbulb text-yellow-500"></i> ✨ AI Asisten Mengajar
+                            </h3>
+                            <p class="text-sm text-purple-700 font-medium mb-4">Buntu ide mengajar hari ini? Beritahu AI topik yang akan dibahas, dan dapatkan 3 ide aktivitas interaktif secara instan!</p>
+                            
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <input type="text" id="aiTopicInput" class="flex-1 px-4 py-3 border border-purple-200 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200" placeholder="Cth: Belajar pecahan matematika untuk kelas 4 SD">
+                                <button onclick="getTeachingIdeasWithAI()" id="btnAIIdeas" class="bg-purple-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-purple-700 transition shadow-md shadow-purple-900/20 whitespace-nowrap flex justify-center items-center gap-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>✨ Cari Ide</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- PAGE: INPUT SESI -->
                 <div id="pageInputSesi" class="page-content hide">
                     <h2 class="text-2xl font-bold text-gray-800 mb-5">Input Sesi Les</h2>
                     <form id="formSesi" onsubmit="handleSaveSesi(event)" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
                         <input type="hidden" id="sesiId">
+                        
                         <div class="mb-5">
                             <label class="block text-gray-700 font-medium mb-2 text-sm">Pilih Siswa</label>
-                            <select id="sesiSiswa" onchange="checkSisaSesi()" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-gray-50" required>
+                            <select id="sesiSiswa" onchange="checkSisaSesi()" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 bg-gray-50" required>
                                 <option value="">-- Pilih Siswa --</option>
                             </select>
-                            <p id="warningSisaSesi" class="text-sm text-red-500 font-bold mt-2 hide"><i class='fa-solid fa-triangle-exclamation'></i></p>
+                            <p id="warningSisaSesi" class="text-sm text-red-500 font-bold mt-2 hide flex items-center gap-1"><i class='fa-solid fa-triangle-exclamation'></i></p>
                         </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2 text-sm">Tanggal Sesi</label>
-                                <input type="date" id="sesiTanggal" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500" required>
+                                <input type="date" id="sesiTanggal" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2 text-sm">Status</label>
-                                <select id="sesiStatus" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500" required>
+                                <select id="sesiStatus" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" required>
                                     <option value="Selesai">Hadir / Selesai</option>
                                     <option value="Batal">Batal (Dari Siswa)</option>
                                     <option value="Reschedule">Reschedule</option>
-                                    <option value="Libur">Libur</option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="mb-8">
                             <label class="block text-gray-700 font-medium mb-2 text-sm">Jurnal / Materi yang Diajarkan</label>
                             <div class="relative">
-                                <textarea id="sesiJurnal" rows="5" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 leading-relaxed" placeholder="Catat kasar materi, evaluasi, atau PR siswa di sini..." required></textarea>
+                                <textarea id="sesiJurnal" rows="5" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 leading-relaxed" placeholder="Catat kasar materi, evaluasi, atau PR siswa di sini..." required></textarea>
                                 <div class="absolute bottom-3 right-3">
-                                    <button type="button" id="btnAIEnhance" onclick="enhanceJurnalWithAI()" class="text-xs bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg shadow-md flex items-center gap-1.5">
+                                    <button type="button" id="btnAIEnhance" onclick="enhanceJurnalWithAI()" class="text-xs bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg shadow-md hover:from-purple-600 hover:to-indigo-600 transition flex items-center gap-1.5">
                                         <i class="fa-solid fa-wand-magic-sparkles"></i> <span id="textAIEnhance">✨ Rapikan AI</span>
                                     </button>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-500 mt-2"><i class="fa-solid fa-circle-info"></i> Tulis catatan kasar lalu gunakan AI untuk merapikannya.</p>
+                            <p class="text-xs text-gray-500 mt-2 font-medium"><i class="fa-solid fa-circle-info"></i> Tulis catatan secara kasar, lalu gunakan AI untuk mengubahnya menjadi paragraf jurnal yang profesional.</p>
                         </div>
+
                         <div class="flex gap-3 pt-4 border-t border-gray-100">
-                            <button type="button" onclick="resetFormSesi()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-6 py-3.5 rounded-xl hover:bg-gray-200">Batal / Reset</button>
-                            <button type="submit" class="flex-[2] bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl hover:bg-blue-700 shadow-md flex justify-center items-center gap-2"><i class="fa-solid fa-save"></i> Simpan Sesi</button>
+                            <button type="button" onclick="resetFormSesi()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-6 py-3.5 rounded-xl hover:bg-gray-200 transition">Batal / Reset</button>
+                            <button type="submit" class="flex-[2] bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl hover:bg-blue-700 transition shadow-md hover:shadow-lg flex justify-center items-center gap-2"><i class="fa-solid fa-save"></i> Simpan Sesi</button>
                         </div>
                     </form>
                 </div>
 
-                <!-- ===== PAGE: REKAP ===== -->
+                <!-- PAGE: REKAP & RIWAYAT -->
                 <div id="pageRekap" class="page-content hide">
                     <h2 class="text-2xl font-bold text-gray-800 mb-5">Rekap, Laporan & Riwayat</h2>
-
+                    
                     <div id="rekapMotivasiCard" class="bg-gradient-to-r from-orange-400 to-pink-500 rounded-2xl p-6 shadow-lg text-white mb-6 flex items-center justify-between hide">
                         <div>
                             <h3 class="font-bold text-xl mb-1">Ayo Semangat! 💪</h3>
                             <p class="text-white/90 text-sm font-medium" id="rekapMotivasiText">Tugas kamu tinggal X pertemuan lagi.</p>
                         </div>
                         <div class="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center border-2 border-white/40 flex-shrink-0">
-                            <span class="text-3xl font-black" id="rekapMotivasiAngka">0</span>
+                            <span class="text-3xl font-black shadow-sm" id="rekapMotivasiAngka">0</span>
                         </div>
                     </div>
 
@@ -409,52 +363,55 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-end">
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Pilih Siswa</label>
-                                <select id="filterSiswa" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-gray-50"></select>
+                                <select id="filterSiswa" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 bg-gray-50"></select>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Tanggal Mulai</label>
-                                <input type="date" id="filterStart" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500">
+                                <input type="date" id="filterStart" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Tanggal Akhir</label>
-                                <input type="date" id="filterEnd" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500">
+                                <input type="date" id="filterEnd" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
                             </div>
                         </div>
-                        <button onclick="generateReport()" class="mt-5 bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-blue-700 shadow-sm w-full md:w-auto">Tampilkan Laporan</button>
+                        <button onclick="generateReport()" class="mt-5 bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm w-full md:w-auto">Tampilkan Laporan</button>
                     </div>
 
                     <div id="reportContainer" class="hide">
                         <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 text-center mb-6">
                             <i class="fa-solid fa-file-circle-check text-5xl text-blue-500 mb-3"></i>
                             <h3 class="font-bold text-gray-800 text-xl mb-1">Laporan Berhasil Disusun!</h3>
-                            <p class="text-gray-700 text-sm mb-5">Total sesi kehadiran: <strong class="text-blue-600 text-lg" id="reportVisualTotalHadir">0</strong> sesi.</p>
+                            <p class="text-gray-700 text-sm mb-5 font-medium">Total sesi kehadiran tercatat: <strong class="text-blue-600 text-lg" id="reportVisualTotalHadir">0</strong> sesi.</p>
+                            
                             <div class="flex flex-col sm:flex-row justify-center gap-3">
-                                <button type="button" id="btnAINarrative" onclick="generateReportNarrativeWithAI()" class="bg-purple-600 text-white font-bold px-5 py-3 rounded-xl shadow-md hover:bg-purple-700 flex items-center justify-center gap-2">
+                                <button type="button" id="btnAINarrative" onclick="generateReportNarrativeWithAI()" class="bg-purple-600 text-white font-bold px-5 py-3 rounded-xl shadow-md hover:bg-purple-700 transition flex items-center justify-center gap-2">
                                     <i class="fa-solid fa-wand-magic-sparkles"></i> <span id="textAINarrative">Buat Evaluasi AI untuk Ortu</span>
                                 </button>
-                                <button onclick="exportToPDF()" class="bg-red-500 text-white font-bold px-6 py-3 rounded-xl shadow-md hover:bg-red-600 flex items-center justify-center gap-2">
+                                <button onclick="exportToPDF()" class="bg-red-500 text-white font-bold px-6 py-3 rounded-xl shadow-md hover:bg-red-600 transition flex items-center justify-center gap-2">
                                     <i class="fa-solid fa-file-pdf text-lg"></i> Download PDF
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- PDF Hidden Area -->
-                    <div style="position:absolute;left:-9999px;top:0;width:800px;background:#fff;z-index:-1;" aria-hidden="true">
-                        <div id="pdfContent" class="bg-white p-8" style="font-family:Arial,sans-serif;">
+                    <!-- AREA PDF TERSEMBUNYI -->
+                    <div style="position: absolute; left: -9999px; top: 0; width: 800px; background-color: white; z-index: -1;" aria-hidden="true">
+                        <div id="pdfContent" class="bg-white p-8" style="font-family: Arial, sans-serif;">
                             <div class="text-center border-b-2 border-gray-800 pb-5 mb-6">
-                                <h1 class="text-2xl font-black uppercase tracking-wide" style="color:#1e3a8a;">Laporan Hasil Belajar Les Privat</h1>
+                                <h1 class="text-2xl font-black uppercase tracking-wide" style="color: #1e3a8a;">Laporan Hasil Belajar Les Privat</h1>
                                 <p class="text-gray-500 font-medium mt-1" id="reportDateRange">Periode: -</p>
                             </div>
+                            
                             <div class="mb-8 flex justify-between text-sm">
                                 <div class="bg-gray-50 p-3 rounded border border-gray-100 w-1/2">
-                                    <p class="mb-1"><span class="text-gray-600">Nama Siswa:</span> <strong id="reportSiswaName">-</strong></p>
-                                    <p><span class="text-gray-600">Total Sesi Hadir:</span> <strong class="text-blue-600" id="reportTotalHadir">0</strong></p>
+                                    <p class="mb-1"><span class="text-gray-600 font-medium">Nama Siswa:</span> <strong class="text-base text-gray-800 ml-1" id="reportSiswaName">-</strong></p>
+                                    <p><span class="text-gray-600 font-medium">Total Sesi Hadir:</span> <strong class="text-blue-600 ml-1" id="reportTotalHadir">0</strong></p>
                                 </div>
-                                <div class="text-right text-gray-600 self-end">
-                                    <p>Dicetak: <span id="reportPrintDate" class="font-bold text-gray-800"></span></p>
+                                <div class="text-right text-gray-600 self-end font-medium">
+                                    <p>Dicetak Tanggal: <span id="reportPrintDate" class="font-bold text-gray-800"></span></p>
                                 </div>
                             </div>
+
                             <table class="w-full text-sm border-collapse border border-gray-300">
                                 <thead class="bg-gray-100">
                                     <tr>
@@ -466,22 +423,24 @@
                                 </thead>
                                 <tbody id="reportTableBody" class="text-gray-800"></tbody>
                             </table>
+                            
                             <div id="aiNarrativeContainer" class="mt-6 bg-purple-50 p-4 rounded border border-purple-200 hide text-sm text-gray-800">
-                                <strong>💡 Ringkasan Evaluasi (Generated by AI):</strong>
+                                <strong>💡 Ringkasan Evaluasi Tutor (Generated by AI):</strong>
                                 <p id="aiNarrativeText" class="mt-2 italic leading-relaxed font-medium"></p>
                             </div>
+
                             <div class="mt-12 pt-6 text-right text-sm">
-                                <p class="mb-16 text-gray-600">Mengetahui, Pimpinan Les</p>
+                                <p class="mb-16 text-gray-600 font-medium">Mengetahui, Pimpinan Les</p>
                                 <p class="font-bold border-b border-gray-400 inline-block px-8 pb-1">Admin Akademik</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-history text-blue-500"></i> Riwayat Absensi</h3>
+                    <div class="mt-12">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-history text-blue-500"></i> Riwayat Absensi & Aksi</h3>
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                             <div class="overflow-x-auto">
-                                <table class="w-full text-left">
+                                <table class="w-full text-left border-collapse">
                                     <thead>
                                         <tr class="bg-gray-50 border-b border-gray-100">
                                             <th class="p-4 font-semibold text-gray-600 text-sm whitespace-nowrap">Tanggal</th>
@@ -501,113 +460,32 @@
             </div>
         </div>
 
-        <!-- Bottom Nav -->
+        <!-- BOTTOM NAV -->
         <div class="flex-none w-full bg-white border-t border-gray-200 flex justify-around shadow-[0_-4px_15px_rgba(0,0,0,0.05)] z-50 px-1 pt-1 pb-safe" id="mobileNav"></div>
+
     </div>
 </div>
 
 <script>
-// ========================================================
-// CONFIG SUPABASE
-// ========================================================
-const SUPABASE_URL = "https://napymkogkzwtvdjictip.supabase.co".trim();
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHlta29na3p3dHZkamljdGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2OTM5NDIsImV4cCI6MjA5MzI2OTk0Mn0.t3r51kXGSBoZuzZh35htYzRviWZTnhukpsJbd_hjIrc".trim();
+/**
+ * KONFIGURASI SUPABASE
+ */
+const SUPABASE_URL = "https://napymkogkzwtvdjictip.supabase.co".trim(); 
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHlta29na3p3dHZkamljdGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2OTM5NDIsImV4cCI6MjA5MzI2OTk0Mn0.t3r51kXGSBoZuzZh35htYzRviWZTnhukpsJbd_hjIrc".trim(); 
+
 const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const GEMINI_KEY = "AIzaSyDikPlSbpLGTJU3uwHE1mjPTkTcw9iw_Uk";
-const NOTIF_HOUR = 20; // jam 20.00
 
 let currentUser = null;
 let dataSiswa = [];
 let dataSesi = [];
-let dataGuru = [];
+let dataGuru = []; 
 
 // ========================================================
-// HELPER: HARI & JADWAL
+// CUSTOM MODAL LOGIC
 // ========================================================
-const NAMA_HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-
-function getTodayName() {
-    return NAMA_HARI[new Date().getDay()];
+function closeAiModal() {
+    document.getElementById('aiModal').classList.add('hide');
 }
-
-function getTodayDate() {
-    // format YYYY-MM-DD
-    return new Date().toISOString().split('T')[0];
-}
-
-function getTodayTanggal() {
-    return new Date().getDate();
-}
-
-function getCurrentHour() {
-    return new Date().getHours();
-}
-
-/**
- * Cek apakah siswa punya jadwal hari ini
- * jadwal_hari: "Senin,Rabu,Jumat"
- * jadwal_tanggal: "1,8,15,22"
- */
-function siswaJadwalHariIni(siswa) {
-    const hariIni = getTodayName();
-    const tglIni = getTodayTanggal();
-
-    let adaJadwalHari = false;
-    let adaJadwalTgl = false;
-
-    if (siswa.jadwal_hari && siswa.jadwal_hari.trim() !== '') {
-        const hariArr = siswa.jadwal_hari.split(',').map(h => h.trim());
-        adaJadwalHari = hariArr.includes(hariIni);
-    }
-
-    if (siswa.jadwal_tanggal && siswa.jadwal_tanggal.trim() !== '') {
-        const tglArr = siswa.jadwal_tanggal.split(',').map(t => parseInt(t.trim()));
-        adaJadwalTgl = tglArr.includes(tglIni);
-    }
-
-    return adaJadwalHari || adaJadwalTgl;
-}
-
-/**
- * Format jadwal untuk ditampilkan
- */
-function formatJadwal(siswa) {
-    let parts = [];
-    if (siswa.jadwal_hari && siswa.jadwal_hari.trim()) {
-        parts.push(siswa.jadwal_hari.split(',').map(h => h.trim().substring(0,3)).join(', '));
-    }
-    if (siswa.jadwal_tanggal && siswa.jadwal_tanggal.trim()) {
-        parts.push('Tgl ' + siswa.jadwal_tanggal);
-    }
-    return parts.length > 0 ? parts.join(' | ') : '<span class="text-gray-400 italic text-xs">Belum diatur</span>';
-}
-
-// ========================================================
-// JADWAL FORM HELPER
-// ========================================================
-function toggleHari(btn) {
-    btn.classList.toggle('active');
-}
-
-function getSelectedHari() {
-    const btns = document.querySelectorAll('#jadwalHariGrid .hari-btn.active');
-    return Array.from(btns).map(b => b.dataset.hari).join(',');
-}
-
-function setSelectedHari(hariStr) {
-    // Reset dulu
-    document.querySelectorAll('#jadwalHariGrid .hari-btn').forEach(b => b.classList.remove('active'));
-    if (!hariStr) return;
-    const arr = hariStr.split(',').map(h => h.trim());
-    document.querySelectorAll('#jadwalHariGrid .hari-btn').forEach(b => {
-        if (arr.includes(b.dataset.hari)) b.classList.add('active');
-    });
-}
-
-// ========================================================
-// MODAL HELPERS
-// ========================================================
-function closeAiModal() { document.getElementById('aiModal').classList.add('hide'); }
 
 let confirmCallback = null;
 function showConfirm(title, text, onConfirm) {
@@ -621,7 +499,7 @@ function closeConfirmModal() {
     confirmCallback = null;
 }
 document.getElementById('confirmBtnYes').addEventListener('click', () => {
-    if (confirmCallback) confirmCallback();
+    if(confirmCallback) confirmCallback();
     closeConfirmModal();
 });
 
@@ -629,10 +507,11 @@ let promptCallback = null;
 function showPrompt(title, text, defaultValue, onSave) {
     document.getElementById('promptModalTitle').innerText = title;
     document.getElementById('promptModalText').innerText = text;
-    document.getElementById('promptModalInput').value = defaultValue;
+    const inp = document.getElementById('promptModalInput');
+    inp.value = defaultValue;
     promptCallback = onSave;
     document.getElementById('promptModal').classList.remove('hide');
-    document.getElementById('promptModalInput').focus();
+    inp.focus();
 }
 function closePromptModal() {
     document.getElementById('promptModal').classList.add('hide');
@@ -640,13 +519,14 @@ function closePromptModal() {
 }
 document.getElementById('promptBtnSubmit').addEventListener('click', () => {
     const val = document.getElementById('promptModalInput').value;
-    if (promptCallback) promptCallback(val);
+    if(promptCallback) promptCallback(val);
     closePromptModal();
 });
 
 function editCustomBanner() {
-    showPrompt("Edit Banner Motivasi", "Ketikkan kata-kata penyemangat baru:", document.getElementById('bannerText').innerText, (newText) => {
-        if (newText && newText.trim()) {
+    const currentText = document.getElementById('bannerText').innerText;
+    showPrompt("Edit Banner Motivasi", "Ketikkan kata-kata penyemangat baru untuk tutor:", currentText, (newText) => {
+        if(newText && newText.trim() !== "") {
             document.getElementById('bannerText').innerText = newText;
             localStorage.setItem('customBannerText', newText);
             showToast("Banner berhasil diubah!");
@@ -656,11 +536,396 @@ function editCustomBanner() {
 
 function applyCustomBanner() {
     const saved = localStorage.getItem('customBannerText');
-    if (saved) document.getElementById('bannerText').innerText = saved;
+    if (saved) {
+        document.getElementById('bannerText').innerText = saved;
+    }
 }
 
 // ========================================================
-// UI HELPERS
+// API WRAPPER (SUPABASE)
+// ========================================================
+async function apiCall(action, payload = {}) {
+    try {
+        if (!SUPABASE_URL || !SUPABASE_URL.startsWith('http')) {
+            throw new Error("Supabase URL belum diisi dengan benar.");
+        }
+
+        if (action === 'login') {
+            const { data, error } = await dbClient.from('users').select('*')
+                .eq('username', payload.username.trim())
+                .eq('password', payload.password.trim())
+                .eq('status_aktif', 'aktif'); 
+            
+            if (error) {
+                console.error("Supabase Login Error:", error);
+                throw new Error("Gagal membaca database. Pastikan koneksi Supabase Anda benar.");
+            }
+
+            if (!data || data.length === 0) {
+                throw new Error("Username atau Password Salah! (Pastikan huruf besar/kecil sesuai)");
+            }
+            
+            return data[0];
+        }
+        
+        else if (action === 'getGuru') {
+            const { data, error } = await dbClient.from('users').select('*').eq('role', 'guru');
+            if (error) throw error;
+            return data || [];
+        }
+        
+        else if (action === 'saveGuru') {
+            const targetUsername = payload.old_username || payload.username;
+            if (targetUsername) {
+                const { data: existing } = await dbClient.from('users').select('id_user').eq('username', targetUsername).maybeSingle();
+                if (existing) {
+                    const { error } = await dbClient.from('users').update({ 
+                        username: payload.username, 
+                        password: payload.password, 
+                        nama_lengkap: payload.nama_lengkap, 
+                        assigned_siswa: payload.assigned_siswa 
+                    }).eq('id_user', existing.id_user);
+                    if (error) throw error;
+                    return true;
+                }
+            }
+            const newId = "U" + Date.now();
+            const { error } = await dbClient.from('users').insert([{ 
+                id_user: newId, 
+                username: payload.username, 
+                password: payload.password, 
+                role: "guru", 
+                nama_lengkap: payload.nama_lengkap, 
+                status_aktif: "aktif", 
+                assigned_siswa: payload.assigned_siswa 
+            }]);
+            if (error) throw error;
+            return true;
+        }
+        
+        else if (action === 'deleteGuru') {
+            const { error } = await dbClient.from('users').delete().eq('username', payload.username);
+            if (error) throw error;
+            return true;
+        }
+        
+        else if (action === 'getSiswa') {
+            const { data, error } = await dbClient.from('siswa').select('*');
+            if (error) throw error;
+            return data || [];
+        }
+        
+        else if (action === 'saveSiswa') {
+            if (payload.id_siswa) {
+                const { error } = await dbClient.from('siswa').update({ 
+                    nama_siswa: payload.nama_siswa, 
+                    program_les: payload.program_les, 
+                    kelas: payload.kelas, 
+                    alamat_rumah: payload.alamat_rumah, 
+                    sisa_sesi: payload.sisa_sesi 
+                }).eq('id_siswa', payload.id_siswa);
+                if (error) throw error;
+            } else {
+                const newId = "S" + Date.now();
+                const { error } = await dbClient.from('siswa').insert([{ 
+                    id_siswa: newId, 
+                    nama_siswa: payload.nama_siswa, 
+                    program_les: payload.program_les, 
+                    kelas: payload.kelas, 
+                    alamat_rumah: payload.alamat_rumah, 
+                    sisa_sesi: payload.sisa_sesi 
+                }]);
+                if (error) throw error;
+            }
+            return true;
+        }
+        
+        else if (action === 'deleteSiswa') {
+            const { error } = await dbClient.from('siswa').delete().eq('id_siswa', payload.id_siswa);
+            if (error) throw error;
+            return true;
+        }
+        
+        else if (action === 'getSesi') {
+            const { data, error } = await dbClient.from('sesi_les').select('*').order('tanggal', { ascending: false });
+            if (error) throw error;
+            return data || [];
+        }
+        
+        else if (action === 'saveSesi') {
+            let currentSisa = 0;
+            const { data: siswaData } = await dbClient.from('siswa').select('sisa_sesi').eq('id_siswa', payload.id_siswa).maybeSingle();
+            if(siswaData) currentSisa = parseInt(siswaData.sisa_sesi) || 0;
+
+            if (!payload.id_sesi) {
+                const newId = "SESI-" + Date.now();
+                const { error } = await dbClient.from('sesi_les').insert([{ 
+                    id_sesi: newId, 
+                    tanggal: payload.tanggal, 
+                    id_guru: payload.id_guru, 
+                    nama_guru: payload.nama_guru, 
+                    id_siswa: payload.id_siswa, 
+                    nama_siswa: payload.nama_siswa, 
+                    status_sesi: payload.status_sesi, 
+                    jurnal_materi: payload.jurnal_materi 
+                }]);
+                if (error) throw error;
+                
+                if(payload.status_sesi === 'Selesai') {
+                    await dbClient.from('siswa').update({sisa_sesi: Math.max(0, currentSisa - 1)}).eq('id_siswa', payload.id_siswa);
+                }
+            } else {
+                const { data: oldSesi } = await dbClient.from('sesi_les').select('status_sesi').eq('id_sesi', payload.id_sesi).maybeSingle();
+                const oldStatus = oldSesi ? oldSesi.status_sesi : null;
+
+                const { error } = await dbClient.from('sesi_les').update({ 
+                    tanggal: payload.tanggal, 
+                    id_siswa: payload.id_siswa, 
+                    nama_siswa: payload.nama_siswa, 
+                    status_sesi: payload.status_sesi, 
+                    jurnal_materi: payload.jurnal_materi 
+                }).eq('id_sesi', payload.id_sesi);
+                if (error) throw error;
+
+                if (oldStatus === "Selesai" && payload.status_sesi !== "Selesai") {
+                    await dbClient.from('siswa').update({sisa_sesi: currentSisa + 1}).eq('id_siswa', payload.id_siswa);
+                } else if (oldStatus !== "Selesai" && payload.status_sesi === "Selesai") {
+                    await dbClient.from('siswa').update({sisa_sesi: Math.max(0, currentSisa - 1)}).eq('id_siswa', payload.id_siswa);
+                }
+            }
+            return true;
+        }
+        
+        else if (action === 'deleteSesi') {
+            const { data: oldSesi } = await dbClient.from('sesi_les').select('id_siswa, status_sesi').eq('id_sesi', payload.id_sesi).maybeSingle();
+            if(oldSesi && oldSesi.status_sesi === 'Selesai') {
+                 const { data: siswaData } = await dbClient.from('siswa').select('sisa_sesi').eq('id_siswa', oldSesi.id_siswa).maybeSingle();
+                 let currentSisa = siswaData ? (parseInt(siswaData.sisa_sesi) || 0) : 0;
+                 await dbClient.from('siswa').update({sisa_sesi: currentSisa + 1}).eq('id_siswa', oldSesi.id_siswa);
+            }
+            const { error } = await dbClient.from('sesi_les').delete().eq('id_sesi', payload.id_sesi);
+            if (error) throw error;
+            return true;
+        }
+    } catch (error) {
+        console.error("Database Error Detail:", error);
+        throw error;
+    }
+}
+
+// ========================================================
+// GEMINI API INTEGRATION
+// ========================================================
+const geminiApiKey = "AIzaSyDikPlSbpLGTJU3uwHE1mjPTkTcw9iw_Uk"; 
+
+async function callGeminiAPI(promptText) {
+    const key = geminiApiKey.trim();
+    if (!key) {
+        throw new Error("API Key kosong. Masukkan kunci yang benar!");
+    }
+
+    const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest"];
+    let lastError = null;
+
+    for (let model of models) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+        const payload = { contents: [{ parts: [{ text: promptText }] }] };
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                let errMsg = data.error?.message || "Error dari server Google.";
+                if (errMsg.toLowerCase().includes("not found")) {
+                    lastError = new Error(errMsg);
+                    continue; 
+                } 
+                else if (errMsg.toLowerCase().includes("api key not valid")) {
+                    throw new Error("API Key SALAH atau TIDAK VALID. Harap periksa kembali.");
+                } else if (errMsg.toLowerCase().includes("exceeded")) {
+                    throw new Error("Kuota API Key Anda sudah habis untuk hari ini.");
+                }
+                throw new Error(errMsg);
+            }
+
+            if (data.candidates && data.candidates.length > 0) {
+                return data.candidates[0].content.parts[0].text;
+            } else {
+                throw new Error("Berhasil terhubung, tapi AI mengembalikan teks kosong.");
+            }
+
+        } catch (error) {
+            if (error.message.includes("not found")) {
+                lastError = error;
+                continue;
+            }
+            if (error.message.includes("Failed to fetch")) {
+                throw new Error("Gagal terhubung ke AI. Pastikan internet lancar dan matikan AdBlocker/Anti-Pelacak.");
+            }
+            throw error;
+        }
+    }
+    throw new Error(`Sistem AI Google sedang pembaruan. Pesan error: ${lastError?.message}`);
+}
+
+async function enhanceJurnalWithAI() {
+    const textarea = document.getElementById('sesiJurnal');
+    const rawText = textarea.value.trim();
+    const btnIcon = document.querySelector('#btnAIEnhance i');
+    const btnText = document.getElementById('textAIEnhance');
+    const btn = document.getElementById('btnAIEnhance');
+    
+    if (!rawText) {
+        showToast("Ketik catatan kasar dulu, Kak!", "error");
+        return;
+    }
+
+    btnIcon.className = "fa-solid fa-spinner fa-spin";
+    btnText.innerText = "AI Sedang Memproses...";
+    btn.disabled = true;
+
+    try {
+        const prompt = `Rapikan catatan guru les privat berikut ini menjadi satu paragraf jurnal sesi yang profesional, ringkas, dan jelas menggunakan bahasa Indonesia baku. Tambahkan satu kalimat saran untuk pertemuan selanjutnya di akhir paragraf.\n\nCatatan kasar: "${rawText}"\n\nBerikan langsung teks hasilnya saja.`;
+        
+        const hasil = await callGeminiAPI(prompt);
+        textarea.value = hasil.trim();
+        showToast("Jurnal disempurnakan oleh AI!");
+    } catch (err) {
+        alert("GAGAL MEMANGGIL AI ❌\n\nAlasan:\n" + err.message);
+        showToast("AI Error", "error");
+    } finally {
+        btnIcon.className = "fa-solid fa-wand-magic-sparkles";
+        btnText.innerText = "Rapikan AI";
+        btn.disabled = false;
+    }
+}
+
+async function generateReportNarrativeWithAI() {
+    const tbody = document.getElementById('reportTableBody');
+    const rows = tbody.querySelectorAll('tr');
+    const btnIcon = document.querySelector('#btnAINarrative i');
+    const btnText = document.getElementById('textAINarrative');
+    const btn = document.getElementById('btnAINarrative');
+    
+    if(rows.length === 0 || rows[0].innerText.includes('Tidak ada data')) {
+        showToast("Tidak ada data sesi untuk dievaluasi.", "error");
+        return;
+    }
+
+    let allJournals = [];
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if(cells.length === 4) {
+            allJournals.push(`- Tanggal: ${cells[0].innerText}, Materi: ${cells[3].innerText}`);
+        }
+    });
+
+    const nmSiswa = document.getElementById('reportSiswaName').innerText;
+
+    btnIcon.className = "fa-solid fa-spinner fa-spin";
+    btnText.innerText = "Menulis Evaluasi...";
+    btn.disabled = true;
+
+    try {
+        const prompt = `Buatkan sebuah narasi evaluasi belajar (maksimal 4 kalimat) untuk orang tua siswa bernama ${nmSiswa}. Rangkum dari kegiatan berikut:\n${allJournals.join('\n')}\nGunakan nada positif, mengapresiasi anak, dan tanpa salam penutup surat.`;
+        
+        const hasil = await callGeminiAPI(prompt);
+        
+        document.getElementById('aiNarrativeText').innerText = hasil.trim();
+        document.getElementById('aiNarrativeContainer').classList.remove('hide');
+        
+        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Evaluasi AI Berhasil';
+        document.getElementById('aiModalContent').innerText = "Teks berikut telah ditambahkan otomatis ke dalam dokumen PDF Anda:\n\n" + hasil.trim();
+        document.getElementById('aiModal').classList.remove('hide');
+
+    } catch (err) {
+        alert("GAGAL MEMBUAT EVALUASI AI ❌\n\nAlasan:\n" + err.message);
+        showToast("AI Error", "error");
+    } finally {
+        btnIcon.className = "fa-solid fa-wand-magic-sparkles";
+        btnText.innerText = "Buat Evaluasi AI untuk Ortu";
+        btn.disabled = false;
+    }
+}
+
+async function getTeachingIdeasWithAI() {
+    const input = document.getElementById('aiTopicInput');
+    const topic = input.value.trim();
+    const btnIcon = document.querySelector('#btnAIIdeas i');
+    const btnText = document.querySelector('#btnAIIdeas span');
+    const btn = document.getElementById('btnAIIdeas');
+
+    if (!topic) {
+        showToast("Masukkan topik mengajar terlebih dahulu!", "error");
+        return;
+    }
+
+    btnIcon.className = "fa-solid fa-spinner fa-spin";
+    btnText.innerText = "Mencari Ide...";
+    btn.disabled = true;
+
+    try {
+        const prompt = `Berikan 3 ide aktivitas interaktif untuk mengajar topik berikut: "${topic}". Jelaskan secara singkat dan menarik.`;
+        const hasil = await callGeminiAPI(prompt);
+        
+        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-500"></i> Ide Mengajar';
+        document.getElementById('aiModalContent').innerText = hasil.trim();
+        document.getElementById('aiModal').classList.remove('hide');
+    } catch (err) {
+        alert("GAGAL MEMANGGIL AI ❌\n\nAlasan:\n" + err.message);
+        showToast("AI Error", "error");
+    } finally {
+        btnIcon.className = "fa-solid fa-wand-magic-sparkles";
+        btnText.innerText = "Cari Ide";
+        btn.disabled = false;
+    }
+}
+
+async function analyzeStudentWithAI(id) {
+    const siswa = dataSiswa.find(s => s.id_siswa === id);
+    if(!siswa) return;
+    
+    showLoading(true, "Menganalisis Siswa...");
+    try {
+        const sesi = (await apiCall('getSesi', {})) || [];
+        let filteredSesi = sesi;
+        if (currentUser.role === 'guru') {
+             filteredSesi = sesi.filter(s => s.id_guru === currentUser.username);
+        }
+        
+        const sesiSiswa = filteredSesi.filter(s => s.id_siswa === id);
+        
+        let context = `Siswa: ${siswa.nama_siswa}\nKelas: ${siswa.kelas || '-'}\nSisa Sesi: ${siswa.sisa_sesi}\nRiwayat:\n`;
+        if (sesiSiswa.length === 0) {
+            context += "Belum ada riwayat sesi.";
+        } else {
+            sesiSiswa.forEach(s => {
+                context += `- Tanggal: ${s.tanggal}, Status: ${s.status_sesi}, Jurnal: ${s.jurnal_materi}\n`;
+            });
+        }
+        
+        const prompt = `Berdasarkan data siswa berikut:\n${context}\nBerikan analisis singkat mengenai perkembangan belajar siswa dan rekomendasi strategi untuk tutor. Maksimal 3 kalimat.`;
+        
+        const hasil = await callGeminiAPI(prompt);
+        
+        document.getElementById('aiModalTitle').innerHTML = `<i class="fa-solid fa-brain"></i> Analisis Siswa: ${siswa.nama_siswa}`;
+        document.getElementById('aiModalContent').innerText = hasil.trim();
+        document.getElementById('aiModal').classList.remove('hide');
+    } catch (err) {
+        alert("GAGAL MEMANGGIL AI ❌\n\nAlasan:\n" + err.message);
+    } finally {
+        showLoading(false);
+    }
+}
+
+// ========================================================
+// FUNGSI UTAMA UI
 // ========================================================
 function showLoading(show, text = "Memproses Data...") {
     document.getElementById('loadingText').innerText = text;
@@ -670,240 +935,25 @@ function showLoading(show, text = "Memproses Data...") {
 function showToast(msg, type = "success") {
     let t = document.getElementById('toast');
     t.innerText = msg;
-    t.className = `fixed top-5 right-5 z-[1000000] px-5 py-3 rounded-xl shadow-xl font-bold transition-all duration-300 opacity-100 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'} text-white`;
-    setTimeout(() => { t.style.opacity = "0"; }, 4000);
+    t.className = `fixed top-5 right-5 z-[1000000] px-5 py-3 rounded-xl shadow-xl font-bold transition-all duration-300 transform translate-y-0 opacity-100 ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`;
+    setTimeout(() => { t.style.opacity = "0"; t.style.transform = "translateY(-20px)"; }, 4000);
 }
 
+// FIX #2: Helper scroll ke pagesContainer, bukan window
 function scrollToTop() {
-    const c = document.getElementById('pagesContainer');
-    if (c) c.scrollTo({ top: 0, behavior: 'smooth' });
+    const container = document.getElementById('pagesContainer');
+    if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ========================================================
-// SUPABASE API
-// ========================================================
-async function apiCall(action, payload = {}) {
-    try {
-        if (action === 'login') {
-            const { data, error } = await dbClient.from('users').select('*')
-                .eq('username', payload.username.trim())
-                .eq('password', payload.password.trim())
-                .eq('status_aktif', 'aktif');
-            if (error) throw new Error("Gagal membaca database.");
-            if (!data || data.length === 0) throw new Error("Username atau Password Salah!");
-            return data[0];
-        }
-        else if (action === 'getGuru') {
-            const { data, error } = await dbClient.from('users').select('*').eq('role', 'guru');
-            if (error) throw error;
-            return data || [];
-        }
-        else if (action === 'saveGuru') {
-            const targetUsername = payload.old_username || payload.username;
-            if (targetUsername) {
-                const { data: existing } = await dbClient.from('users').select('id_user').eq('username', targetUsername).maybeSingle();
-                if (existing) {
-                    const { error } = await dbClient.from('users').update({
-                        username: payload.username, password: payload.password,
-                        nama_lengkap: payload.nama_lengkap, assigned_siswa: payload.assigned_siswa
-                    }).eq('id_user', existing.id_user);
-                    if (error) throw error;
-                    return true;
-                }
-            }
-            const { error } = await dbClient.from('users').insert([{
-                id_user: "U" + Date.now(), username: payload.username, password: payload.password,
-                role: "guru", nama_lengkap: payload.nama_lengkap, status_aktif: "aktif",
-                assigned_siswa: payload.assigned_siswa
-            }]);
-            if (error) throw error;
-            return true;
-        }
-        else if (action === 'deleteGuru') {
-            const { error } = await dbClient.from('users').delete().eq('username', payload.username);
-            if (error) throw error;
-            return true;
-        }
-        else if (action === 'getSiswa') {
-            const { data, error } = await dbClient.from('siswa').select('*');
-            if (error) throw error;
-            return data || [];
-        }
-        else if (action === 'saveSiswa') {
-            const d = {
-                nama_siswa: payload.nama_siswa, program_les: payload.program_les,
-                kelas: payload.kelas, alamat_rumah: payload.alamat_rumah,
-                sisa_sesi: payload.sisa_sesi,
-                jadwal_hari: payload.jadwal_hari || '',
-                jadwal_tanggal: payload.jadwal_tanggal || ''
-            };
-            if (payload.id_siswa) {
-                const { error } = await dbClient.from('siswa').update(d).eq('id_siswa', payload.id_siswa);
-                if (error) throw error;
-            } else {
-                const { error } = await dbClient.from('siswa').insert([{ id_siswa: "S" + Date.now(), ...d }]);
-                if (error) throw error;
-            }
-            return true;
-        }
-        else if (action === 'deleteSiswa') {
-            const { error } = await dbClient.from('siswa').delete().eq('id_siswa', payload.id_siswa);
-            if (error) throw error;
-            return true;
-        }
-        else if (action === 'getSesi') {
-            const { data, error } = await dbClient.from('sesi_les').select('*').order('tanggal', { ascending: false });
-            if (error) throw error;
-            return data || [];
-        }
-        else if (action === 'saveSesi') {
-            let currentSisa = 0;
-            const { data: sd } = await dbClient.from('siswa').select('sisa_sesi').eq('id_siswa', payload.id_siswa).maybeSingle();
-            if (sd) currentSisa = parseInt(sd.sisa_sesi) || 0;
-
-            if (!payload.id_sesi) {
-                const { error } = await dbClient.from('sesi_les').insert([{
-                    id_sesi: "SESI-" + Date.now(), tanggal: payload.tanggal,
-                    id_guru: payload.id_guru, nama_guru: payload.nama_guru,
-                    id_siswa: payload.id_siswa, nama_siswa: payload.nama_siswa,
-                    status_sesi: payload.status_sesi, jurnal_materi: payload.jurnal_materi
-                }]);
-                if (error) throw error;
-                if (payload.status_sesi === 'Selesai') {
-                    await dbClient.from('siswa').update({ sisa_sesi: Math.max(0, currentSisa - 1) }).eq('id_siswa', payload.id_siswa);
-                }
-            } else {
-                const { data: oldSesi } = await dbClient.from('sesi_les').select('status_sesi').eq('id_sesi', payload.id_sesi).maybeSingle();
-                const oldStatus = oldSesi?.status_sesi;
-                const { error } = await dbClient.from('sesi_les').update({
-                    tanggal: payload.tanggal, id_siswa: payload.id_siswa,
-                    nama_siswa: payload.nama_siswa, status_sesi: payload.status_sesi,
-                    jurnal_materi: payload.jurnal_materi
-                }).eq('id_sesi', payload.id_sesi);
-                if (error) throw error;
-                if (oldStatus === "Selesai" && payload.status_sesi !== "Selesai") {
-                    await dbClient.from('siswa').update({ sisa_sesi: currentSisa + 1 }).eq('id_siswa', payload.id_siswa);
-                } else if (oldStatus !== "Selesai" && payload.status_sesi === "Selesai") {
-                    await dbClient.from('siswa').update({ sisa_sesi: Math.max(0, currentSisa - 1) }).eq('id_siswa', payload.id_siswa);
-                }
-            }
-            return true;
-        }
-        else if (action === 'deleteSesi') {
-            const { data: oldSesi } = await dbClient.from('sesi_les').select('id_siswa,status_sesi').eq('id_sesi', payload.id_sesi).maybeSingle();
-            if (oldSesi?.status_sesi === 'Selesai') {
-                const { data: sd } = await dbClient.from('siswa').select('sisa_sesi').eq('id_siswa', oldSesi.id_siswa).maybeSingle();
-                await dbClient.from('siswa').update({ sisa_sesi: (parseInt(sd?.sisa_sesi) || 0) + 1 }).eq('id_siswa', oldSesi.id_siswa);
-            }
-            const { error } = await dbClient.from('sesi_les').delete().eq('id_sesi', payload.id_sesi);
-            if (error) throw error;
-            return true;
-        }
-    } catch (error) {
-        console.error("DB Error:", error);
-        throw error;
-    }
-}
-
-// ========================================================
-// NOTIFIKASI MISSING SESI
-// ========================================================
-async function checkMissingSesi() {
-    if (currentUser.role !== 'admin') return;
-
-    const jamSekarang = getCurrentHour();
-    // Hanya tampilkan notifikasi jika sudah jam 20.00 ke atas
-    if (jamSekarang < NOTIF_HOUR) {
-        document.getElementById('missingSesiCard').classList.add('hide');
-        document.getElementById('btnNotifBell').classList.add('hide');
-        return;
-    }
-
-    const today = getTodayDate();
-    
-    // Ambil semua sesi hari ini
-    const { data: sesiHariIni } = await dbClient.from('sesi_les').select('id_siswa').eq('tanggal', today);
-    const sudahInputIds = new Set((sesiHariIni || []).map(s => s.id_siswa));
-
-    // Cari siswa yang punya jadwal hari ini tapi belum diinput
-    const missingSiswa = dataSiswa.filter(s => siswaJadwalHariIni(s) && !sudahInputIds.has(s.id_siswa));
-
-    // Update badge bell
-    const bell = document.getElementById('btnNotifBell');
-    const badge = document.getElementById('notifBadge');
-
-    if (missingSiswa.length === 0) {
-        document.getElementById('missingSesiCard').classList.add('hide');
-        bell.classList.add('hide');
-        return;
-    }
-
-    // Tampilkan notifikasi
-    bell.classList.remove('hide');
-    badge.classList.remove('hide');
-    badge.innerText = missingSiswa.length;
-
-    document.getElementById('missingSesiCount').innerText = missingSiswa.length;
-    document.getElementById('missingSesiCard').classList.remove('hide');
-
-    // Render tabel missing
-    let html = '';
-    for (const s of missingSiswa) {
-        // Cari tutor yang ditugaskan untuk siswa ini
-        const tutorList = dataGuru.filter(g => (g.assigned_siswa || '').split(',').includes(s.id_siswa));
-        const tutorNames = tutorList.map(g => g.nama_lengkap).join(', ') || '<span class="text-gray-400 italic">Belum ditugaskan</span>';
-
-        const jadwalHariIni = [];
-        if (s.jadwal_hari && siswaJadwalHariIni(s)) {
-            const hariArr = (s.jadwal_hari || '').split(',').map(h => h.trim());
-            const today_name = getTodayName();
-            if (hariArr.includes(today_name)) jadwalHariIni.push(today_name);
-        }
-        if (s.jadwal_tanggal) {
-            const tglArr = (s.jadwal_tanggal || '').split(',').map(t => parseInt(t.trim()));
-            if (tglArr.includes(getTodayTanggal())) jadwalHariIni.push('Tgl ' + getTodayTanggal());
-        }
-
-        html += `
-            <tr class="hover:bg-red-50 transition">
-                <td class="p-3 text-sm font-bold text-gray-800 whitespace-nowrap">${s.nama_siswa}</td>
-                <td class="p-3 text-sm text-gray-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
-                <td class="p-3 text-sm whitespace-nowrap">
-                    <span class="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded-lg">${jadwalHariIni.join(', ')}</span>
-                </td>
-                <td class="p-3 text-sm text-gray-600 whitespace-nowrap">${tutorNames}</td>
-                <td class="p-3 text-sm whitespace-nowrap">
-                    <button onclick="quickInputSesi('${s.id_siswa}')" class="bg-blue-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-blue-600 transition flex items-center gap-1">
-                        <i class="fa-solid fa-plus"></i> Input Sesi
-                    </button>
-                </td>
-            </tr>
-        `;
-    }
-    document.getElementById('missingSesiBody').innerHTML = html;
-}
-
-// Shortcut: klik "Input Sesi" dari notifikasi
-function quickInputSesi(idSiswa) {
-    navigate('input');
-    setTimeout(() => {
-        document.getElementById('sesiSiswa').value = idSiswa;
-        checkSisaSesi();
-    }, 100);
-}
-
-// ========================================================
-// INIT & LOGIN
-// ========================================================
 window.onload = () => {
     applyCustomBanner();
     let savedUser = localStorage.getItem('les_user');
     if (savedUser) {
         try {
             currentUser = JSON.parse(savedUser);
-            if (!currentUser?.username) throw new Error();
+            if (!currentUser || !currentUser.username) throw new Error("Format lama");
             initApp();
-        } catch (e) {
+        } catch(e) {
             localStorage.removeItem('les_user');
         }
     }
@@ -911,17 +961,19 @@ window.onload = () => {
 
 async function handleLogin(e) {
     e.preventDefault();
+    let u = document.getElementById('loginUsername').value;
+    let p = document.getElementById('loginPassword').value;
+    
     showLoading(true, "Otentikasi...");
     try {
-        currentUser = await apiCall('login', {
-            username: document.getElementById('loginUsername').value,
-            password: document.getElementById('loginPassword').value
-        });
-        localStorage.setItem('les_user', JSON.stringify(currentUser));
+        let user = await apiCall('login', {username: u, password: p});
+        currentUser = user;
+        localStorage.setItem('les_user', JSON.stringify(user));
         initApp();
         showToast("Login Berhasil!");
     } catch (err) {
         alert("GAGAL LOGIN ❌\n\n" + err.message);
+        localStorage.removeItem('les_user');
     } finally {
         showLoading(false);
     }
@@ -934,60 +986,67 @@ function logout() {
     document.getElementById('pageLogin').classList.remove('hide');
 }
 
-async function initApp() {
+function initApp() {
     document.getElementById('pageLogin').classList.add('hide');
     document.getElementById('mainLayout').classList.remove('hide');
     document.getElementById('desktopUserName').innerText = currentUser.nama_lengkap;
     document.getElementById('mobileUserName').innerText = currentUser.nama_lengkap;
+    
     if (currentUser.role === 'admin') {
         document.getElementById('btnEditBanner').classList.remove('hide');
     }
+    
     buildNavigation();
-    // Pre-load data
-    dataSiswa = (await apiCall('getSiswa')) || [];
-    dataGuru = (await apiCall('getGuru')) || [];
     loadSiswaOptions();
     navigate('dashboard');
 }
 
-// ========================================================
-// NAVIGATION
-// ========================================================
 function buildNavigation() {
     const menus = [
         { id: 'dashboard', icon: 'fa-home', text: 'Dashboard', access: 'all' },
         { id: 'guru', icon: 'fa-chalkboard-user', text: 'Data Guru', access: 'admin' },
         { id: 'siswa', icon: 'fa-users', text: 'Data Siswa', access: 'admin' },
         { id: 'input', icon: 'fa-edit', text: 'Input Sesi', access: 'guru' },
-        { id: 'rekap', icon: 'fa-chart-bar', text: 'Rekap', access: 'all' },
+        { id: 'rekap', icon: 'fa-chart-bar', text: 'Rekap', access: 'all' }, 
     ];
+
     let mNav = '';
     menus.forEach(m => {
         if (m.access === 'all' || (m.access === 'guru' && currentUser.role === 'guru') || (m.access === 'admin' && currentUser.role === 'admin')) {
             mNav += `
-                <button onclick="navigate('${m.id}')" id="nav-m-${m.id}" class="flex-1 flex flex-col items-center justify-center py-2 text-gray-600 font-medium hover:text-blue-700 transition-colors">
+                <button onclick="navigate('${m.id}')" id="nav-m-${m.id}" class="flex-1 flex flex-col items-center justify-center py-2 text-gray-600 font-medium hover:text-blue-700 transition-colors relative group">
                     <div id="nav-icon-bg-${m.id}" class="px-4 py-1 rounded-full transition-colors duration-200 mb-0.5">
                         <i class="fa-solid ${m.icon} text-lg"></i>
                     </div>
                     <span class="text-[10px] whitespace-nowrap">${m.text}</span>
-                </button>`;
+                </button>
+            `;
         }
     });
+
     mNav += `
-        <button onclick="logout()" class="flex-1 flex flex-col items-center justify-center py-2 text-red-500 font-medium hover:text-red-700">
-            <div class="px-4 py-1 rounded-full hover:bg-red-50 transition-colors mb-0.5">
+        <button onclick="logout()" class="flex-1 flex flex-col items-center justify-center py-2 text-red-500 font-medium hover:text-red-700 transition-colors relative group">
+            <div class="px-4 py-1 rounded-full hover:bg-red-50 transition-colors duration-200 mb-0.5">
                 <i class="fa-solid fa-sign-out-alt text-lg"></i>
             </div>
             <span class="text-[10px] whitespace-nowrap">Logout</span>
-        </button>`;
+        </button>
+    `;
+
     document.getElementById('mobileNav').innerHTML = mNav;
 }
 
 function navigate(page) {
     document.querySelectorAll('.page-content').forEach(el => el.classList.add('hide'));
-    document.querySelectorAll('[id^="nav-m-"]').forEach(el => { el.classList.remove('text-blue-700'); el.classList.add('text-gray-600'); });
-    document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => el.classList.remove('bg-blue-50', 'text-blue-700'));
-
+    
+    document.querySelectorAll('[id^="nav-m-"]').forEach(el => {
+        el.classList.remove('text-blue-700');
+        el.classList.add('text-gray-600');
+    });
+    document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => {
+        el.classList.remove('bg-blue-50', 'text-blue-700');
+    });
+    
     let targetId = '';
     if (page === 'dashboard') { targetId = 'pageDashboard'; loadDashboard(); }
     if (page === 'guru') { targetId = 'pageDataGuru'; loadDataGuruPage(); }
@@ -995,60 +1054,21 @@ function navigate(page) {
     if (page === 'input') { targetId = 'pageInputSesi'; document.getElementById('sesiTanggal').valueAsDate = new Date(); }
     if (page === 'rekap') { targetId = 'pageRekap'; populateFilterSiswa(); loadRiwayat(); }
 
-    if (targetId) document.getElementById(targetId).classList.remove('hide');
-
-    const mBtn = document.getElementById(`nav-m-${page}`);
-    const mBg = document.getElementById(`nav-icon-bg-${page}`);
-    if (mBtn) { mBtn.classList.remove('text-gray-600'); mBtn.classList.add('text-blue-700'); }
-    if (mBg) mBg.classList.add('bg-blue-50', 'text-blue-700');
-    scrollToTop();
-}
-
-// ========================================================
-// DASHBOARD
-// ========================================================
-async function loadDashboard() {
-    showLoading(true);
-    try {
-        dataSesi = (await apiCall('getSesi')) || [];
-        dataSiswa = (await apiCall('getSiswa')) || [];
-        dataGuru = (await apiCall('getGuru')) || [];
-
-        let filtered = dataSesi;
-        if (currentUser.role === 'guru') filtered = dataSesi.filter(s => s.id_guru === currentUser.username);
-
-        const total = filtered.length;
-        const selesai = filtered.filter(s => s.status_sesi === 'Selesai').length;
-        const batal = filtered.filter(s => s.status_sesi === 'Batal').length;
-        const reschedule = filtered.filter(s => s.status_sesi === 'Reschedule').length;
-        const label = currentUser.role === 'admin' ? 'Total Sesi (Semua)' : 'Total Sesi Anda';
-
-        document.getElementById('dashboardStats').innerHTML = `
-            <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-blue-500 flex flex-col items-center text-center">
-                <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">${label}</p>
-                <h3 class="text-3xl font-black text-blue-600 mt-2">${total}</h3>
-            </div>
-            <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-green-500 flex flex-col items-center text-center">
-                <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">Hadir / Selesai</p>
-                <h3 class="text-3xl font-black text-green-600 mt-2">${selesai}</h3>
-            </div>
-            <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-red-500 flex flex-col items-center text-center">
-                <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">Batal</p>
-                <h3 class="text-3xl font-black text-red-600 mt-2">${batal}</h3>
-            </div>
-            <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-yellow-500 flex flex-col items-center text-center">
-                <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">Reschedule</p>
-                <h3 class="text-3xl font-black text-yellow-600 mt-2">${reschedule}</h3>
-            </div>`;
-
-        // Cek missing sesi (admin only, jam >= 20)
-        await checkMissingSesi();
-
-    } catch (e) {
-        console.error(e);
-        document.getElementById('dashboardStats').innerHTML = '<p class="text-red-500 text-sm col-span-4">Gagal memuat data.</p>';
+    if(targetId !== '') {
+        document.getElementById(targetId).classList.remove('hide');
     }
-    showLoading(false);
+    
+    let mBtn = document.getElementById(`nav-m-${page}`);
+    let mIconBg = document.getElementById(`nav-icon-bg-${page}`);
+    if (mBtn) {
+        mBtn.classList.remove('text-gray-600');
+        mBtn.classList.add('text-blue-700');
+    }
+    if (mIconBg) {
+        mIconBg.classList.add('bg-blue-50', 'text-blue-700');
+    }
+
+    scrollToTop();
 }
 
 // ========================================================
@@ -1056,72 +1076,78 @@ async function loadDashboard() {
 // ========================================================
 async function loadSiswaOptions() {
     try {
-        dataSiswa = (await apiCall('getSiswa')) || [];
-        const sel = document.getElementById('sesiSiswa');
+        dataSiswa = (await apiCall('getSiswa', {})) || [];
+        let sel = document.getElementById('sesiSiswa');
         sel.innerHTML = '<option value="">-- Pilih Siswa --</option>';
         dataSiswa.forEach(s => {
             if (currentUser.role === 'guru') {
-                const assigned = (currentUser.assigned_siswa || "").split(',');
+                let assigned = (currentUser.assigned_siswa || "").split(',');
                 if (!assigned.includes(s.id_siswa)) return;
             }
-            sel.innerHTML += `<option value="${s.id_siswa}">${s.nama_siswa} (Sisa: ${s.sisa_sesi ?? 0} Sesi)</option>`;
+            let sisaTeks = s.sisa_sesi !== undefined ? s.sisa_sesi : 0;
+            sel.innerHTML += `<option value="${s.id_siswa}">${s.nama_siswa} (Sisa: ${sisaTeks} Sesi)</option>`;
         });
-    } catch (e) { console.error(e); }
+    } catch(e) {
+        console.error("Gagal load opsi siswa:", e);
+    }
 }
 
 function checkSisaSesi() {
-    const id = document.getElementById('sesiSiswa').value;
-    const w = document.getElementById('warningSisaSesi');
-    if (!id) { w.classList.add('hide'); return; }
-    const s = dataSiswa.find(x => x.id_siswa === id);
-    if (s && (s.sisa_sesi <= 0 || s.sisa_sesi == null)) {
-        w.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Paket sesi siswa ini sudah habis. Harap lapor Admin.";
-        w.classList.remove('hide');
-    } else { w.classList.add('hide'); }
+    let id = document.getElementById('sesiSiswa').value;
+    let warningEl = document.getElementById('warningSisaSesi');
+    if(!id) { warningEl.classList.add('hide'); return; }
+    
+    let siswa = dataSiswa.find(s => s.id_siswa === id);
+    if(siswa && (siswa.sisa_sesi <= 0 || siswa.sisa_sesi == null)) {
+        warningEl.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Peringatan: Paket sesi siswa ini sudah habis. Harap lapor Admin.";
+        warningEl.classList.remove('hide');
+    } else {
+        warningEl.classList.add('hide');
+    }
 }
 
 async function loadDataSiswaPage() {
     showLoading(true);
     try {
-        dataSiswa = (await apiCall('getSiswa')) || [];
+        dataSiswa = (await apiCall('getSiswa', {})) || [];
         let html = '';
         dataSiswa.forEach(s => {
-            const badgeSisa = s.sisa_sesi > 0
-                ? `<span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-blue-100">${s.sisa_sesi} Sesi</span>`
-                : `<span class="bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-lg border border-red-100">Habis!</span>`;
-            const jadwalBadge = siswaJadwalHariIni(s)
-                ? `<span class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded ml-1">Hari ini</span>` : '';
+            let badgeSisa = s.sisa_sesi > 0 
+                ? `<span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap border border-blue-100">${s.sisa_sesi} Sesi</span>` 
+                : `<span class="bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap border border-red-100">Habis!</span>`;
+
             html += `
                 <tr class="hover:bg-gray-50 transition">
+                    <td class="p-4 text-sm whitespace-nowrap text-gray-500">${s.id_siswa}</td>
                     <td class="p-4 text-sm font-bold text-gray-800 whitespace-nowrap">${s.nama_siswa}</td>
-                    <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
-                    <td class="p-4 text-sm text-gray-600">${formatJadwal(s)}${jadwalBadge}</td>
+                    <td class="p-4 text-sm whitespace-nowrap text-gray-600">${s.kelas || s.program_les || '-'}</td>
                     <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
-                    <td class="p-4 text-sm whitespace-nowrap flex gap-2">
-                        <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="text-purple-500 hover:text-purple-700 bg-purple-50 p-2 rounded-lg" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
-                        <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="text-green-500 hover:text-green-700 p-2" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
-                        <button onclick='editDataSiswa("${s.id_siswa}")' class="text-blue-500 hover:text-blue-700 p-2" title="Edit"><i class="fa-solid fa-edit"></i></button>
-                        <button onclick='deleteDataSiswa("${s.id_siswa}")' class="text-red-400 hover:text-red-600 p-2" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                    <td class="p-4 text-sm whitespace-nowrap flex gap-3">
+                        <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="text-purple-500 hover:text-purple-700 transition flex items-center justify-center bg-purple-50 p-2 rounded-lg" title="Analisis Pintar AI"><i class="fa-solid fa-brain"></i></button>
+                        <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="text-green-500 hover:text-green-700 transition p-2" title="Perpanjang / Reset Paket"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button onclick='editDataSiswa("${s.id_siswa}")' class="text-blue-500 hover:text-blue-700 transition p-2" title="Edit Data"><i class="fa-solid fa-edit"></i></button>
+                        <button onclick='deleteDataSiswa("${s.id_siswa}")' class="text-red-400 hover:text-red-600 transition p-2" title="Hapus Siswa"><i class="fa-solid fa-trash"></i></button>
                     </td>
-                </tr>`;
+                </tr>
+            `;
         });
-        document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-6 text-gray-500 italic">Belum ada data siswa.</td></tr>';
-    } catch (e) { }
+        document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-6 text-gray-600 font-medium italic">Belum ada data siswa.</td></tr>';
+    } catch(e) {}
     showLoading(false);
 }
 
+// FIX #1: handleSaveSiswa sekarang membaca siswaSisaSesi yang sudah ada di HTML
 async function handleSaveSiswa(e) {
     e.preventDefault();
-    const payload = {
+    let payload = {
         id_siswa: document.getElementById('siswaIdInput').value || "",
         nama_siswa: document.getElementById('siswaNama').value,
         kelas: document.getElementById('siswaProgram').value,
         program_les: document.getElementById('siswaProgram').value,
         alamat_rumah: document.getElementById('siswaAlamat').value,
-        sisa_sesi: parseInt(document.getElementById('siswaSisaSesi').value) || 0,
-        jadwal_hari: getSelectedHari(),
-        jadwal_tanggal: document.getElementById('siswaTanggalTetap').value.replace(/\s/g, '')
+        sisa_sesi: parseInt(document.getElementById('siswaSisaSesi').value) || 0
     };
+
     showLoading(true, "Menyimpan Siswa...");
     try {
         await apiCall('saveSiswa', payload);
@@ -1129,31 +1155,34 @@ async function handleSaveSiswa(e) {
         resetFormSiswa();
         loadDataSiswaPage();
         loadSiswaOptions();
-    } catch (e) { showToast("Gagal: " + e.message, "error"); }
+    } catch(e) {
+        showToast("Gagal menyimpan: " + e.message, "error");
+    }
     showLoading(false);
 }
 
+// FIX #2: editDataSiswa menggunakan scrollToTop() bukan window.scrollTo()
 function editDataSiswa(id) {
-    const data = dataSiswa.find(s => s.id_siswa === id);
+    let data = dataSiswa.find(s => s.id_siswa === id);
     if (!data) return;
+
     document.getElementById('siswaIdInput').value = data.id_siswa;
     document.getElementById('siswaNama').value = data.nama_siswa;
     document.getElementById('siswaProgram').value = data.kelas || data.program_les || '';
     document.getElementById('siswaAlamat').value = data.alamat_rumah || '';
-    document.getElementById('siswaSisaSesi').value = data.sisa_sesi ?? 0;
-    setSelectedHari(data.jadwal_hari || '');
-    document.getElementById('siswaTanggalTetap').value = data.jadwal_tanggal || '';
-    scrollToTop();
+    document.getElementById('siswaSisaSesi').value = data.sisa_sesi !== undefined ? data.sisa_sesi : 0;
+    scrollToTop(); // FIX: scroll ke pagesContainer
 }
 
 async function deleteDataSiswa(id) {
-    showConfirm("Hapus Data Siswa", "Data siswa akan dihapus permanen.", async () => {
+    showConfirm("Hapus Data Siswa", "Apakah Anda yakin? Seluruh identitas siswa ini akan dihapus secara permanen.", async () => {
         showLoading(true);
         try {
-            await apiCall('deleteSiswa', { id_siswa: id });
-            showToast("Data siswa dihapus.");
-            loadDataSiswaPage(); loadSiswaOptions();
-        } catch (e) { showToast("Gagal: " + e.message, "error"); }
+            await apiCall('deleteSiswa', {id_siswa: id});
+            showToast("Data siswa berhasil dihapus.");
+            loadDataSiswaPage();
+            loadSiswaOptions(); 
+        } catch(e) { showToast("Gagal menghapus: " + e.message, "error"); }
         showLoading(false);
     });
 }
@@ -1161,22 +1190,26 @@ async function deleteDataSiswa(id) {
 function resetFormSiswa() {
     document.getElementById('siswaIdInput').value = "";
     document.getElementById('formSiswa').reset();
-    setSelectedHari('');
-    document.getElementById('siswaSisaSesi').value = 8;
 }
 
 async function topUpSesiSiswa(id) {
-    const siswa = dataSiswa.find(s => s.id_siswa === id);
-    if (!siswa) return;
-    showPrompt("Perpanjang Paket", `Jumlah paket baru untuk ${siswa.nama_siswa}:`, "8", async (val) => {
-        const n = parseInt(val);
-        if (isNaN(n) || n <= 0) { showToast("Jumlah tidak valid!", "error"); return; }
-        showLoading(true);
+    let siswa = dataSiswa.find(s => s.id_siswa === id);
+    if(!siswa) return;
+    
+    showPrompt("Perpanjang Paket", `Masukkan jumlah paket les baru untuk ${siswa.nama_siswa} (misal: 8):`, "8", async (val) => {
+        if (!val || val.trim() === "") return;
+        let sesiBaru = parseInt(val);
+        if (isNaN(sesiBaru) || sesiBaru <= 0) { showToast("Jumlah sesi tidak valid!", "error"); return; }
+        
+        let payload = { id_siswa: siswa.id_siswa, nama_siswa: siswa.nama_siswa, kelas: siswa.kelas || siswa.program_les, program_les: siswa.program_les, alamat_rumah: siswa.alamat_rumah, sisa_sesi: sesiBaru };
+        
+        showLoading(true, "Memperbarui Paket...");
         try {
-            await apiCall('saveSiswa', { ...siswa, sisa_sesi: n });
-            showToast("Paket diperbarui!");
-            loadDataSiswaPage(); loadSiswaOptions();
-        } catch (e) { showToast("Gagal: " + e.message, "error"); }
+            await apiCall('saveSiswa', payload);
+            showToast(`Sisa paket ${siswa.nama_siswa} sukses ditambah!`);
+            loadDataSiswaPage();
+            loadSiswaOptions();
+        } catch(e) { showToast("Gagal memperbarui: " + e.message, "error"); }
         showLoading(false);
     });
 }
@@ -1187,80 +1220,101 @@ async function topUpSesiSiswa(id) {
 async function loadDataGuruPage() {
     showLoading(true);
     try {
-        dataSiswa = (await apiCall('getSiswa')) || [];
-        const container = document.getElementById('guruAssignSiswaContainer');
-        container.innerHTML = dataSiswa.length === 0
-            ? '<p class="text-sm text-red-500">Belum ada data siswa.</p>'
-            : dataSiswa.map(s => `
+        if(dataSiswa.length === 0) dataSiswa = (await apiCall('getSiswa', {})) || [];
+        
+        let containerSiswa = document.getElementById('guruAssignSiswaContainer');
+        containerSiswa.innerHTML = '';
+        if(dataSiswa.length === 0) containerSiswa.innerHTML = '<p class="text-sm text-red-500 font-medium">Belum ada data siswa.</p>';
+        
+        dataSiswa.forEach(s => {
+            containerSiswa.innerHTML += `
                 <label class="flex items-center space-x-3 text-sm cursor-pointer hover:bg-white p-2 rounded-lg border border-transparent hover:border-gray-200 transition">
-                    <input type="checkbox" name="assignSiswaCb" value="${s.id_siswa}" class="w-4 h-4 rounded text-blue-600">
+                    <input type="checkbox" name="assignSiswaCb" value="${s.id_siswa}" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500">
                     <span class="text-gray-700 font-medium">${s.nama_siswa}</span>
-                </label>`).join('');
+                </label>
+            `;
+        });
 
-        dataGuru = (await apiCall('getGuru')) || [];
+        dataGuru = (await apiCall('getGuru', {})) || [];
         let html = '';
         dataGuru.forEach(g => {
-            const arr = (g.assigned_siswa || '').split(',').filter(x => x);
-            const names = arr.map(id => dataSiswa.find(x => x.id_siswa === id)?.nama_siswa || id).join(', ')
-                || '<span class="text-red-400 italic text-xs">Belum ditugaskan</span>';
+            let assignedArr = (g.assigned_siswa || "").split(',').filter(x => x);
+            let assignedNames = assignedArr.map(id => {
+                let s = dataSiswa.find(x => x.id_siswa === id);
+                return s ? s.nama_siswa : id;
+            }).join(', ');
+            if(!assignedNames) assignedNames = '<span class="text-red-400 italic text-xs font-medium">Belum ditugaskan siswa</span>';
+
             html += `
                 <tr class="hover:bg-gray-50 transition">
                     <td class="p-4 text-sm font-bold text-gray-800 whitespace-nowrap">${g.nama_lengkap}</td>
-                    <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                        <i class="fa-solid fa-user text-gray-400"></i> <span class="font-mono ml-1">${g.username}</span><br>
-                        <i class="fa-solid fa-key text-gray-400 mt-1"></i> <span class="font-mono ml-1">${g.password}</span>
+                    <td class="p-4 text-sm whitespace-nowrap text-gray-500">
+                        <i class="fa-solid fa-user text-gray-400 w-4"></i> <span class="font-mono font-medium ml-1">${g.username}</span><br>
+                        <i class="fa-solid fa-key text-gray-400 w-4 mt-2"></i> <span class="font-mono font-medium ml-1">${g.password}</span>
                     </td>
-                    <td class="p-4 text-sm text-gray-600 max-w-xs truncate">${names}</td>
+                    <td class="p-4 text-sm text-gray-600 leading-relaxed max-w-xs truncate" title="${assignedNames}">${assignedNames}</td>
                     <td class="p-4 text-sm whitespace-nowrap">
-                        <button onclick='editDataGuru("${g.username}")' class="text-blue-500 hover:text-blue-700 mr-3"><i class="fa-solid fa-edit"></i></button>
-                        <button onclick='deleteDataGuru("${g.username}")' class="text-red-400 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick='editDataGuru("${g.username}")' class="text-blue-500 hover:text-blue-700 mr-3 transition"><i class="fa-solid fa-edit"></i></button>
+                        <button onclick='deleteDataGuru("${g.username}")' class="text-red-400 hover:text-red-600 transition"><i class="fa-solid fa-trash"></i></button>
                     </td>
-                </tr>`;
+                </tr>
+            `;
         });
-        document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-6 text-gray-500 italic">Belum ada data tutor.</td></tr>';
-    } catch (e) { }
+        document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-6 text-gray-600 font-medium italic">Belum ada data tutor.</td></tr>';
+    } catch(e) {}
     showLoading(false);
 }
 
 async function handleSaveGuru(e) {
     e.preventDefault();
-    const checked = document.querySelectorAll('input[name="assignSiswaCb"]:checked');
-    const payload = {
+    let checkboxes = document.querySelectorAll('input[name="assignSiswaCb"]:checked');
+    let assignedIds = Array.from(checkboxes).map(cb => cb.value).join(',');
+    let payload = {
         old_username: document.getElementById('guruUsernameOld').value || "",
         username: document.getElementById('guruUsername').value,
         password: document.getElementById('guruPassword').value,
         nama_lengkap: document.getElementById('guruNama').value,
-        assigned_siswa: Array.from(checked).map(cb => cb.value).join(',')
+        assigned_siswa: assignedIds
     };
     showLoading(true, "Menyimpan Tutor...");
     try {
         await apiCall('saveGuru', payload);
         showToast("Tutor berhasil disimpan!");
-        resetFormGuru(); loadDataGuruPage();
-    } catch (e) { showToast("Gagal: " + e.message, "error"); }
+        resetFormGuru();
+        loadDataGuruPage();
+    } catch(e) {
+        showToast("Gagal menyimpan: " + e.message, "error");
+    }
     showLoading(false);
 }
 
+// FIX #3: editDataGuru menggunakan scrollToTop() bukan window.scrollTo()
 function editDataGuru(username) {
-    const data = dataGuru.find(g => g.username === username);
+    let data = dataGuru.find(g => g.username === username);
     if (!data) return;
+
     document.getElementById('guruUsernameOld').value = data.username;
     document.getElementById('guruUsername').value = data.username;
     document.getElementById('guruPassword').value = data.password;
     document.getElementById('guruNama').value = data.nama_lengkap;
-    const arr = (data.assigned_siswa || '').split(',');
-    document.querySelectorAll('input[name="assignSiswaCb"]').forEach(cb => { cb.checked = arr.includes(cb.value); });
-    scrollToTop();
+    
+    let checkboxes = document.querySelectorAll('input[name="assignSiswaCb"]');
+    let assignedArr = (data.assigned_siswa || "").split(',');
+    checkboxes.forEach(cb => { cb.checked = assignedArr.includes(cb.value); });
+    
+    scrollToTop(); // FIX: scroll ke pagesContainer
 }
 
 async function deleteDataGuru(username) {
-    showConfirm("Hapus Tutor", "Akun tutor ini akan dihapus permanen.", async () => {
+    showConfirm("Hapus Data Tutor", "Yakin ingin menghapus Tutor ini? Akun tersebut tidak akan bisa login lagi.", async () => {
         showLoading(true);
         try {
-            await apiCall('deleteGuru', { username });
-            showToast("Tutor dihapus.");
+            await apiCall('deleteGuru', {username: username});
+            showToast("Tutor dihapus secara permanen.");
             loadDataGuruPage();
-        } catch (e) { showToast("Gagal: " + e.message, "error"); }
+        } catch(e) {
+            showToast("Gagal menghapus: " + e.message, "error");
+        }
         showLoading(false);
     });
 }
@@ -1274,25 +1328,75 @@ function resetFormGuru() {
 // ========================================================
 // CRUD SESI
 // ========================================================
+async function loadDashboard() {
+    showLoading(true);
+    try {
+        dataSesi = (await apiCall('getSesi', {})) || [];
+        
+        let filteredSesi = dataSesi;
+        if (currentUser.role === 'guru') {
+            filteredSesi = dataSesi.filter(s => s.id_guru === currentUser.username);
+        }
+
+        let totalSesi = filteredSesi.length;
+        let selesai = filteredSesi.filter(s => s.status_sesi === 'Selesai').length;
+        let batal = filteredSesi.filter(s => s.status_sesi === 'Batal').length;
+        let reschedule = filteredSesi.filter(s => s.status_sesi === 'Reschedule').length;
+        
+        let labelTeks = currentUser.role === 'admin' ? 'Total Sesi (Semua)' : 'Total Sesi Anda';
+
+        let html = `
+            <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-blue-500 flex flex-col items-center text-center">
+                <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">${labelTeks}</p>
+                <h3 class="text-3xl font-black text-blue-600 mt-2">${totalSesi}</h3>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-green-500 flex flex-col items-center text-center">
+                <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">Hadir / Selesai</p>
+                <h3 class="text-3xl font-black text-green-600 mt-2">${selesai}</h3>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-red-500 flex flex-col items-center text-center">
+                <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">Batal</p>
+                <h3 class="text-3xl font-black text-red-600 mt-2">${batal}</h3>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-yellow-500 flex flex-col items-center text-center">
+                <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">Reschedule</p>
+                <h3 class="text-3xl font-black text-yellow-600 mt-2">${reschedule}</h3>
+            </div>
+        `;
+        document.getElementById('dashboardStats').innerHTML = html;
+    } catch(e) {
+        console.error("Gagal muat dashboard:", e);
+        document.getElementById('dashboardStats').innerHTML = '<p class="text-red-500 text-sm">Gagal memuat data dashboard.</p>';
+    }
+    showLoading(false);
+}
+
 async function handleSaveSesi(e) {
     e.preventDefault();
-    const idSiswa = document.getElementById('sesiSiswa').value;
-    const siswaObj = dataSiswa.find(s => s.id_siswa === idSiswa);
+    let idSiswa = document.getElementById('sesiSiswa').value;
+    let siswaObj = dataSiswa.find(s => s.id_siswa === idSiswa);
     if (!siswaObj) { showToast("Siswa tidak ditemukan!", "error"); return; }
-    const payload = {
+    
+    let payload = {
         id_sesi: document.getElementById('sesiId').value || "",
         tanggal: document.getElementById('sesiTanggal').value,
-        id_guru: currentUser.username, nama_guru: currentUser.nama_lengkap,
-        id_siswa: idSiswa, nama_siswa: siswaObj.nama_siswa,
+        id_guru: currentUser.username,
+        nama_guru: currentUser.nama_lengkap,
+        id_siswa: idSiswa,
+        nama_siswa: siswaObj.nama_siswa,
         status_sesi: document.getElementById('sesiStatus').value,
         jurnal_materi: document.getElementById('sesiJurnal').value
     };
+
     showLoading(true, "Menyimpan Sesi...");
     try {
         await apiCall('saveSesi', payload);
-        showToast("Sesi berhasil disimpan!");
-        resetFormSesi(); navigate('rekap');
-    } catch (e) { showToast("Gagal: " + e.message, "error"); }
+        showToast("Data sesi berhasil disimpan!");
+        resetFormSesi();
+        navigate('rekap');
+    } catch(e) {
+        showToast("Gagal menyimpan sesi: " + e.message, "error");
+    }
     showLoading(false);
 }
 
@@ -1305,41 +1409,46 @@ function resetFormSesi() {
 async function loadRiwayat() {
     showLoading(true);
     try {
-        dataSesi = (await apiCall('getSesi')) || [];
-        let filtered = dataSesi;
-        if (currentUser.role === 'guru') filtered = dataSesi.filter(s => s.id_guru === currentUser.username);
-
-        const statusColors = {
-            'Selesai': 'bg-green-100 text-green-800',
-            'Batal': 'bg-red-100 text-red-800',
-            'Reschedule': 'bg-yellow-100 text-yellow-800',
-            'Libur': 'bg-gray-100 text-gray-600'
-        };
+        dataSesi = (await apiCall('getSesi', {})) || [];
+        
+        let filteredSesi = dataSesi;
+        if (currentUser.role === 'guru') {
+            filteredSesi = dataSesi.filter(s => s.id_guru === currentUser.username);
+        }
 
         let html = '';
-        filtered.forEach(s => {
-            const badge = statusColors[s.status_sesi] || 'bg-gray-100 text-gray-600';
-            const canEdit = currentUser.role === 'admin' || currentUser.username === s.id_guru;
+        filteredSesi.forEach(s => {
+            let badgeColor = s.status_sesi === 'Selesai' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+            
+            let actionBtn = '-';
+            if(currentUser.role === 'admin' || currentUser.username === s.id_guru) {
+                actionBtn = `
+                    <button onclick='editSesi("${s.id_sesi}")' class="text-blue-500 hover:text-blue-700 mr-3 transition"><i class="fa-solid fa-edit"></i></button>
+                    <button onclick='deleteSesi("${s.id_sesi}")' class="text-red-500 hover:text-red-700 transition"><i class="fa-solid fa-trash"></i></button>
+                `;
+            }
+
             html += `
                 <tr class="hover:bg-gray-50 transition">
-                    <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.tanggal}</td>
+                    <td class="p-4 text-sm whitespace-nowrap text-gray-600">${s.tanggal}</td>
                     <td class="p-4 text-sm font-bold text-gray-800 whitespace-nowrap">${s.nama_siswa}</td>
-                    <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.nama_guru}</td>
-                    <td class="p-4 text-sm whitespace-nowrap"><span class="px-3 py-1 text-xs rounded-full font-bold ${badge}">${s.status_sesi}</span></td>
-                    <td class="p-4 text-sm whitespace-nowrap">${canEdit ? `
-                        <button onclick='editSesi("${s.id_sesi}")' class="text-blue-500 hover:text-blue-700 mr-3"><i class="fa-solid fa-edit"></i></button>
-                        <button onclick='deleteSesi("${s.id_sesi}")' class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>` : '-'}
-                    </td>
-                </tr>`;
+                    <td class="p-4 text-sm whitespace-nowrap text-gray-600">${s.nama_guru}</td>
+                    <td class="p-4 text-sm whitespace-nowrap"><span class="px-3 py-1 text-xs rounded-full font-bold ${badgeColor}">${s.status_sesi}</span></td>
+                    <td class="p-4 text-sm whitespace-nowrap">${actionBtn}</td>
+                </tr>
+            `;
         });
-        document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="5" class="text-center p-6 text-gray-500 italic">Belum ada data.</td></tr>';
-    } catch (e) { console.error(e); }
+        document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="5" class="text-center p-6 text-gray-600 font-medium italic">Belum ada data kunjungan.</td></tr>';
+    } catch(e) {
+        console.error("Gagal muat riwayat:", e);
+    }
     showLoading(false);
 }
 
 function editSesi(id) {
-    const data = dataSesi.find(s => s.id_sesi === id);
+    let data = dataSesi.find(s => s.id_sesi === id);
     if (!data) return;
+    
     document.getElementById('sesiId').value = data.id_sesi;
     document.getElementById('sesiSiswa').value = data.id_siswa;
     document.getElementById('sesiTanggal').value = data.tanggal;
@@ -1349,24 +1458,30 @@ function editSesi(id) {
 }
 
 async function deleteSesi(id) {
-    showConfirm('Hapus Sesi', 'Sesi ini akan dihapus dan sisa paket dikalkulasi ulang.', async () => {
-        showLoading(true);
+    showConfirm('Hapus Sesi', 'Data sesi yang dihapus tidak bisa dikembalikan, dan sisa paket siswa akan dikalkulasi ulang secara otomatis.', async () => {
+        showLoading(true, "Menghapus Sesi...");
         try {
-            await apiCall('deleteSesi', { id_sesi: id });
-            showToast("Sesi dihapus.");
+            await apiCall('deleteSesi', {id_sesi: id});
+            showToast("Sesi berhasil dihapus.");
             loadRiwayat();
-        } catch (e) { showToast("Gagal: " + e.message, "error"); }
+        } catch(e) {
+            showToast("Gagal menghapus: " + e.message, "error");
+        }
         showLoading(false);
     });
 }
 
 function populateFilterSiswa() {
-    const sel = document.getElementById('filterSiswa');
+    let sel = document.getElementById('filterSiswa');
     sel.innerHTML = '';
-    if (currentUser.role === 'admin') sel.innerHTML += `<option value="ALL">Semua Siswa</option>`;
-    dataSiswa.forEach(s => {
+    
+    if (currentUser.role === 'admin') {
+        sel.innerHTML += `<option value="ALL">Semua Siswa</option>`;
+    }
+    
+    (dataSiswa || []).forEach(s => {
         if (currentUser.role === 'guru') {
-            const assigned = (currentUser.assigned_siswa || '').split(',');
+            let assigned = (currentUser.assigned_siswa || "").split(',');
             if (!assigned.includes(s.id_siswa)) return;
         }
         sel.innerHTML += `<option value="${s.id_siswa}">${s.nama_siswa}</option>`;
@@ -1375,160 +1490,94 @@ function populateFilterSiswa() {
 }
 
 async function generateReport() {
-    const idSiswa = document.getElementById('filterSiswa').value;
-    const tglMulai = document.getElementById('filterStart').value;
-    const tglAkhir = document.getElementById('filterEnd').value;
+    let idSiswa = document.getElementById('filterSiswa').value;
+    let tglMulai = document.getElementById('filterStart').value;
+    let tglAkhir = document.getElementById('filterEnd').value;
+
     showLoading(true, "Menyusun Laporan...");
     try {
-        dataSesi = (await apiCall('getSesi')) || [];
+        dataSesi = (await apiCall('getSesi', {})) || [];
         let filtered = dataSesi;
-        if (currentUser.role === 'guru') filtered = filtered.filter(s => s.id_guru === currentUser.username);
-        if (idSiswa !== "ALL" && idSiswa) {
-            filtered = filtered.filter(s => s.id_siswa === idSiswa);
-            document.getElementById('reportSiswaName').innerText = dataSiswa.find(s => s.id_siswa === idSiswa)?.nama_siswa || idSiswa;
-        } else {
-            document.getElementById('reportSiswaName').innerText = "Semua Siswa";
+
+        if (currentUser.role === 'guru') {
+            filtered = filtered.filter(s => s.id_guru === currentUser.username);
         }
+
+        if (idSiswa !== "ALL" && idSiswa !== "") {
+            filtered = filtered.filter(s => s.id_siswa === idSiswa);
+            let siswaTerpilih = dataSiswa.find(s=>s.id_siswa===idSiswa);
+            document.getElementById('reportSiswaName').innerText = siswaTerpilih ? siswaTerpilih.nama_siswa : idSiswa;
+        } else {
+            document.getElementById('reportSiswaName').innerText = currentUser.role === 'admin' ? "Semua Siswa" : "Semua Siswa Bimbingan Saya";
+        }
+
         if (tglMulai) filtered = filtered.filter(s => s.tanggal >= tglMulai);
         if (tglAkhir) filtered = filtered.filter(s => s.tanggal <= tglAkhir);
+
         document.getElementById('reportDateRange').innerText = `Periode: ${tglMulai || 'Awal'} s/d ${tglAkhir || 'Sekarang'}`;
-        filtered.sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
-        let hadir = 0, html = '';
+        
+        let hadir = 0;
+        let html = '';
+        
+        filtered.sort((a,b) => new Date(a.tanggal) - new Date(b.tanggal));
+
         filtered.forEach(s => {
-            if (s.status_sesi === 'Selesai') hadir++;
-            html += `<tr class="border-b border-gray-200">
-                <td class="p-3 align-top whitespace-nowrap">${s.tanggal}</td>
-                <td class="p-3 align-top whitespace-nowrap">${s.nama_guru}</td>
-                <td class="p-3 align-top text-center font-semibold ${s.status_sesi === 'Selesai' ? 'text-green-600' : 'text-red-500'}">${s.status_sesi}</td>
-                <td class="p-3 align-top text-gray-700 leading-relaxed">${s.jurnal_materi}</td>
-            </tr>`;
+            if(s.status_sesi === 'Selesai') hadir++;
+            html += `
+                <tr class="border-b border-gray-200">
+                    <td class="p-3 align-top whitespace-nowrap">${s.tanggal}</td>
+                    <td class="p-3 align-top whitespace-nowrap">${s.nama_guru}</td>
+                    <td class="p-3 align-top text-center whitespace-nowrap font-semibold ${s.status_sesi === 'Selesai' ? 'text-green-600' : 'text-red-500'}">${s.status_sesi}</td>
+                    <td class="p-3 align-top min-w-[200px] text-gray-700 leading-relaxed">${s.jurnal_materi}</td>
+                </tr>
+            `;
         });
-        document.getElementById('reportTableBody').innerHTML = html || '<tr><td colspan="4" class="text-center p-6 italic text-gray-500">Tidak ada data.</td></tr>';
+
+        document.getElementById('reportTableBody').innerHTML = html || '<tr><td colspan="4" class="text-center p-6 italic text-gray-600 font-medium">Tidak ada data di periode ini.</td></tr>';
         document.getElementById('reportVisualTotalHadir').innerText = hadir;
         document.getElementById('reportTotalHadir').innerText = hadir;
+        
         document.getElementById('aiNarrativeContainer').classList.add('hide');
-        document.getElementById('aiNarrativeText').innerText = '';
+        document.getElementById('aiNarrativeText').innerText = "";
         document.getElementById('reportContainer').classList.remove('hide');
-        if (currentUser.role === 'guru' && idSiswa && idSiswa !== 'ALL') {
-            const sw = dataSiswa.find(s => s.id_siswa === idSiswa);
-            if (sw) {
-                document.getElementById('rekapMotivasiAngka').innerText = sw.sisa_sesi || 0;
-                document.getElementById('rekapMotivasiText').innerText = `Tugas kamu tinggal ${sw.sisa_sesi || 0} pertemuan lagi untuk ${sw.nama_siswa}.`;
+
+        if (currentUser.role === 'guru' && idSiswa !== "ALL" && idSiswa !== "") {
+            let selectedSiswa = dataSiswa.find(s => s.id_siswa === idSiswa);
+            if (selectedSiswa) {
+                document.getElementById('rekapMotivasiAngka').innerText = selectedSiswa.sisa_sesi || 0;
+                document.getElementById('rekapMotivasiText').innerText = `Tugas kamu tinggal ${selectedSiswa.sisa_sesi || 0} pertemuan lagi untuk ${selectedSiswa.nama_siswa}.`;
                 document.getElementById('rekapMotivasiCard').classList.remove('hide');
             }
-        } else { document.getElementById('rekapMotivasiCard').classList.add('hide'); }
-    } catch (e) { showToast("Gagal menyusun laporan.", "error"); }
+        } else {
+            document.getElementById('rekapMotivasiCard').classList.add('hide');
+        }
+
+    } catch(e) {
+        console.error("Gagal buat laporan:", e);
+        showToast("Gagal menyusun laporan.", "error");
+    }
     showLoading(false);
 }
 
 function exportToPDF() {
     showLoading(true, "Mengekspor PDF...");
-    html2pdf().set({
-        margin: [15, 10, 15, 10], filename: 'Laporan_Belajar.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, windowWidth: 800, scrollY: 0 },
+    const element = document.getElementById('pdfContent');
+
+    let opt = { 
+        margin: [15, 10, 15, 10], 
+        filename: 'Laporan_Belajar.pdf', 
+        image: { type: 'jpeg', quality: 0.98 }, 
+        html2canvas: { scale: 2, windowWidth: 800, scrollY: 0 }, 
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(document.getElementById('pdfContent')).save()
-        .then(() => { showLoading(false); showToast("PDF berhasil diunduh!"); })
-        .catch(() => { showLoading(false); showToast("Gagal ekspor PDF.", "error"); });
-}
-
-// ========================================================
-// GEMINI AI
-// ========================================================
-async function callGeminiAPI(promptText) {
-    const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest"];
-    let lastError = null;
-    for (const model of models) {
-        try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                const msg = data.error?.message || "Error API";
-                if (msg.toLowerCase().includes("not found")) { lastError = new Error(msg); continue; }
-                if (msg.toLowerCase().includes("api key not valid")) throw new Error("API Key tidak valid.");
-                throw new Error(msg);
-            }
-            return data.candidates[0].content.parts[0].text;
-        } catch (err) {
-            if (err.message.includes("not found")) { lastError = err; continue; }
-            if (err.message.includes("Failed to fetch")) throw new Error("Gagal terhubung ke AI. Cek koneksi internet.");
-            throw err;
-        }
-    }
-    throw new Error("AI tidak tersedia: " + lastError?.message);
-}
-
-async function enhanceJurnalWithAI() {
-    const textarea = document.getElementById('sesiJurnal');
-    const raw = textarea.value.trim();
-    const btn = document.getElementById('btnAIEnhance');
-    const icon = btn.querySelector('i');
-    const txt = document.getElementById('textAIEnhance');
-    if (!raw) { showToast("Ketik catatan kasar dulu!", "error"); return; }
-    icon.className = "fa-solid fa-spinner fa-spin"; txt.innerText = "Memproses..."; btn.disabled = true;
-    try {
-        textarea.value = (await callGeminiAPI(`Rapikan catatan guru les privat berikut menjadi satu paragraf jurnal profesional dalam bahasa Indonesia baku. Tambahkan satu kalimat saran untuk pertemuan berikutnya.\n\nCatatan: "${raw}"\n\nBerikan langsung hasilnya saja.`)).trim();
-        showToast("Jurnal disempurnakan AI!");
-    } catch (err) { alert("GAGAL AI ❌\n" + err.message); }
-    finally { icon.className = "fa-solid fa-wand-magic-sparkles"; txt.innerText = "✨ Rapikan AI"; btn.disabled = false; }
-}
-
-async function generateReportNarrativeWithAI() {
-    const rows = document.getElementById('reportTableBody').querySelectorAll('tr');
-    const btn = document.getElementById('btnAINarrative');
-    const icon = btn.querySelector('i');
-    const txt = document.getElementById('textAINarrative');
-    if (!rows.length || rows[0].innerText.includes('Tidak ada data')) { showToast("Tidak ada data sesi.", "error"); return; }
-    const journals = Array.from(rows).map(r => { const c = r.querySelectorAll('td'); return c.length === 4 ? `- Tanggal: ${c[0].innerText}, Materi: ${c[3].innerText}` : null; }).filter(Boolean);
-    const nama = document.getElementById('reportSiswaName').innerText;
-    icon.className = "fa-solid fa-spinner fa-spin"; txt.innerText = "Menulis..."; btn.disabled = true;
-    try {
-        const hasil = (await callGeminiAPI(`Buatkan narasi evaluasi belajar (maks 4 kalimat) untuk orang tua siswa ${nama}. Data:\n${journals.join('\n')}\nGunakan nada positif, tanpa salam.`)).trim();
-        document.getElementById('aiNarrativeText').innerText = hasil;
-        document.getElementById('aiNarrativeContainer').classList.remove('hide');
-        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Evaluasi AI';
-        document.getElementById('aiModalContent').innerText = "Teks ini sudah ditambahkan ke PDF:\n\n" + hasil;
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n" + err.message); }
-    finally { icon.className = "fa-solid fa-wand-magic-sparkles"; txt.innerText = "Buat Evaluasi AI untuk Ortu"; btn.disabled = false; }
-}
-
-async function getTeachingIdeasWithAI() {
-    const topic = document.getElementById('aiTopicInput').value.trim();
-    const btn = document.getElementById('btnAIIdeas');
-    const icon = btn.querySelector('i');
-    const txt = btn.querySelector('span');
-    if (!topic) { showToast("Masukkan topik dulu!", "error"); return; }
-    icon.className = "fa-solid fa-spinner fa-spin"; txt.innerText = "Mencari..."; btn.disabled = true;
-    try {
-        const hasil = await callGeminiAPI(`Berikan 3 ide aktivitas interaktif untuk mengajar: "${topic}". Jelaskan singkat dan menarik.`);
-        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-500"></i> Ide Mengajar';
-        document.getElementById('aiModalContent').innerText = hasil.trim();
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n" + err.message); }
-    finally { icon.className = "fa-solid fa-wand-magic-sparkles"; txt.innerText = "✨ Cari Ide"; btn.disabled = false; }
-}
-
-async function analyzeStudentWithAI(id) {
-    const siswa = dataSiswa.find(s => s.id_siswa === id);
-    if (!siswa) return;
-    showLoading(true, "Menganalisis...");
-    try {
-        const sesi = (await apiCall('getSesi')) || [];
-        const filtered = currentUser.role === 'guru' ? sesi.filter(s => s.id_guru === currentUser.username) : sesi;
-        const riwayat = filtered.filter(s => s.id_siswa === id);
-        let ctx = `Siswa: ${siswa.nama_siswa}\nKelas: ${siswa.kelas || '-'}\nSisa Sesi: ${siswa.sisa_sesi}\nJadwal: ${formatJadwal(siswa)}\nRiwayat:\n`;
-        ctx += riwayat.length ? riwayat.map(s => `- ${s.tanggal}: ${s.status_sesi} | ${s.jurnal_materi}`).join('\n') : "Belum ada riwayat.";
-        const hasil = await callGeminiAPI(`${ctx}\n\nBerikan analisis perkembangan belajar dan rekomendasi strategi tutor. Maks 3 kalimat.`);
-        document.getElementById('aiModalTitle').innerHTML = `<i class="fa-solid fa-brain"></i> Analisis: ${siswa.nama_siswa}`;
-        document.getElementById('aiModalContent').innerText = hasil.trim();
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n" + err.message); }
-    finally { showLoading(false); }
+    };
+    
+    html2pdf().set(opt).from(element).save().then(() => {
+        showLoading(false);
+        showToast("PDF berhasil diunduh!");
+    }).catch(err => {
+        showLoading(false);
+        showToast("Gagal mengekspor PDF.", "error");
+    });
 }
 </script>
 </body>
