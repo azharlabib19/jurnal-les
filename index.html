@@ -19,11 +19,9 @@
         }
         .hide-scrollbar::-webkit-scrollbar { display:none; }
         .hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
-        /* Jadwal checkbox grid */
         .hari-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
         .hari-btn { padding:6px 2px; border-radius:8px; border:2px solid #e5e7eb; font-size:11px; font-weight:700; text-align:center; cursor:pointer; transition:all 0.15s; color:#6b7280; background:white; }
         .hari-btn.active { border-color:#3b82f6; background:#eff6ff; color:#1d4ed8; }
-        /* Notif pulse */
         @keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:.6} }
         .pulse-red { animation: pulse-red 2s infinite; }
     </style>
@@ -32,7 +30,6 @@
 <div id="app-container">
 
     <!-- ===== MODALS ===== -->
-    <!-- AI Modal -->
     <div id="aiModal" class="fixed inset-0 bg-black bg-opacity-60 z-[1000002] flex items-center justify-center hide p-4 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
             <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 flex justify-between items-center">
@@ -46,7 +43,6 @@
         </div>
     </div>
 
-    <!-- Confirm Modal -->
     <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-60 z-[1000003] flex items-center justify-center hide p-4 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
             <div class="p-6 text-center">
@@ -63,7 +59,6 @@
         </div>
     </div>
 
-    <!-- Prompt Modal -->
     <div id="promptModal" class="fixed inset-0 bg-black bg-opacity-60 z-[1000003] flex items-center justify-center hide p-4 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
             <div class="p-6">
@@ -78,7 +73,6 @@
         </div>
     </div>
 
-    <!-- Loading -->
     <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-[1000000] flex items-center justify-center hide">
         <div class="bg-white p-5 rounded-lg flex flex-col items-center">
             <div class="spinner mb-3"></div>
@@ -86,7 +80,6 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div id="toast" class="fixed top-5 right-5 z-[1000000] px-4 py-3 rounded shadow-lg text-white font-bold transition-opacity duration-300 opacity-0 pointer-events-none"></div>
 
     <!-- ===== LOGIN ===== -->
@@ -116,11 +109,9 @@
     <!-- ===== MAIN LAYOUT ===== -->
     <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col bg-gray-50 overflow-hidden">
 
-        <!-- Header -->
         <div class="flex-none bg-blue-800 text-white p-4 shadow-md flex justify-between items-center z-40">
             <div class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-graduation-cap"></i> LBB SAINSPIQ</div>
             <div class="flex items-center gap-2">
-                <!-- Notif Bell (admin only) -->
                 <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-blue-700 hover:bg-blue-600 p-2 rounded-full transition">
                     <i class="fa-solid fa-bell text-white"></i>
                     <span id="notifBadge" class="hide absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center pulse-red">0</span>
@@ -130,7 +121,6 @@
             </div>
         </div>
 
-        <!-- Pages Container -->
         <div id="pagesContainer" class="flex-1 overflow-y-auto p-4 md:p-6 w-full relative">
             <div class="max-w-4xl mx-auto space-y-6 pb-6">
 
@@ -138,7 +128,6 @@
                 <div id="pageDashboard" class="page-content hide">
                     <h2 class="text-2xl font-bold text-gray-800 mb-5 hide">Dashboard</h2>
 
-                    <!-- Banner -->
                     <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 shadow-lg text-white mb-6 flex items-center gap-5 relative overflow-hidden mt-2">
                         <div class="absolute -right-6 -top-6 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
                         <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-3 right-3 text-white hover:text-yellow-300 bg-black/30 rounded-full p-2 w-8 h-8 flex items-center justify-center z-20">
@@ -153,10 +142,8 @@
                         </div>
                     </div>
 
-                    <!-- Stats Cards -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6" id="dashboardStats"></div>
 
-                    <!-- ===== NOTIFIKASI MISSING SESI (Admin Only) ===== -->
                     <div id="missingSesiCard" class="hide mb-6">
                         <div class="bg-white rounded-2xl shadow-sm border border-red-100 overflow-hidden">
                             <div class="bg-gradient-to-r from-red-500 to-orange-500 px-6 py-4 flex items-center justify-between">
@@ -211,11 +198,9 @@
                 <!-- ===== PAGE: DATA SISWA ===== -->
                 <div id="pageDataSiswa" class="page-content hide">
                     <h2 class="text-2xl font-bold text-gray-800 mb-5">Kelola Data Siswa</h2>
-
                     <form id="formSiswa" onsubmit="handleSaveSiswa(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
                         <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-user-plus text-blue-500"></i> Tambah / Edit Siswa</h3>
                         <input type="hidden" id="siswaIdInput">
-
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2 text-sm">Nama Siswa</label>
@@ -226,7 +211,6 @@
                                 <input type="text" id="siswaProgram" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" required>
                             </div>
                         </div>
-
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
                             <div class="md:col-span-2">
                                 <label class="block text-gray-700 font-medium mb-2 text-sm">Alamat Rumah Lengkap</label>
@@ -238,14 +222,10 @@
                                 <p class="text-xs text-gray-400 mt-1">Isi total sesi paket baru</p>
                             </div>
                         </div>
-
-                        <!-- ===== JADWAL LES ===== -->
                         <div class="mb-6 bg-blue-50 p-4 rounded-xl border border-blue-100">
                             <label class="block text-gray-700 font-bold mb-3 text-sm flex items-center gap-2">
                                 <i class="fa-solid fa-calendar-days text-blue-500"></i> Jadwal Les Rutin
                             </label>
-
-                            <!-- Hari dalam seminggu -->
                             <div class="mb-3">
                                 <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Pilih Hari</p>
                                 <div class="hari-grid" id="jadwalHariGrid">
@@ -258,24 +238,19 @@
                                     <button type="button" data-hari="Minggu" onclick="toggleHari(this)" class="hari-btn">Min</button>
                                 </div>
                             </div>
-
-                            <!-- Tanggal spesifik per bulan -->
                             <div>
                                 <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Atau Tanggal Tetap Per Bulan <span class="normal-case font-normal text-gray-400">(pisahkan dengan koma, cth: 1,8,15,22)</span></p>
                                 <input type="text" id="siswaTanggalTetap" class="w-full px-3 py-2 border border-blue-200 rounded-lg bg-white focus:outline-none focus:border-blue-400 text-sm" placeholder="Cth: 1, 8, 15, 22">
                             </div>
-
                             <p class="text-xs text-blue-600 font-medium mt-2 flex items-center gap-1">
                                 <i class="fa-solid fa-circle-info"></i> Bisa pilih keduanya. Notifikasi muncul jika sesi belum diinput setelah jam 20.00.
                             </p>
                         </div>
-
                         <div class="flex gap-3">
                             <button type="submit" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 shadow-sm">Simpan Siswa</button>
                             <button type="button" onclick="resetFormSiswa()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200">Batal</button>
                         </div>
                     </form>
-
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="w-full text-left">
@@ -297,7 +272,6 @@
                 <!-- ===== PAGE: DATA GURU ===== -->
                 <div id="pageDataGuru" class="page-content hide">
                     <h2 class="text-2xl font-bold text-gray-800 mb-5">Kelola Data Guru / Tutor</h2>
-
                     <form id="formGuru" onsubmit="handleSaveGuru(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
                         <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-solid fa-chalkboard-user text-blue-500"></i> Tambah / Edit Tutor</h3>
                         <input type="hidden" id="guruUsernameOld">
@@ -326,7 +300,6 @@
                             <button type="button" onclick="resetFormGuru()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200">Batal</button>
                         </div>
                     </form>
-
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="w-full text-left">
@@ -501,76 +474,231 @@
             </div>
         </div>
 
-        <!-- Bottom Nav -->
         <div class="flex-none w-full bg-white border-t border-gray-200 flex justify-around shadow-[0_-4px_15px_rgba(0,0,0,0.05)] z-50 px-1 pt-1 pb-safe" id="mobileNav"></div>
     </div>
 </div>
 
 <script>
-// ========================================================
-// CONFIG SUPABASE
-// ========================================================
+// ============================================================
+// ⚡ KONFIGURASI — GANTI INI SETELAH DEPLOY APPS SCRIPT
+// ============================================================
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyii6ezVGHpYaai5Ds9WUDjoZq0YUE6DJxganwSlJiB5lL-mo5w8bKDsnacYO89oE5t/exec";
+// Contoh: "https://script.google.com/macros/s/AKfycb.../exec"
+
+// ============================================================
+// CONFIG SUPABASE (tidak berubah)
+// ============================================================
 const SUPABASE_URL = "https://napymkogkzwtvdjictip.supabase.co".trim();
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHlta29na3p3dHZkamljdGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2OTM5NDIsImV4cCI6MjA5MzI2OTk0Mn0.t3r51kXGSBoZuzZh35htYzRviWZTnhukpsJbd_hjIrc".trim();
 const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const GEMINI_KEY = "AIzaSyDikPlSbpLGTJU3uwHE1mjPTkTcw9iw_Uk";
-const NOTIF_HOUR = 20; // jam 20.00
+const NOTIF_HOUR = 20;
 
 let currentUser = null;
 let dataSiswa = [];
 let dataSesi = [];
 let dataGuru = [];
 
-// ========================================================
-// HELPER: HARI & JADWAL
-// ========================================================
-const NAMA_HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-
-function getTodayName() {
-    return NAMA_HARI[new Date().getDay()];
-}
-
-function getTodayDate() {
-    // format YYYY-MM-DD
-    return new Date().toISOString().split('T')[0];
-}
-
-function getTodayTanggal() {
-    return new Date().getDate();
-}
-
-function getCurrentHour() {
-    return new Date().getHours();
-}
+// ============================================================
+// ✅ FUNGSI AI BARU — Semua lewat Google Apps Script
+// ============================================================
 
 /**
- * Cek apakah siswa punya jadwal hari ini
- * jadwal_hari: "Senin,Rabu,Jumat"
- * jadwal_tanggal: "1,8,15,22"
+ * Fungsi utama: panggil backend GAS untuk semua fitur AI
+ * @param {string} action - nama action (enhanceJurnal, reportNarrative, teachingIdeas, analyzeStudent)
+ * @param {object} payload - data yang dikirim
+ * @returns {string} - teks hasil dari Gemini
  */
+async function callAIBackend(action, payload) {
+    if (!GAS_URL || GAS_URL === "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI") {
+        throw new Error("URL Google Apps Script belum dikonfigurasi. Hubungi admin.");
+    }
+
+    const response = await fetch(GAS_URL, {
+        method: "POST",
+        // CATATAN: Google Apps Script tidak menerima Content-Type: application/json
+        // saat mode=no-cors. Gunakan text/plain agar CORS tidak bermasalah.
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ action, payload })
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.error) {
+        throw new Error(data.error);
+    }
+
+    return data.result;
+}
+
+// ============================================================
+// FITUR AI 1: Rapikan Jurnal
+// ============================================================
+async function enhanceJurnalWithAI() {
+    const textarea = document.getElementById('sesiJurnal');
+    const raw = textarea.value.trim();
+    const btn = document.getElementById('btnAIEnhance');
+    const icon = btn.querySelector('i');
+    const txt = document.getElementById('textAIEnhance');
+
+    if (!raw) { showToast("Ketik catatan kasar dulu!", "error"); return; }
+
+    icon.className = "fa-solid fa-spinner fa-spin";
+    txt.innerText = "Memproses...";
+    btn.disabled = true;
+
+    try {
+        const result = await callAIBackend("enhanceJurnal", { rawText: raw });
+        textarea.value = result;
+        showToast("✨ Jurnal disempurnakan AI!");
+    } catch (err) {
+        alert("GAGAL AI ❌\n\n" + err.message);
+    } finally {
+        icon.className = "fa-solid fa-wand-magic-sparkles";
+        txt.innerText = "✨ Rapikan AI";
+        btn.disabled = false;
+    }
+}
+
+// ============================================================
+// FITUR AI 2: Narasi Evaluasi untuk Laporan
+// ============================================================
+async function generateReportNarrativeWithAI() {
+    const rows = document.getElementById('reportTableBody').querySelectorAll('tr');
+    const btn = document.getElementById('btnAINarrative');
+    const icon = btn.querySelector('i');
+    const txt = document.getElementById('textAINarrative');
+
+    if (!rows.length || rows[0].innerText.includes('Tidak ada data')) {
+        showToast("Tidak ada data sesi.", "error");
+        return;
+    }
+
+    const journals = Array.from(rows).map(r => {
+        const c = r.querySelectorAll('td');
+        return c.length === 4
+            ? `- Tanggal: ${c[0].innerText}, Materi: ${c[3].innerText}`
+            : null;
+    }).filter(Boolean);
+
+    const namaSiswa = document.getElementById('reportSiswaName').innerText;
+
+    icon.className = "fa-solid fa-spinner fa-spin";
+    txt.innerText = "Menulis...";
+    btn.disabled = true;
+
+    try {
+        const hasil = await callAIBackend("reportNarrative", {
+            namaSiswa,
+            journals
+        });
+
+        document.getElementById('aiNarrativeText').innerText = hasil;
+        document.getElementById('aiNarrativeContainer').classList.remove('hide');
+
+        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Evaluasi AI';
+        document.getElementById('aiModalContent').innerText = "Teks ini sudah ditambahkan ke PDF:\n\n" + hasil;
+        document.getElementById('aiModal').classList.remove('hide');
+    } catch (err) {
+        alert("GAGAL AI ❌\n\n" + err.message);
+    } finally {
+        icon.className = "fa-solid fa-wand-magic-sparkles";
+        txt.innerText = "Buat Evaluasi AI untuk Ortu";
+        btn.disabled = false;
+    }
+}
+
+// ============================================================
+// FITUR AI 3: Ide Mengajar
+// ============================================================
+async function getTeachingIdeasWithAI() {
+    const topic = document.getElementById('aiTopicInput').value.trim();
+    const btn = document.getElementById('btnAIIdeas');
+    const icon = btn.querySelector('i');
+    const txt = btn.querySelector('span');
+
+    if (!topic) { showToast("Masukkan topik dulu!", "error"); return; }
+
+    icon.className = "fa-solid fa-spinner fa-spin";
+    txt.innerText = "Mencari...";
+    btn.disabled = true;
+
+    try {
+        const hasil = await callAIBackend("teachingIdeas", { topic });
+
+        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-500"></i> Ide Mengajar';
+        document.getElementById('aiModalContent').innerText = hasil;
+        document.getElementById('aiModal').classList.remove('hide');
+    } catch (err) {
+        alert("GAGAL AI ❌\n\n" + err.message);
+    } finally {
+        icon.className = "fa-solid fa-wand-magic-sparkles";
+        txt.innerText = "✨ Cari Ide";
+        btn.disabled = false;
+    }
+}
+
+// ============================================================
+// FITUR AI 4: Analisis Siswa
+// ============================================================
+async function analyzeStudentWithAI(id) {
+    const siswa = dataSiswa.find(s => s.id_siswa === id);
+    if (!siswa) return;
+
+    showLoading(true, "Menganalisis...");
+
+    try {
+        const sesi = (await apiCall('getSesi')) || [];
+        const filtered = currentUser.role === 'guru'
+            ? sesi.filter(s => s.id_guru === currentUser.username)
+            : sesi;
+        const riwayat = filtered.filter(s => s.id_siswa === id);
+
+        const riwayatArr = riwayat.map(s => `- ${s.tanggal}: ${s.status_sesi} | ${s.jurnal_materi}`);
+
+        const hasil = await callAIBackend("analyzeStudent", {
+            namaSiswa: siswa.nama_siswa,
+            kelas: siswa.kelas || siswa.program_les || '-',
+            sisaSesi: siswa.sisa_sesi,
+            jadwal: formatJadwal(siswa),
+            riwayat: riwayatArr
+        });
+
+        document.getElementById('aiModalTitle').innerHTML = `<i class="fa-solid fa-brain"></i> Analisis: ${siswa.nama_siswa}`;
+        document.getElementById('aiModalContent').innerText = hasil;
+        document.getElementById('aiModal').classList.remove('hide');
+    } catch (err) {
+        alert("GAGAL AI ❌\n\n" + err.message);
+    } finally {
+        showLoading(false);
+    }
+}
+
+// ============================================================
+// HELPER: HARI & JADWAL
+// ============================================================
+const NAMA_HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+function getTodayName() { return NAMA_HARI[new Date().getDay()]; }
+function getTodayDate() { return new Date().toISOString().split('T')[0]; }
+function getTodayTanggal() { return new Date().getDate(); }
+function getCurrentHour() { return new Date().getHours(); }
+
 function siswaJadwalHariIni(siswa) {
     const hariIni = getTodayName();
     const tglIni = getTodayTanggal();
-
-    let adaJadwalHari = false;
-    let adaJadwalTgl = false;
-
+    let adaJadwalHari = false, adaJadwalTgl = false;
     if (siswa.jadwal_hari && siswa.jadwal_hari.trim() !== '') {
-        const hariArr = siswa.jadwal_hari.split(',').map(h => h.trim());
-        adaJadwalHari = hariArr.includes(hariIni);
+        adaJadwalHari = siswa.jadwal_hari.split(',').map(h => h.trim()).includes(hariIni);
     }
-
     if (siswa.jadwal_tanggal && siswa.jadwal_tanggal.trim() !== '') {
-        const tglArr = siswa.jadwal_tanggal.split(',').map(t => parseInt(t.trim()));
-        adaJadwalTgl = tglArr.includes(tglIni);
+        adaJadwalTgl = siswa.jadwal_tanggal.split(',').map(t => parseInt(t.trim())).includes(tglIni);
     }
-
     return adaJadwalHari || adaJadwalTgl;
 }
 
-/**
- * Format jadwal untuk ditampilkan
- */
 function formatJadwal(siswa) {
     let parts = [];
     if (siswa.jadwal_hari && siswa.jadwal_hari.trim()) {
@@ -582,20 +710,13 @@ function formatJadwal(siswa) {
     return parts.length > 0 ? parts.join(' | ') : '<span class="text-gray-400 italic text-xs">Belum diatur</span>';
 }
 
-// ========================================================
-// JADWAL FORM HELPER
-// ========================================================
-function toggleHari(btn) {
-    btn.classList.toggle('active');
-}
+function toggleHari(btn) { btn.classList.toggle('active'); }
 
 function getSelectedHari() {
-    const btns = document.querySelectorAll('#jadwalHariGrid .hari-btn.active');
-    return Array.from(btns).map(b => b.dataset.hari).join(',');
+    return Array.from(document.querySelectorAll('#jadwalHariGrid .hari-btn.active')).map(b => b.dataset.hari).join(',');
 }
 
 function setSelectedHari(hariStr) {
-    // Reset dulu
     document.querySelectorAll('#jadwalHariGrid .hari-btn').forEach(b => b.classList.remove('active'));
     if (!hariStr) return;
     const arr = hariStr.split(',').map(h => h.trim());
@@ -604,9 +725,9 @@ function setSelectedHari(hariStr) {
     });
 }
 
-// ========================================================
+// ============================================================
 // MODAL HELPERS
-// ========================================================
+// ============================================================
 function closeAiModal() { document.getElementById('aiModal').classList.add('hide'); }
 
 let confirmCallback = null;
@@ -659,9 +780,9 @@ function applyCustomBanner() {
     if (saved) document.getElementById('bannerText').innerText = saved;
 }
 
-// ========================================================
+// ============================================================
 // UI HELPERS
-// ========================================================
+// ============================================================
 function showLoading(show, text = "Memproses Data...") {
     document.getElementById('loadingText').innerText = text;
     document.getElementById('loadingOverlay').classList.toggle('hide', !show);
@@ -679,9 +800,9 @@ function scrollToTop() {
     if (c) c.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ========================================================
-// SUPABASE API
-// ========================================================
+// ============================================================
+// SUPABASE API (tidak berubah)
+// ============================================================
 async function apiCall(action, payload = {}) {
     try {
         if (action === 'login') {
@@ -760,7 +881,6 @@ async function apiCall(action, payload = {}) {
             let currentSisa = 0;
             const { data: sd } = await dbClient.from('siswa').select('sisa_sesi').eq('id_siswa', payload.id_siswa).maybeSingle();
             if (sd) currentSisa = parseInt(sd.sisa_sesi) || 0;
-
             if (!payload.id_sesi) {
                 const { error } = await dbClient.from('sesi_les').insert([{
                     id_sesi: "SESI-" + Date.now(), tanggal: payload.tanggal,
@@ -805,65 +925,44 @@ async function apiCall(action, payload = {}) {
     }
 }
 
-// ========================================================
+// ============================================================
 // NOTIFIKASI MISSING SESI
-// ========================================================
+// ============================================================
 async function checkMissingSesi() {
     if (currentUser.role !== 'admin') return;
-
     const jamSekarang = getCurrentHour();
-    // Hanya tampilkan notifikasi jika sudah jam 20.00 ke atas
     if (jamSekarang < NOTIF_HOUR) {
         document.getElementById('missingSesiCard').classList.add('hide');
         document.getElementById('btnNotifBell').classList.add('hide');
         return;
     }
-
     const today = getTodayDate();
-    
-    // Ambil semua sesi hari ini
     const { data: sesiHariIni } = await dbClient.from('sesi_les').select('id_siswa').eq('tanggal', today);
     const sudahInputIds = new Set((sesiHariIni || []).map(s => s.id_siswa));
-
-    // Cari siswa yang punya jadwal hari ini tapi belum diinput
     const missingSiswa = dataSiswa.filter(s => siswaJadwalHariIni(s) && !sudahInputIds.has(s.id_siswa));
-
-    // Update badge bell
     const bell = document.getElementById('btnNotifBell');
     const badge = document.getElementById('notifBadge');
-
     if (missingSiswa.length === 0) {
         document.getElementById('missingSesiCard').classList.add('hide');
         bell.classList.add('hide');
         return;
     }
-
-    // Tampilkan notifikasi
     bell.classList.remove('hide');
     badge.classList.remove('hide');
     badge.innerText = missingSiswa.length;
-
     document.getElementById('missingSesiCount').innerText = missingSiswa.length;
     document.getElementById('missingSesiCard').classList.remove('hide');
-
-    // Render tabel missing
     let html = '';
     for (const s of missingSiswa) {
-        // Cari tutor yang ditugaskan untuk siswa ini
         const tutorList = dataGuru.filter(g => (g.assigned_siswa || '').split(',').includes(s.id_siswa));
         const tutorNames = tutorList.map(g => g.nama_lengkap).join(', ') || '<span class="text-gray-400 italic">Belum ditugaskan</span>';
-
         const jadwalHariIni = [];
         if (s.jadwal_hari && siswaJadwalHariIni(s)) {
-            const hariArr = (s.jadwal_hari || '').split(',').map(h => h.trim());
-            const today_name = getTodayName();
-            if (hariArr.includes(today_name)) jadwalHariIni.push(today_name);
+            if (s.jadwal_hari.split(',').map(h => h.trim()).includes(getTodayName())) jadwalHariIni.push(getTodayName());
         }
         if (s.jadwal_tanggal) {
-            const tglArr = (s.jadwal_tanggal || '').split(',').map(t => parseInt(t.trim()));
-            if (tglArr.includes(getTodayTanggal())) jadwalHariIni.push('Tgl ' + getTodayTanggal());
+            if (s.jadwal_tanggal.split(',').map(t => parseInt(t.trim())).includes(getTodayTanggal())) jadwalHariIni.push('Tgl ' + getTodayTanggal());
         }
-
         html += `
             <tr class="hover:bg-red-50 transition">
                 <td class="p-3 text-sm font-bold text-gray-800 whitespace-nowrap">${s.nama_siswa}</td>
@@ -877,13 +976,11 @@ async function checkMissingSesi() {
                         <i class="fa-solid fa-plus"></i> Input Sesi
                     </button>
                 </td>
-            </tr>
-        `;
+            </tr>`;
     }
     document.getElementById('missingSesiBody').innerHTML = html;
 }
 
-// Shortcut: klik "Input Sesi" dari notifikasi
 function quickInputSesi(idSiswa) {
     navigate('input');
     setTimeout(() => {
@@ -892,9 +989,9 @@ function quickInputSesi(idSiswa) {
     }, 100);
 }
 
-// ========================================================
+// ============================================================
 // INIT & LOGIN
-// ========================================================
+// ============================================================
 window.onload = () => {
     applyCustomBanner();
     let savedUser = localStorage.getItem('les_user');
@@ -903,9 +1000,7 @@ window.onload = () => {
             currentUser = JSON.parse(savedUser);
             if (!currentUser?.username) throw new Error();
             initApp();
-        } catch (e) {
-            localStorage.removeItem('les_user');
-        }
+        } catch (e) { localStorage.removeItem('les_user'); }
     }
 };
 
@@ -943,16 +1038,15 @@ async function initApp() {
         document.getElementById('btnEditBanner').classList.remove('hide');
     }
     buildNavigation();
-    // Pre-load data
     dataSiswa = (await apiCall('getSiswa')) || [];
     dataGuru = (await apiCall('getGuru')) || [];
     loadSiswaOptions();
     navigate('dashboard');
 }
 
-// ========================================================
+// ============================================================
 // NAVIGATION
-// ========================================================
+// ============================================================
 function buildNavigation() {
     const menus = [
         { id: 'dashboard', icon: 'fa-home', text: 'Dashboard', access: 'all' },
@@ -987,16 +1081,13 @@ function navigate(page) {
     document.querySelectorAll('.page-content').forEach(el => el.classList.add('hide'));
     document.querySelectorAll('[id^="nav-m-"]').forEach(el => { el.classList.remove('text-blue-700'); el.classList.add('text-gray-600'); });
     document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => el.classList.remove('bg-blue-50', 'text-blue-700'));
-
     let targetId = '';
     if (page === 'dashboard') { targetId = 'pageDashboard'; loadDashboard(); }
     if (page === 'guru') { targetId = 'pageDataGuru'; loadDataGuruPage(); }
     if (page === 'siswa') { targetId = 'pageDataSiswa'; loadDataSiswaPage(); }
     if (page === 'input') { targetId = 'pageInputSesi'; document.getElementById('sesiTanggal').valueAsDate = new Date(); }
     if (page === 'rekap') { targetId = 'pageRekap'; populateFilterSiswa(); loadRiwayat(); }
-
     if (targetId) document.getElementById(targetId).classList.remove('hide');
-
     const mBtn = document.getElementById(`nav-m-${page}`);
     const mBg = document.getElementById(`nav-icon-bg-${page}`);
     if (mBtn) { mBtn.classList.remove('text-gray-600'); mBtn.classList.add('text-blue-700'); }
@@ -1004,25 +1095,22 @@ function navigate(page) {
     scrollToTop();
 }
 
-// ========================================================
+// ============================================================
 // DASHBOARD
-// ========================================================
+// ============================================================
 async function loadDashboard() {
     showLoading(true);
     try {
         dataSesi = (await apiCall('getSesi')) || [];
         dataSiswa = (await apiCall('getSiswa')) || [];
         dataGuru = (await apiCall('getGuru')) || [];
-
         let filtered = dataSesi;
         if (currentUser.role === 'guru') filtered = dataSesi.filter(s => s.id_guru === currentUser.username);
-
         const total = filtered.length;
         const selesai = filtered.filter(s => s.status_sesi === 'Selesai').length;
         const batal = filtered.filter(s => s.status_sesi === 'Batal').length;
         const reschedule = filtered.filter(s => s.status_sesi === 'Reschedule').length;
         const label = currentUser.role === 'admin' ? 'Total Sesi (Semua)' : 'Total Sesi Anda';
-
         document.getElementById('dashboardStats').innerHTML = `
             <div class="bg-white p-5 rounded-2xl shadow-sm border-b-4 border-blue-500 flex flex-col items-center text-center">
                 <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">${label}</p>
@@ -1040,10 +1128,7 @@ async function loadDashboard() {
                 <p class="text-[11px] md:text-sm text-gray-600 font-bold uppercase tracking-wide">Reschedule</p>
                 <h3 class="text-3xl font-black text-yellow-600 mt-2">${reschedule}</h3>
             </div>`;
-
-        // Cek missing sesi (admin only, jam >= 20)
         await checkMissingSesi();
-
     } catch (e) {
         console.error(e);
         document.getElementById('dashboardStats').innerHTML = '<p class="text-red-500 text-sm col-span-4">Gagal memuat data.</p>';
@@ -1051,9 +1136,9 @@ async function loadDashboard() {
     showLoading(false);
 }
 
-// ========================================================
+// ============================================================
 // CRUD SISWA
-// ========================================================
+// ============================================================
 async function loadSiswaOptions() {
     try {
         dataSiswa = (await apiCall('getSiswa')) || [];
@@ -1181,9 +1266,9 @@ async function topUpSesiSiswa(id) {
     });
 }
 
-// ========================================================
+// ============================================================
 // CRUD GURU
-// ========================================================
+// ============================================================
 async function loadDataGuruPage() {
     showLoading(true);
     try {
@@ -1196,7 +1281,6 @@ async function loadDataGuruPage() {
                     <input type="checkbox" name="assignSiswaCb" value="${s.id_siswa}" class="w-4 h-4 rounded text-blue-600">
                     <span class="text-gray-700 font-medium">${s.nama_siswa}</span>
                 </label>`).join('');
-
         dataGuru = (await apiCall('getGuru')) || [];
         let html = '';
         dataGuru.forEach(g => {
@@ -1271,9 +1355,9 @@ function resetFormGuru() {
     document.querySelectorAll('input[name="assignSiswaCb"]').forEach(cb => cb.checked = false);
 }
 
-// ========================================================
+// ============================================================
 // CRUD SESI
-// ========================================================
+// ============================================================
 async function handleSaveSesi(e) {
     e.preventDefault();
     const idSiswa = document.getElementById('sesiSiswa').value;
@@ -1308,14 +1392,12 @@ async function loadRiwayat() {
         dataSesi = (await apiCall('getSesi')) || [];
         let filtered = dataSesi;
         if (currentUser.role === 'guru') filtered = dataSesi.filter(s => s.id_guru === currentUser.username);
-
         const statusColors = {
             'Selesai': 'bg-green-100 text-green-800',
             'Batal': 'bg-red-100 text-red-800',
             'Reschedule': 'bg-yellow-100 text-yellow-800',
             'Libur': 'bg-gray-100 text-gray-600'
         };
-
         let html = '';
         filtered.forEach(s => {
             const badge = statusColors[s.status_sesi] || 'bg-gray-100 text-gray-600';
@@ -1431,104 +1513,6 @@ function exportToPDF() {
     }).from(document.getElementById('pdfContent')).save()
         .then(() => { showLoading(false); showToast("PDF berhasil diunduh!"); })
         .catch(() => { showLoading(false); showToast("Gagal ekspor PDF.", "error"); });
-}
-
-// ========================================================
-// GEMINI AI
-// ========================================================
-async function callGeminiAPI(promptText) {
-    const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest"];
-    let lastError = null;
-    for (const model of models) {
-        try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`, {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                const msg = data.error?.message || "Error API";
-                if (msg.toLowerCase().includes("not found")) { lastError = new Error(msg); continue; }
-                if (msg.toLowerCase().includes("api key not valid")) throw new Error("API Key tidak valid.");
-                throw new Error(msg);
-            }
-            return data.candidates[0].content.parts[0].text;
-        } catch (err) {
-            if (err.message.includes("not found")) { lastError = err; continue; }
-            if (err.message.includes("Failed to fetch")) throw new Error("Gagal terhubung ke AI. Cek koneksi internet.");
-            throw err;
-        }
-    }
-    throw new Error("AI tidak tersedia: " + lastError?.message);
-}
-
-async function enhanceJurnalWithAI() {
-    const textarea = document.getElementById('sesiJurnal');
-    const raw = textarea.value.trim();
-    const btn = document.getElementById('btnAIEnhance');
-    const icon = btn.querySelector('i');
-    const txt = document.getElementById('textAIEnhance');
-    if (!raw) { showToast("Ketik catatan kasar dulu!", "error"); return; }
-    icon.className = "fa-solid fa-spinner fa-spin"; txt.innerText = "Memproses..."; btn.disabled = true;
-    try {
-        textarea.value = (await callGeminiAPI(`Rapikan catatan guru les privat berikut menjadi satu paragraf jurnal profesional dalam bahasa Indonesia baku. Tambahkan satu kalimat saran untuk pertemuan berikutnya.\n\nCatatan: "${raw}"\n\nBerikan langsung hasilnya saja.`)).trim();
-        showToast("Jurnal disempurnakan AI!");
-    } catch (err) { alert("GAGAL AI ❌\n" + err.message); }
-    finally { icon.className = "fa-solid fa-wand-magic-sparkles"; txt.innerText = "✨ Rapikan AI"; btn.disabled = false; }
-}
-
-async function generateReportNarrativeWithAI() {
-    const rows = document.getElementById('reportTableBody').querySelectorAll('tr');
-    const btn = document.getElementById('btnAINarrative');
-    const icon = btn.querySelector('i');
-    const txt = document.getElementById('textAINarrative');
-    if (!rows.length || rows[0].innerText.includes('Tidak ada data')) { showToast("Tidak ada data sesi.", "error"); return; }
-    const journals = Array.from(rows).map(r => { const c = r.querySelectorAll('td'); return c.length === 4 ? `- Tanggal: ${c[0].innerText}, Materi: ${c[3].innerText}` : null; }).filter(Boolean);
-    const nama = document.getElementById('reportSiswaName').innerText;
-    icon.className = "fa-solid fa-spinner fa-spin"; txt.innerText = "Menulis..."; btn.disabled = true;
-    try {
-        const hasil = (await callGeminiAPI(`Buatkan narasi evaluasi belajar (maks 4 kalimat) untuk orang tua siswa ${nama}. Data:\n${journals.join('\n')}\nGunakan nada positif, tanpa salam.`)).trim();
-        document.getElementById('aiNarrativeText').innerText = hasil;
-        document.getElementById('aiNarrativeContainer').classList.remove('hide');
-        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Evaluasi AI';
-        document.getElementById('aiModalContent').innerText = "Teks ini sudah ditambahkan ke PDF:\n\n" + hasil;
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n" + err.message); }
-    finally { icon.className = "fa-solid fa-wand-magic-sparkles"; txt.innerText = "Buat Evaluasi AI untuk Ortu"; btn.disabled = false; }
-}
-
-async function getTeachingIdeasWithAI() {
-    const topic = document.getElementById('aiTopicInput').value.trim();
-    const btn = document.getElementById('btnAIIdeas');
-    const icon = btn.querySelector('i');
-    const txt = btn.querySelector('span');
-    if (!topic) { showToast("Masukkan topik dulu!", "error"); return; }
-    icon.className = "fa-solid fa-spinner fa-spin"; txt.innerText = "Mencari..."; btn.disabled = true;
-    try {
-        const hasil = await callGeminiAPI(`Berikan 3 ide aktivitas interaktif untuk mengajar: "${topic}". Jelaskan singkat dan menarik.`);
-        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-500"></i> Ide Mengajar';
-        document.getElementById('aiModalContent').innerText = hasil.trim();
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n" + err.message); }
-    finally { icon.className = "fa-solid fa-wand-magic-sparkles"; txt.innerText = "✨ Cari Ide"; btn.disabled = false; }
-}
-
-async function analyzeStudentWithAI(id) {
-    const siswa = dataSiswa.find(s => s.id_siswa === id);
-    if (!siswa) return;
-    showLoading(true, "Menganalisis...");
-    try {
-        const sesi = (await apiCall('getSesi')) || [];
-        const filtered = currentUser.role === 'guru' ? sesi.filter(s => s.id_guru === currentUser.username) : sesi;
-        const riwayat = filtered.filter(s => s.id_siswa === id);
-        let ctx = `Siswa: ${siswa.nama_siswa}\nKelas: ${siswa.kelas || '-'}\nSisa Sesi: ${siswa.sisa_sesi}\nJadwal: ${formatJadwal(siswa)}\nRiwayat:\n`;
-        ctx += riwayat.length ? riwayat.map(s => `- ${s.tanggal}: ${s.status_sesi} | ${s.jurnal_materi}`).join('\n') : "Belum ada riwayat.";
-        const hasil = await callGeminiAPI(`${ctx}\n\nBerikan analisis perkembangan belajar dan rekomendasi strategi tutor. Maks 3 kalimat.`);
-        document.getElementById('aiModalTitle').innerHTML = `<i class="fa-solid fa-brain"></i> Analisis: ${siswa.nama_siswa}`;
-        document.getElementById('aiModalContent').innerText = hasil.trim();
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n" + err.message); }
-    finally { showLoading(false); }
 }
 </script>
 </body>
