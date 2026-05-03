@@ -1273,7 +1273,7 @@ async function handleLogin(e) {
         });
         localStorage.setItem('les_user', JSON.stringify(currentUser));
         initApp();
-        showToast("Login Berhasil! Selamat datang 👋");
+        showToast("Login Berhasil!");
     } catch (err) {
         showLoading(false);
         showToast("Username atau Password salah!", "error");
