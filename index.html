@@ -809,7 +809,7 @@
 // ============================================================
 // ⚡ KONFIGURASI
 // ============================================================
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzwv7PaavCKapVmD-sJM6luwA1exVwO1QJXaCu4EdCn0TxU5NH3T71jR-MuZYHiDoZl/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzPlLPsGRyHduSdJzqQuCbJFn5wbJ6op1NWGuA8Y7afD-4QXPeNOtViq4DxQ4FH758j/exec";
 
 const SUPABASE_URL = "https://napymkogkzwtvdjictip.supabase.co".trim();
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHlta29na3p3dHZkamljdGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2OTM5NDIsImV4cCI6MjA5MzI2OTk0Mn0.t3r51kXGSBoZuzZh35htYzRviWZTnhukpsJbd_hjIrc".trim();
@@ -825,7 +825,7 @@ let dataGuru = [];
 // ✅ AI BACKEND
 // ============================================================
 async function callAIBackend(action, payload) {
-    if (!GAS_URL) {"https://script.google.com/macros/s/AKfycbzwv7PaavCKapVmD-sJM6luwA1exVwO1QJXaCu4EdCn0TxU5NH3T71jR-MuZYHiDoZl/exec") {
+    if (!GAS_URL || GAS_URL === "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI") {
         throw new Error("URL Google Apps Script belum dikonfigurasi. Hubungi admin.");
     }
     const response = await fetch(GAS_URL, {
@@ -1273,7 +1273,7 @@ async function handleLogin(e) {
         });
         localStorage.setItem('les_user', JSON.stringify(currentUser));
         initApp();
-        showToast("Login Berhasil!");
+        showToast("Login Berhasil! Selamat datang 👋");
     } catch (err) {
         showLoading(false);
         showToast("Username atau Password salah!", "error");
