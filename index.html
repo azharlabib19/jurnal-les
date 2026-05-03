@@ -825,7 +825,7 @@ let dataGuru = [];
 // ✅ AI BACKEND
 // ============================================================
 async function callAIBackend(action, payload) {
-    if (!GAS_URL || GAS_URL === "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI") {
+    if (!GAS_URL || GAS_URL === "https://script.google.com/macros/s/AKfycbx4gYaoGqfftt02AyeG0E73RMULLOTHa8FLWsggkQ2NBsKcQMdopraJCpQW97CJzm0s/exec") {
         throw new Error("URL Google Apps Script belum dikonfigurasi. Hubungi admin.");
     }
     const response = await fetch(GAS_URL, {
