@@ -39,6 +39,7 @@
         }
         .hide { display: none !important; }
 
+        /* ── Spinner ── */
         .spinner {
             border: 3px solid rgba(59,130,246,0.15);
             border-top: 3px solid var(--primary-light);
@@ -47,12 +48,14 @@
         }
         @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
 
+        /* ── Safe area ── */
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
             .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem) !important; }
         }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+        /* ── Hari grid ── */
         .hari-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
         .hari-btn {
             padding: 7px 2px; border-radius: 10px; border: 2px solid var(--border);
@@ -64,7 +67,7 @@
         @keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:.6} }
         .pulse-red { animation: pulse-red 2s infinite; }
 
-        /* LOGIN */
+        /* ── LOGIN PAGE ── */
         #pageLogin {
             background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1e40af 100%);
         }
@@ -94,36 +97,59 @@
             box-shadow: 0 8px 32px rgba(59,130,246,0.4);
             transition: all 0.2s;
         }
-        .login-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 40px rgba(59,130,246,0.5); }
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 40px rgba(59,130,246,0.5);
+        }
         .login-btn:active { transform: translateY(0); }
-        .login-orb { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; }
+        .login-orb {
+            position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none;
+        }
         .login-label { color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 
-        /* TOAST */
+        /* ── TOAST — centered, modern ── */
         #toast {
             position: fixed;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%) scale(0.85);
             z-index: 10000010;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
-            display: flex; align-items: center; gap: 12px;
-            padding: 16px 24px; border-radius: 20px;
-            font-family: var(--font); font-weight: 700; font-size: 15px; line-height: 1.4;
-            max-width: 340px; text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            border-radius: 20px;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 15px;
+            line-height: 1.4;
+            max-width: 340px;
+            text-align: left;
             backdrop-filter: blur(12px);
             box-shadow: 0 20px 60px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.1);
         }
-        #toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        #toast.success { background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; }
-        #toast.error { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white; }
+        #toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        #toast.success {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+        }
+        #toast.error {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+        }
         .toast-icon {
             width: 36px; height: 36px; border-radius: 10px;
             background: rgba(255,255,255,0.2);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0; font-size: 16px;
         }
+        /* Toast backdrop */
         #toastBackdrop {
             position: fixed; inset: 0;
             background: rgba(0,0,0,0.15);
@@ -134,26 +160,30 @@
         }
         #toastBackdrop.show { opacity: 1; }
 
-        /* HEADER */
+        /* ── HEADER ── */
         .app-header {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 60%, #2563eb 100%);
             box-shadow: 0 2px 20px rgba(30,58,138,0.3);
         }
 
-        /* CARDS */
+        /* ── CARDS ── */
         .stat-card {
-            background: white; border-radius: 20px;
+            background: white;
+            border-radius: 20px;
             border: 1px solid var(--border);
             box-shadow: 0 1px 8px rgba(0,0,0,0.04);
             transition: transform 0.15s, box-shadow 0.15s;
         }
         .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
 
-        /* NAV */
+        /* ── NAV ── */
         .nav-btn { transition: all 0.15s; }
-        .nav-btn.active .nav-pill { background: #eff6ff; color: var(--primary); }
+        .nav-btn.active .nav-pill {
+            background: #eff6ff;
+            color: var(--primary);
+        }
 
-        /* FORM */
+        /* ── FORM INPUTS ── */
         .form-input {
             width: 100%; padding: 10px 16px;
             border: 1.5px solid var(--border);
@@ -168,7 +198,7 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
         }
 
-        /* LOADING */
+        /* ── LOADING OVERLAY ── */
         #loadingOverlay {
             position: fixed; inset: 0;
             background: rgba(15,23,42,0.6);
@@ -182,7 +212,7 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
 
-        /* MODAL */
+        /* ── MODAL ── */
         .modal-backdrop {
             position: fixed; inset: 0;
             background: rgba(15,23,42,0.7);
@@ -197,7 +227,7 @@
             width: 100%; overflow: hidden;
         }
 
-        /* BANNER */
+        /* ── BANNER GRADIENT ── */
         .welcome-banner {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #7c3aed 100%);
             border-radius: 20px;
@@ -205,7 +235,7 @@
             overflow: hidden; position: relative;
         }
 
-        /* TABLE */
+        /* ── TABLE ── */
         .data-table { width: 100%; border-collapse: collapse; }
         .data-table thead tr { background: #f1f5f9; }
         .data-table thead th { padding: 14px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; }
@@ -213,40 +243,34 @@
         .data-table tbody tr:hover { background: #f8fafc; }
         .data-table tbody td { padding: 14px 16px; font-size: 13.5px; }
 
+        /* ── SCROLLBAR CUSTOM ── */
         #pagesContainer::-webkit-scrollbar { width: 5px; }
         #pagesContainer::-webkit-scrollbar-track { background: transparent; }
         #pagesContainer::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
+        /* Animations */
         @keyframes fadeSlideIn {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .page-content:not(.hide) { animation: fadeSlideIn 0.25s ease; }
 
+        /* AI gradient text */
         .ai-label { background: linear-gradient(135deg, #7c3aed, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-        /* AI KEY INPUT */
-        .api-key-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            padding: 6px 12px; border-radius: 20px; cursor: pointer;
-            transition: all 0.2s; font-size: 12px; color: white;
-        }
-        .api-key-badge:hover { background: rgba(255,255,255,0.18); }
-        .api-key-badge.connected { border-color: rgba(52,211,153,0.5); color: #6ee7b7; }
     </style>
 </head>
 <body>
 <div id="app-container">
 
-    <!-- TOAST -->
+    <!-- ===== TOAST ===== -->
     <div id="toastBackdrop"></div>
     <div id="toast">
         <div class="toast-icon" id="toastIcon"></div>
         <div id="toastMsg"></div>
     </div>
 
-    <!-- AI MODAL -->
+    <!-- ===== MODALS ===== -->
+    <!-- AI Modal -->
     <div id="aiModal" class="modal-backdrop hide">
         <div class="modal-card max-w-lg flex flex-col max-h-[90vh]">
             <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5)" class="p-5 flex justify-between items-center">
@@ -264,32 +288,7 @@
         </div>
     </div>
 
-    <!-- API KEY MODAL -->
-    <div id="apiKeyModal" class="modal-backdrop hide">
-        <div class="modal-card max-w-sm">
-            <div class="p-7">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
-                        <i class="fa-solid fa-key text-indigo-500"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-gray-900 font-bold text-lg">Anthropic API Key</h3>
-                        <p class="text-gray-500 text-xs">Diperlukan untuk fitur AI</p>
-                    </div>
-                </div>
-                <p class="text-gray-600 text-sm mb-4">Masukkan API Key dari <a href="https://console.anthropic.com" target="_blank" class="text-indigo-600 font-semibold hover:underline">console.anthropic.com</a>. Disimpan hanya di browser Anda.</p>
-                <input type="password" id="apiKeyInput"
-                    class="form-input mb-2" placeholder="sk-ant-api03-...">
-                <p class="text-xs text-gray-400 mb-5"><i class="fa-solid fa-lock"></i> Key disimpan di localStorage, tidak dikirim ke server selain Anthropic.</p>
-                <div class="flex gap-3">
-                    <button onclick="closeApiKeyModal()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-4 py-3 rounded-xl hover:bg-gray-200 transition">Batal</button>
-                    <button onclick="saveApiKey()" class="flex-1 bg-indigo-600 text-white font-bold px-4 py-3 rounded-xl hover:bg-indigo-700 transition">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CONFIRM MODAL -->
+    <!-- Confirm Modal -->
     <div id="confirmModal" class="modal-backdrop hide">
         <div class="modal-card max-w-sm">
             <div class="p-7 text-center">
@@ -306,7 +305,7 @@
         </div>
     </div>
 
-    <!-- PROMPT MODAL -->
+    <!-- Prompt Modal -->
     <div id="promptModal" class="modal-backdrop hide">
         <div class="modal-card max-w-sm">
             <div class="p-7">
@@ -322,7 +321,7 @@
         </div>
     </div>
 
-    <!-- LOADING -->
+    <!-- Loading -->
     <div id="loadingOverlay" class="hide">
         <div class="loading-box">
             <div class="spinner"></div>
@@ -330,13 +329,15 @@
         </div>
     </div>
 
-    <!-- LOGIN -->
+    <!-- ===== LOGIN ===== -->
     <div id="pageLogin" class="absolute inset-0 w-full h-full flex items-center justify-center p-5 z-50 overflow-auto">
+        <!-- Background orbs -->
         <div class="login-orb w-80 h-80 bg-blue-500/20" style="top:-10%;left:-10%"></div>
         <div class="login-orb w-64 h-64 bg-indigo-600/25" style="bottom:5%;right:-8%"></div>
         <div class="login-orb w-48 h-48 bg-violet-600/20" style="top:40%;left:60%"></div>
 
         <div class="login-card rounded-3xl p-8 w-full max-w-md relative z-10">
+            <!-- Logo/Brand -->
             <div class="text-center mb-10">
                 <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5"
                     style="background:linear-gradient(135deg,rgba(96,165,250,0.25),rgba(167,139,250,0.25));border:1px solid rgba(255,255,255,0.2)">
@@ -345,6 +346,7 @@
                 <h1 class="font-bold text-white text-3xl tracking-tight" style="font-family:'DM Serif Display',serif">LBB SAINSPIQ</h1>
                 <p class="mt-2 text-sm" style="color:rgba(255,255,255,0.45)">Sistem Jurnal Les Privat Digital</p>
             </div>
+
             <form onsubmit="handleLogin(event)" class="space-y-5">
                 <div>
                     <label class="login-label block mb-2">Username</label>
@@ -372,13 +374,14 @@
                     MASUK SEKARANG
                 </button>
             </form>
+
             <p class="text-center mt-7 text-xs" style="color:rgba(255,255,255,0.25)">
                 © 2024 LBB SAINSPIQ · All rights reserved
             </p>
         </div>
     </div>
 
-    <!-- MAIN LAYOUT -->
+    <!-- ===== MAIN LAYOUT ===== -->
     <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col overflow-hidden" style="background:#f1f5f9">
 
         <!-- Header -->
@@ -394,12 +397,6 @@
                     <i class="fa-solid fa-bell text-sm"></i>
                     <span id="notifBadge" class="hide absolute -top-1 -right-1 bg-amber-400 text-gray-900 text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center pulse-red" style="width:18px;height:18px">0</span>
                 </button>
-                <!-- Tombol AI Key -->
-                <button onclick="openApiKeyModal()" id="btnApiKeyStatus"
-                    class="api-key-badge text-xs font-semibold">
-                    <i class="fa-solid fa-robot text-xs"></i>
-                    <span id="apiKeyStatusText">AI: Belum Aktif</span>
-                </button>
                 <div class="text-xs bg-white/10 border border-white/15 px-3 py-1.5 rounded-full font-semibold hidden sm:block">
                     Hi, <span id="desktopUserName" class="font-extrabold"></span>
                 </div>
@@ -413,8 +410,10 @@
         <div id="pagesContainer" class="flex-1 overflow-y-auto px-4 py-5 md:px-6">
             <div class="max-w-4xl mx-auto space-y-5 pb-6">
 
-                <!-- DASHBOARD -->
+                <!-- ===== DASHBOARD ===== -->
                 <div id="pageDashboard" class="page-content hide">
+
+                    <!-- Welcome Banner -->
                     <div class="welcome-banner p-6 text-white mb-5 flex items-center gap-5 relative mt-1">
                         <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 80% 20%, white 0%, transparent 60%)"></div>
                         <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-3 right-3 text-white/70 hover:text-amber-300 bg-black/20 rounded-full p-2 w-8 h-8 flex items-center justify-center z-20 transition">
@@ -429,8 +428,10 @@
                         </div>
                     </div>
 
+                    <!-- Stats -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5" id="dashboardStats"></div>
 
+                    <!-- Missing Sesi -->
                     <div id="missingSesiCard" class="hide mb-5">
                         <div class="bg-white rounded-2xl overflow-hidden border border-red-100 shadow-sm">
                             <div style="background:linear-gradient(135deg,#ef4444,#f97316)" class="px-5 py-4 flex items-center justify-between">
@@ -447,7 +448,15 @@
                             </div>
                             <div class="overflow-x-auto">
                                 <table class="data-table">
-                                    <thead><tr><th>Siswa</th><th>Program / Kelas</th><th>Jadwal Hari Ini</th><th>Tutor</th><th>Aksi</th></tr></thead>
+                                    <thead>
+                                        <tr>
+                                            <th>Siswa</th>
+                                            <th>Program / Kelas</th>
+                                            <th>Jadwal Hari Ini</th>
+                                            <th>Tutor</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
                                     <tbody id="missingSesiBody"></tbody>
                                 </table>
                             </div>
@@ -462,13 +471,9 @@
                         <div class="relative z-10">
                             <h3 class="font-extrabold text-gray-900 text-base mb-1.5 flex items-center gap-2">
                                 <i class="fa-solid fa-lightbulb text-amber-400"></i>
-                                <span class="ai-label">✨ AI Asisten Mengajar (Claude)</span>
+                                <span class="ai-label">✨ AI Asisten Mengajar</span>
                             </h3>
                             <p class="text-sm text-gray-500 mb-4">Buntu ide mengajar? Beritahu AI topik yang akan dibahas dan dapatkan 3 ide aktivitas interaktif!</p>
-                            <div id="aiKeyWarning" class="hide mb-3 bg-amber-50 border border-amber-200 rounded-xl p-3 text-amber-700 text-xs font-semibold flex items-center gap-2">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                API Key Claude belum diatur. Klik tombol <strong>"AI: Belum Aktif"</strong> di header untuk mengatur.
-                            </div>
                             <div class="flex flex-col sm:flex-row gap-3">
                                 <input type="text" id="aiTopicInput"
                                     class="form-input flex-1"
@@ -484,7 +489,7 @@
                     </div>
                 </div>
 
-                <!-- DATA SISWA -->
+                <!-- ===== DATA SISWA ===== -->
                 <div id="pageDataSiswa" class="page-content hide">
                     <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Kelola Data Siswa</h2>
                     <form id="formSiswa" onsubmit="handleSaveSiswa(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-5">
@@ -536,6 +541,9 @@
                                 <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Atau Tanggal Tetap Per Bulan <span class="normal-case font-normal text-gray-400">(pisahkan koma, cth: 1,8,15,22)</span></p>
                                 <input type="text" id="siswaTanggalTetap" class="form-input text-sm" placeholder="Cth: 1, 8, 15, 22">
                             </div>
+                            <p class="text-xs text-blue-600 font-medium mt-2 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-info"></i> Bisa pilih keduanya. Notifikasi muncul jika sesi belum diinput setelah jam 20.00.
+                            </p>
                         </div>
                         <div class="flex gap-3">
                             <button type="submit" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm text-sm">Simpan Siswa</button>
@@ -545,14 +553,22 @@
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="data-table">
-                                <thead><tr><th>Nama Siswa</th><th>Program / Kelas</th><th>Jadwal</th><th>Sisa Sesi</th><th>Aksi & AI</th></tr></thead>
+                                <thead>
+                                    <tr>
+                                        <th>Nama Siswa</th>
+                                        <th>Program / Kelas</th>
+                                        <th>Jadwal</th>
+                                        <th>Sisa Sesi</th>
+                                        <th>Aksi & AI</th>
+                                    </tr>
+                                </thead>
                                 <tbody id="tabelDataSiswa"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- DATA GURU -->
+                <!-- ===== DATA GURU ===== -->
                 <div id="pageDataGuru" class="page-content hide">
                     <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Kelola Data Guru / Tutor</h2>
                     <form id="formGuru" onsubmit="handleSaveGuru(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-5">
@@ -591,14 +607,21 @@
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="data-table">
-                                <thead><tr><th>Nama Tutor</th><th>Akun Login</th><th>Siswa Ditugaskan</th><th>Aksi</th></tr></thead>
+                                <thead>
+                                    <tr>
+                                        <th>Nama Tutor</th>
+                                        <th>Akun Login</th>
+                                        <th>Siswa Ditugaskan</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
                                 <tbody id="tabelDataGuru"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- INPUT SESI -->
+                <!-- ===== INPUT SESI ===== -->
                 <div id="pageInputSesi" class="page-content hide">
                     <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Input Sesi Les</h2>
                     <form id="formSesi" onsubmit="handleSaveSesi(event)" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
@@ -608,7 +631,7 @@
                             <select id="sesiSiswa" onchange="checkSisaSesi()" class="form-input" required>
                                 <option value="">-- Pilih Siswa --</option>
                             </select>
-                            <p id="warningSisaSesi" class="text-sm text-red-500 font-bold mt-2 hide"></p>
+                            <p id="warningSisaSesi" class="text-sm text-red-500 font-bold mt-2 hide"><i class='fa-solid fa-triangle-exclamation'></i></p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                             <div>
@@ -651,20 +674,19 @@
                     </form>
                 </div>
 
-                <!-- REKAP -->
+                <!-- ===== REKAP ===== -->
                 <div id="pageRekap" class="page-content hide">
                     <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Rekap, Laporan & Riwayat</h2>
 
                     <div id="rekapMotivasiCard" class="hide mb-5"
-                        style="background:linear-gradient(135deg,#f97316,#ec4899);border-radius:20px;">
-                        <div class="p-5 flex items-center justify-between">
-                            <div>
-                                <h3 class="font-bold text-xl mb-1 text-white">Ayo Semangat! 💪</h3>
-                                <p class="text-white/90 text-sm font-medium" id="rekapMotivasiText">Tugas kamu tinggal X pertemuan lagi.</p>
-                            </div>
-                            <div class="mr-5 bg-white/20 rounded-2xl w-16 h-16 flex items-center justify-center border border-white/30 flex-shrink-0">
-                                <span class="text-3xl font-black text-white" id="rekapMotivasiAngka">0</span>
-                            </div>
+                        style="background:linear-gradient(135deg,#f97316,#ec4899);border-radius:20px"
+                        class="p-6 text-white flex items-center justify-between shadow-lg">
+                        <div class="p-5">
+                            <h3 class="font-bold text-xl mb-1 text-white">Ayo Semangat! 💪</h3>
+                            <p class="text-white/90 text-sm font-medium" id="rekapMotivasiText">Tugas kamu tinggal X pertemuan lagi.</p>
+                        </div>
+                        <div class="mr-5 bg-white/20 rounded-2xl w-16 h-16 flex items-center justify-center border border-white/30 flex-shrink-0">
+                            <span class="text-3xl font-black text-white" id="rekapMotivasiAngka">0</span>
                         </div>
                     </div>
 
@@ -713,7 +735,7 @@
                         </div>
                     </div>
 
-                    <!-- PDF hidden content -->
+                    <!-- PDF hidden -->
                     <div style="position:absolute;left:-9999px;top:0;width:800px;background:#fff;z-index:-1;" aria-hidden="true">
                         <div id="pdfContent" class="bg-white p-8" style="font-family:Arial,sans-serif;">
                             <div class="text-center border-b-2 border-gray-800 pb-5 mb-6">
@@ -741,7 +763,7 @@
                                 <tbody id="reportTableBody" class="text-gray-800"></tbody>
                             </table>
                             <div id="aiNarrativeContainer" class="mt-6 bg-purple-50 p-4 rounded border border-purple-200 hide text-sm text-gray-800">
-                                <strong>💡 Ringkasan Evaluasi (Generated by Claude AI):</strong>
+                                <strong>💡 Ringkasan Evaluasi (Generated by AI):</strong>
                                 <p id="aiNarrativeText" class="mt-2 italic leading-relaxed font-medium"></p>
                             </div>
                             <div class="mt-12 pt-6 text-right text-sm">
@@ -759,7 +781,15 @@
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                             <div class="overflow-x-auto">
                                 <table class="data-table">
-                                    <thead><tr><th>Tanggal</th><th>Siswa</th><th>Tutor</th><th>Status</th><th>Aksi</th></tr></thead>
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Siswa</th>
+                                            <th>Tutor</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
                                     <tbody id="tabelRiwayat"></tbody>
                                 </table>
                             </div>
@@ -777,8 +807,10 @@
 
 <script>
 // ============================================================
-// KONFIGURASI SUPABASE
+// ⚡ KONFIGURASI
 // ============================================================
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzPlLPsGRyHduSdJzqQuCbJFn5wbJ6op1NWGuA8Y7afD-4QXPeNOtViq4DxQ4FH758j/exec";
+
 const SUPABASE_URL = "https://napymkogkzwtvdjictip.supabase.co".trim();
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHlta29na3p3dHZkamljdGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2OTM5NDIsImV4cCI6MjA5MzI2OTk0Mn0.t3r51kXGSBoZuzZh35htYzRviWZTnhukpsJbd_hjIrc".trim();
 const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -790,87 +822,23 @@ let dataSesi = [];
 let dataGuru = [];
 
 // ============================================================
-// ANTHROPIC CLAUDE AI BACKEND
+// ✅ AI BACKEND
 // ============================================================
-const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
-const CLAUDE_MODEL = "claude-sonnet-4-20250514";
-
-function getApiKey() {
-    return localStorage.getItem('anthropic_api_key') || '';
-}
-
-function updateApiKeyStatus() {
-    const key = getApiKey();
-    const badge = document.getElementById('btnApiKeyStatus');
-    const text = document.getElementById('apiKeyStatusText');
-    const warning = document.getElementById('aiKeyWarning');
-    if (key && key.startsWith('sk-ant')) {
-        badge.classList.add('connected');
-        text.innerText = 'Claude AI: Aktif ✓';
-        if (warning) warning.classList.add('hide');
-    } else {
-        badge.classList.remove('connected');
-        text.innerText = 'AI: Belum Aktif';
-        if (warning) warning.classList.remove('hide');
+async function callAIBackend(action, payload) {
+    if (!GAS_URL || GAS_URL === "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI") {
+        throw new Error("URL Google Apps Script belum dikonfigurasi. Hubungi admin.");
     }
-}
-
-function openApiKeyModal() {
-    document.getElementById('apiKeyInput').value = getApiKey();
-    document.getElementById('apiKeyModal').classList.remove('hide');
-}
-
-function closeApiKeyModal() {
-    document.getElementById('apiKeyModal').classList.add('hide');
-}
-
-function saveApiKey() {
-    const key = document.getElementById('apiKeyInput').value.trim();
-    if (!key) { showToast("Masukkan API Key terlebih dahulu!", "error"); return; }
-    if (!key.startsWith('sk-ant')) { showToast("Format API Key tidak valid. Harus diawali 'sk-ant'", "error"); return; }
-    localStorage.setItem('anthropic_api_key', key);
-    closeApiKeyModal();
-    updateApiKeyStatus();
-    showToast("✅ Claude AI berhasil diaktifkan!");
-}
-
-async function callClaudeAI(systemPrompt, userMessage) {
-    const apiKey = getApiKey();
-    if (!apiKey || !apiKey.startsWith('sk-ant')) {
-        throw new Error("API Key Claude belum diatur. Klik tombol 'AI: Belum Aktif' di header untuk mengatur.");
-    }
-
-    const response = await fetch(ANTHROPIC_API_URL, {
+    const response = await fetch(GAS_URL, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "x-api-key": apiKey,
-            "anthropic-version": "2023-06-01",
-            "anthropic-dangerous-direct-browser-access": "true"
-        },
-        body: JSON.stringify({
-            model: CLAUDE_MODEL,
-            max_tokens: 1024,
-            system: systemPrompt,
-            messages: [{ role: "user", content: userMessage }]
-        })
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ action, payload })
     });
-
-    if (!response.ok) {
-        const err = await response.json().catch(() => ({}));
-        const msg = err?.error?.message || `HTTP ${response.status}`;
-        if (response.status === 401) throw new Error("API Key tidak valid atau sudah kadaluarsa. Periksa kembali API Key Anda.");
-        if (response.status === 429) throw new Error("Batas penggunaan API terlampaui. Coba lagi beberapa saat.");
-        throw new Error("Gagal memanggil Claude AI: " + msg);
-    }
-
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     const data = await response.json();
-    const text = data.content?.map(c => c.type === 'text' ? c.text : '').join('') || '';
-    if (!text) throw new Error("Respons AI kosong.");
-    return text;
+    if (data.error) throw new Error(data.error);
+    return data.result;
 }
 
-// AI FUNCTIONS
 async function enhanceJurnalWithAI() {
     const textarea = document.getElementById('sesiJurnal');
     const raw = textarea.value.trim();
@@ -878,19 +846,15 @@ async function enhanceJurnalWithAI() {
     const icon = btn.querySelector('i');
     const txt = document.getElementById('textAIEnhance');
     if (!raw) { showToast("Ketik catatan kasar dulu!", "error"); return; }
-
     icon.className = "fa-solid fa-spinner fa-spin";
     txt.innerText = "Memproses...";
     btn.disabled = true;
-
     try {
-        const system = `Kamu adalah asisten tutor les privat profesional. Tugasmu adalah merapikan catatan jurnal mengajar menjadi laporan yang rapi, terstruktur, dan profesional dalam Bahasa Indonesia. Gunakan format yang jelas dengan poin-poin. Jangan ubah isi fakta, hanya rapikan bahasa dan formatnya.`;
-        const result = await callClaudeAI(system, `Rapikan catatan jurnal berikut:\n\n${raw}`);
+        const result = await callAIBackend("enhanceJurnal", { rawText: raw });
         textarea.value = result;
-        showToast("✨ Jurnal disempurnakan Claude AI!");
-    } catch (err) {
-        showToast(err.message, "error");
-    } finally {
+        showToast("✨ Jurnal disempurnakan AI!");
+    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    finally {
         icon.className = "fa-solid fa-wand-magic-sparkles";
         txt.innerText = "✨ Rapikan AI";
         btn.disabled = false;
@@ -902,34 +866,26 @@ async function generateReportNarrativeWithAI() {
     const btn = document.getElementById('btnAINarrative');
     const icon = btn.querySelector('i');
     const txt = document.getElementById('textAINarrative');
-
     if (!rows.length || rows[0].innerText.includes('Tidak ada data')) {
         showToast("Tidak ada data sesi.", "error"); return;
     }
-
     const journals = Array.from(rows).map(r => {
         const c = r.querySelectorAll('td');
-        return c.length === 4 ? `- Tanggal: ${c[0].innerText}, Status: ${c[2].innerText}, Materi: ${c[3].innerText}` : null;
+        return c.length === 4 ? `- Tanggal: ${c[0].innerText}, Materi: ${c[3].innerText}` : null;
     }).filter(Boolean);
     const namaSiswa = document.getElementById('reportSiswaName').innerText;
-
     icon.className = "fa-solid fa-spinner fa-spin";
     txt.innerText = "Menulis...";
     btn.disabled = true;
-
     try {
-        const system = `Kamu adalah konsultan pendidikan yang membuat laporan evaluasi belajar siswa les privat untuk orang tua. Tulis evaluasi yang hangat, informatif, dan memotivasi dalam Bahasa Indonesia. Maksimal 3 paragraf. Sertakan: ringkasan pencapaian, perkembangan positif, dan saran untuk orang tua.`;
-        const userMsg = `Buat evaluasi perkembangan belajar untuk siswa bernama "${namaSiswa}" berdasarkan riwayat sesi berikut:\n\n${journals.join('\n')}`;
-        const hasil = await callClaudeAI(system, userMsg);
-
+        const hasil = await callAIBackend("reportNarrative", { namaSiswa, journals });
         document.getElementById('aiNarrativeText').innerText = hasil;
         document.getElementById('aiNarrativeContainer').classList.remove('hide');
-        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Evaluasi Claude AI';
+        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Evaluasi AI';
         document.getElementById('aiModalContent').innerText = "Teks ini sudah ditambahkan ke PDF:\n\n" + hasil;
         document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) {
-        showToast(err.message, "error");
-    } finally {
+    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    finally {
         icon.className = "fa-solid fa-wand-magic-sparkles";
         txt.innerText = "Buat Evaluasi AI untuk Ortu";
         btn.disabled = false;
@@ -942,20 +898,16 @@ async function getTeachingIdeasWithAI() {
     const icon = btn.querySelector('i');
     const txt = btn.querySelector('span');
     if (!topic) { showToast("Masukkan topik dulu!", "error"); return; }
-
     icon.className = "fa-solid fa-spinner fa-spin";
     txt.innerText = "Mencari...";
     btn.disabled = true;
-
     try {
-        const system = `Kamu adalah konsultan pendidikan kreatif yang ahli dalam metode pembelajaran interaktif untuk les privat. Berikan 3 ide aktivitas mengajar yang kreatif, menyenangkan, dan efektif. Format: nomor, judul aktivitas (bold), penjelasan singkat 2-3 kalimat, dan estimasi waktu.`;
-        const hasil = await callClaudeAI(system, `Berikan 3 ide aktivitas mengajar yang kreatif dan interaktif untuk topik: "${topic}"`);
-        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-400"></i> Ide Mengajar dari Claude AI';
+        const hasil = await callAIBackend("teachingIdeas", { topic });
+        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-400"></i> Ide Mengajar';
         document.getElementById('aiModalContent').innerText = hasil;
         document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) {
-        showToast(err.message, "error");
-    } finally {
+    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    finally {
         icon.className = "fa-solid fa-wand-magic-sparkles";
         txt.innerText = "✨ Cari Ide";
         btn.disabled = false;
@@ -965,26 +917,21 @@ async function getTeachingIdeasWithAI() {
 async function analyzeStudentWithAI(id) {
     const siswa = dataSiswa.find(s => s.id_siswa === id);
     if (!siswa) return;
-    showLoading(true, "Menganalisis dengan Claude AI...");
+    showLoading(true, "Menganalisis...");
     try {
-        let sesi = dataSesi;
-        if (!sesi.length) sesi = (await apiCall('getSesi')) || [];
+        const sesi = (await apiCall('getSesi')) || [];
         const filtered = currentUser.role === 'guru' ? sesi.filter(s => s.id_guru === currentUser.username) : sesi;
         const riwayat = filtered.filter(s => s.id_siswa === id);
-        const riwayatArr = riwayat.slice(0, 20).map(s => `- ${s.tanggal}: ${s.status_sesi} | ${s.jurnal_materi}`);
-
-        const system = `Kamu adalah psikolog pendidikan dan konsultan akademik untuk les privat. Analisis data siswa dan berikan laporan komprehensif dalam Bahasa Indonesia meliputi: pola belajar, konsistensi kehadiran, perkembangan materi, dan rekomendasi konkret untuk tutor.`;
-        const userMsg = `Analisis siswa berikut:\nNama: ${siswa.nama_siswa}\nKelas/Program: ${siswa.kelas || siswa.program_les || '-'}\nSisa Sesi: ${siswa.sisa_sesi}\nJadwal: ${formatJadwal(siswa)}\n\nRiwayat 20 sesi terakhir:\n${riwayatArr.join('\n') || '(Belum ada riwayat sesi)'}`;
-
-        const hasil = await callClaudeAI(system, userMsg);
+        const riwayatArr = riwayat.map(s => `- ${s.tanggal}: ${s.status_sesi} | ${s.jurnal_materi}`);
+        const hasil = await callAIBackend("analyzeStudent", {
+            namaSiswa: siswa.nama_siswa, kelas: siswa.kelas || siswa.program_les || '-',
+            sisaSesi: siswa.sisa_sesi, jadwal: formatJadwal(siswa), riwayat: riwayatArr
+        });
         document.getElementById('aiModalTitle').innerHTML = `<i class="fa-solid fa-brain"></i> Analisis: ${siswa.nama_siswa}`;
         document.getElementById('aiModalContent').innerText = hasil;
         document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) {
-        showToast(err.message, "error");
-    } finally {
-        showLoading(false);
-    }
+    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    finally { showLoading(false); }
 }
 
 // ============================================================
@@ -1000,15 +947,15 @@ function siswaJadwalHariIni(siswa) {
     const hariIni = getTodayName();
     const tglIni = getTodayTanggal();
     let adaH = false, adaT = false;
-    if (siswa.jadwal_hari && siswa.jadwal_hari.trim()) adaH = siswa.jadwal_hari.split(',').map(h=>h.trim()).includes(hariIni);
-    if (siswa.jadwal_tanggal && siswa.jadwal_tanggal.trim()) adaT = siswa.jadwal_tanggal.split(',').map(t=>parseInt(t.trim())).includes(tglIni);
+    if (siswa.jadwal_hari?.trim()) adaH = siswa.jadwal_hari.split(',').map(h=>h.trim()).includes(hariIni);
+    if (siswa.jadwal_tanggal?.trim()) adaT = siswa.jadwal_tanggal.split(',').map(t=>parseInt(t.trim())).includes(tglIni);
     return adaH || adaT;
 }
 
 function formatJadwal(siswa) {
     let parts = [];
-    if (siswa.jadwal_hari && siswa.jadwal_hari.trim()) parts.push(siswa.jadwal_hari.split(',').map(h=>h.trim().substring(0,3)).join(', '));
-    if (siswa.jadwal_tanggal && siswa.jadwal_tanggal.trim()) parts.push('Tgl ' + siswa.jadwal_tanggal);
+    if (siswa.jadwal_hari?.trim()) parts.push(siswa.jadwal_hari.split(',').map(h=>h.trim().substring(0,3)).join(', '));
+    if (siswa.jadwal_tanggal?.trim()) parts.push('Tgl ' + siswa.jadwal_tanggal);
     return parts.length > 0 ? parts.join(' | ') : '<span class="text-gray-400 italic text-xs">Belum diatur</span>';
 }
 
@@ -1066,7 +1013,7 @@ document.getElementById('promptBtnSubmit').addEventListener('click', () => {
 
 function editCustomBanner() {
     showPrompt("Edit Banner Motivasi", "Ketikkan kata-kata penyemangat baru:", document.getElementById('bannerText').innerText, (newText) => {
-        if (newText && newText.trim()) {
+        if (newText?.trim()) {
             document.getElementById('bannerText').innerText = newText;
             localStorage.setItem('customBannerText', newText);
             showToast("Banner berhasil diubah!");
@@ -1092,22 +1039,25 @@ function showToast(msg, type = "success") {
     const backdrop = document.getElementById('toastBackdrop');
     const icon = document.getElementById('toastIcon');
     const msgEl = document.getElementById('toastMsg');
+
     toast.className = type === 'success' ? 'show success' : 'show error';
     icon.innerHTML = type === 'success'
         ? '<i class="fa-solid fa-circle-check"></i>'
         : '<i class="fa-solid fa-circle-xmark"></i>';
     msgEl.innerText = msg;
     backdrop.classList.add('show');
+
     if (toastTimer) clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
         toast.className = type === 'success' ? 'success' : 'error';
         backdrop.classList.remove('show');
-    }, 3200);
+    }, 2800);
 }
 
+// Tap backdrop to dismiss toast
 document.getElementById('toastBackdrop').addEventListener('click', () => {
     const toast = document.getElementById('toast');
-    toast.className = toast.className.replace('show','').trim();
+    toast.className = toast.className.replace(' show','').replace('show ','');
     document.getElementById('toastBackdrop').classList.remove('show');
     if (toastTimer) clearTimeout(toastTimer);
 });
@@ -1226,7 +1176,7 @@ async function apiCall(action, payload = {}) {
         }
         else if (action === 'deleteSesi') {
             const { data: oldSesi } = await dbClient.from('sesi_les').select('id_siswa,status_sesi').eq('id_sesi', payload.id_sesi).maybeSingle();
-            if (oldSesi && oldSesi.status_sesi === 'Selesai') {
+            if (oldSesi?.status_sesi === 'Selesai') {
                 const { data: sd } = await dbClient.from('siswa').select('sisa_sesi').eq('id_siswa', oldSesi.id_siswa).maybeSingle();
                 await dbClient.from('siswa').update({ sisa_sesi: (parseInt(sd?.sisa_sesi) || 0) + 1 }).eq('id_siswa', oldSesi.id_siswa);
             }
@@ -1269,8 +1219,12 @@ async function checkMissingSesi() {
         const tutorList = dataGuru.filter(g => (g.assigned_siswa || '').split(',').includes(s.id_siswa));
         const tutorNames = tutorList.map(g => g.nama_lengkap).join(', ') || '<span class="text-gray-400 italic">Belum ditugaskan</span>';
         const jadwalHariIni = [];
-        if (s.jadwal_hari && s.jadwal_hari.split(',').map(h=>h.trim()).includes(getTodayName())) jadwalHariIni.push(getTodayName());
-        if (s.jadwal_tanggal && s.jadwal_tanggal.split(',').map(t=>parseInt(t.trim())).includes(getTodayTanggal())) jadwalHariIni.push('Tgl ' + getTodayTanggal());
+        if (s.jadwal_hari && siswaJadwalHariIni(s)) {
+            if (s.jadwal_hari.split(',').map(h=>h.trim()).includes(getTodayName())) jadwalHariIni.push(getTodayName());
+        }
+        if (s.jadwal_tanggal && s.jadwal_tanggal.split(',').map(t=>parseInt(t.trim())).includes(getTodayTanggal())) {
+            jadwalHariIni.push('Tgl ' + getTodayTanggal());
+        }
         html += `<tr class="hover:bg-red-50 transition">
             <td class="p-3 text-sm font-bold text-gray-800 whitespace-nowrap">${s.nama_siswa}</td>
             <td class="p-3 text-sm text-gray-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
@@ -1291,7 +1245,7 @@ function quickInputSesi(idSiswa) {
     setTimeout(() => {
         document.getElementById('sesiSiswa').value = idSiswa;
         checkSisaSesi();
-    }, 150);
+    }, 100);
 }
 
 // ============================================================
@@ -1299,12 +1253,11 @@ function quickInputSesi(idSiswa) {
 // ============================================================
 window.onload = () => {
     applyCustomBanner();
-    updateApiKeyStatus();
     let savedUser = localStorage.getItem('les_user');
     if (savedUser) {
         try {
             currentUser = JSON.parse(savedUser);
-            if (!currentUser || !currentUser.username) throw new Error();
+            if (!currentUser?.username) throw new Error();
             initApp();
         } catch (e) { localStorage.removeItem('les_user'); }
     }
@@ -1319,13 +1272,13 @@ async function handleLogin(e) {
             password: document.getElementById('loginPassword').value
         });
         localStorage.setItem('les_user', JSON.stringify(currentUser));
-        showLoading(false);
         initApp();
         showToast("Login Berhasil! Selamat datang 👋");
     } catch (err) {
         showLoading(false);
         showToast("Username atau Password salah!", "error");
     }
+    showLoading(false);
 }
 
 function logout() {
@@ -1341,16 +1294,11 @@ async function initApp() {
     document.getElementById('desktopUserName').innerText = currentUser.nama_lengkap;
     document.getElementById('mobileUserName').innerText = currentUser.nama_lengkap;
     if (currentUser.role === 'admin') document.getElementById('btnEditBanner').classList.remove('hide');
-    updateApiKeyStatus();
     buildNavigation();
-    try {
-        dataSiswa = (await apiCall('getSiswa')) || [];
-        dataGuru = (await apiCall('getGuru')) || [];
-        loadSiswaOptions();
-        navigate('dashboard');
-    } catch (e) {
-        showToast("Gagal memuat data awal: " + e.message, "error");
-    }
+    dataSiswa = (await apiCall('getSiswa')) || [];
+    dataGuru = (await apiCall('getGuru')) || [];
+    loadSiswaOptions();
+    navigate('dashboard');
 }
 
 // ============================================================
@@ -1366,26 +1314,25 @@ function buildNavigation() {
     ];
     let mNav = '';
     menus.forEach(m => {
-        const canShow = m.access === 'all'
-            || (m.access === 'guru' && currentUser.role === 'guru')
-            || (m.access === 'admin' && currentUser.role === 'admin');
-        if (canShow) {
-            mNav += `<button onclick="navigate('${m.id}')" id="nav-m-${m.id}"
-                class="nav-btn flex-1 flex flex-col items-center justify-center py-2 text-gray-500 font-semibold hover:text-blue-600 transition-colors">
-                <div id="nav-icon-bg-${m.id}" class="nav-pill px-4 py-1.5 rounded-full transition-colors duration-200 mb-0.5">
-                    <i class="fa-solid ${m.icon} text-base"></i>
-                </div>
-                <span class="text-[10px] whitespace-nowrap">${m.text}</span>
-            </button>`;
+        if (m.access === 'all' || (m.access === 'guru' && currentUser.role === 'guru') || (m.access === 'admin' && currentUser.role === 'admin')) {
+            mNav += `
+                <button onclick="navigate('${m.id}')" id="nav-m-${m.id}"
+                    class="nav-btn flex-1 flex flex-col items-center justify-center py-2 text-gray-500 font-semibold hover:text-blue-600 transition-colors">
+                    <div id="nav-icon-bg-${m.id}" class="nav-pill px-4 py-1.5 rounded-full transition-colors duration-200 mb-0.5">
+                        <i class="fa-solid ${m.icon} text-base"></i>
+                    </div>
+                    <span class="text-[10px] whitespace-nowrap">${m.text}</span>
+                </button>`;
         }
     });
-    mNav += `<button onclick="logout()"
-        class="flex-1 flex flex-col items-center justify-center py-2 text-red-400 font-semibold hover:text-red-600 transition-colors">
-        <div class="px-4 py-1.5 rounded-full hover:bg-red-50 transition-colors mb-0.5">
-            <i class="fa-solid fa-sign-out-alt text-base"></i>
-        </div>
-        <span class="text-[10px] whitespace-nowrap">Keluar</span>
-    </button>`;
+    mNav += `
+        <button onclick="logout()"
+            class="flex-1 flex flex-col items-center justify-center py-2 text-red-400 font-semibold hover:text-red-600 transition-colors">
+            <div class="px-4 py-1.5 rounded-full hover:bg-red-50 transition-colors mb-0.5">
+                <i class="fa-solid fa-sign-out-alt text-base"></i>
+            </div>
+            <span class="text-[10px] whitespace-nowrap">Keluar</span>
+        </button>`;
     document.getElementById('mobileNav').innerHTML = mNav;
 }
 
@@ -1445,9 +1392,8 @@ async function loadDashboard() {
                 <h3 class="text-3xl font-black text-amber-500 mt-2">${reschedule}</h3>
             </div>`;
         await checkMissingSesi();
-        loadSiswaOptions();
     } catch (e) {
-        document.getElementById('dashboardStats').innerHTML = '<p class="text-red-500 text-sm col-span-4 p-4">Gagal memuat data: ' + e.message + '</p>';
+        document.getElementById('dashboardStats').innerHTML = '<p class="text-red-500 text-sm col-span-4">Gagal memuat data.</p>';
     }
     showLoading(false);
 }
@@ -1457,7 +1403,7 @@ async function loadDashboard() {
 // ============================================================
 async function loadSiswaOptions() {
     try {
-        if (!dataSiswa.length) dataSiswa = (await apiCall('getSiswa')) || [];
+        dataSiswa = (await apiCall('getSiswa')) || [];
         const sel = document.getElementById('sesiSiswa');
         sel.innerHTML = '<option value="">-- Pilih Siswa --</option>';
         dataSiswa.forEach(s => {
@@ -1492,23 +1438,24 @@ async function loadDataSiswaPage() {
                 : `<span class="bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-lg border border-red-100">Habis!</span>`;
             const jadwalBadge = siswaJadwalHariIni(s)
                 ? `<span class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded ml-1">Hari ini</span>` : '';
-            html += `<tr>
-                <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${s.nama_siswa}</td>
-                <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
-                <td class="p-4 text-sm text-gray-600">${formatJadwal(s)}${jadwalBadge}</td>
-                <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
-                <td class="p-4 text-sm whitespace-nowrap">
-                    <div class="flex gap-1">
-                        <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="text-indigo-500 hover:text-indigo-700 bg-indigo-50 p-2 rounded-lg transition" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
-                        <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="text-emerald-500 hover:text-emerald-700 p-2 rounded-lg hover:bg-emerald-50 transition" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
-                        <button onclick='editDataSiswa("${s.id_siswa}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition" title="Edit"><i class="fa-solid fa-edit"></i></button>
-                        <button onclick='deleteDataSiswa("${s.id_siswa}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition" title="Hapus"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                </td>
-            </tr>`;
+            html += `
+                <tr>
+                    <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${s.nama_siswa}</td>
+                    <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
+                    <td class="p-4 text-sm text-gray-600">${formatJadwal(s)}${jadwalBadge}</td>
+                    <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
+                    <td class="p-4 text-sm whitespace-nowrap">
+                        <div class="flex gap-1">
+                            <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="text-indigo-500 hover:text-indigo-700 bg-indigo-50 p-2 rounded-lg transition" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
+                            <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="text-emerald-500 hover:text-emerald-700 p-2 rounded-lg hover:bg-emerald-50 transition" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
+                            <button onclick='editDataSiswa("${s.id_siswa}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition" title="Edit"><i class="fa-solid fa-edit"></i></button>
+                            <button onclick='deleteDataSiswa("${s.id_siswa}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>`;
         });
         document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data siswa.</td></tr>';
-    } catch (e) { showToast("Gagal memuat data siswa.", "error"); }
+    } catch (e) { }
     showLoading(false);
 }
 
@@ -1528,10 +1475,7 @@ async function handleSaveSiswa(e) {
     try {
         await apiCall('saveSiswa', payload);
         showToast("Data siswa berhasil disimpan!");
-        resetFormSiswa();
-        dataSiswa = (await apiCall('getSiswa')) || [];
-        loadDataSiswaPage();
-        loadSiswaOptions();
+        resetFormSiswa(); loadDataSiswaPage(); loadSiswaOptions();
     } catch (e) { showToast("Gagal: " + e.message, "error"); }
     showLoading(false);
 }
@@ -1555,7 +1499,6 @@ async function deleteDataSiswa(id) {
         try {
             await apiCall('deleteSiswa', { id_siswa: id });
             showToast("Data siswa dihapus.");
-            dataSiswa = (await apiCall('getSiswa')) || [];
             loadDataSiswaPage(); loadSiswaOptions();
         } catch (e) { showToast("Gagal: " + e.message, "error"); }
         showLoading(false);
@@ -1579,7 +1522,6 @@ async function topUpSesiSiswa(id) {
         try {
             await apiCall('saveSiswa', { ...siswa, sisa_sesi: n });
             showToast("Paket diperbarui!");
-            dataSiswa = (await apiCall('getSiswa')) || [];
             loadDataSiswaPage(); loadSiswaOptions();
         } catch (e) { showToast("Gagal: " + e.message, "error"); }
         showLoading(false);
@@ -1607,21 +1549,22 @@ async function loadDataGuruPage() {
             const arr = (g.assigned_siswa || '').split(',').filter(x=>x);
             const names = arr.map(id => dataSiswa.find(x=>x.id_siswa===id)?.nama_siswa || id).join(', ')
                 || '<span class="text-gray-400 italic text-xs">Belum ditugaskan</span>';
-            html += `<tr>
-                <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${g.nama_lengkap}</td>
-                <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                    <div class="font-mono text-xs bg-gray-50 px-2 py-1 rounded">${g.username}</div>
-                    <div class="font-mono text-xs text-gray-400 mt-0.5">${g.password}</div>
-                </td>
-                <td class="p-4 text-sm text-gray-600 max-w-xs">${names}</td>
-                <td class="p-4 text-sm whitespace-nowrap">
-                    <button onclick='editDataGuru("${g.username}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition mr-1"><i class="fa-solid fa-edit"></i></button>
-                    <button onclick='deleteDataGuru("${g.username}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition"><i class="fa-solid fa-trash"></i></button>
-                </td>
-            </tr>`;
+            html += `
+                <tr>
+                    <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${g.nama_lengkap}</td>
+                    <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                        <div class="font-mono text-xs bg-gray-50 px-2 py-1 rounded">${g.username}</div>
+                        <div class="font-mono text-xs text-gray-400 mt-0.5">${g.password}</div>
+                    </td>
+                    <td class="p-4 text-sm text-gray-600 max-w-xs">${names}</td>
+                    <td class="p-4 text-sm whitespace-nowrap">
+                        <button onclick='editDataGuru("${g.username}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition mr-1"><i class="fa-solid fa-edit"></i></button>
+                        <button onclick='deleteDataGuru("${g.username}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
         });
         document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data tutor.</td></tr>';
-    } catch (e) { showToast("Gagal memuat data guru.", "error"); }
+    } catch (e) { }
     showLoading(false);
 }
 
@@ -1721,16 +1664,17 @@ async function loadRiwayat() {
         filtered.forEach(s => {
             const badge = statusColors[s.status_sesi] || 'bg-gray-100 text-gray-600';
             const canEdit = currentUser.role === 'admin' || currentUser.username === s.id_guru;
-            html += `<tr>
-                <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.tanggal}</td>
-                <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${s.nama_siswa}</td>
-                <td class="p-4 text-sm text-gray-500 whitespace-nowrap">${s.nama_guru}</td>
-                <td class="p-4 text-sm whitespace-nowrap"><span class="px-3 py-1 text-xs rounded-full font-bold ${badge}">${s.status_sesi}</span></td>
-                <td class="p-4 text-sm whitespace-nowrap">${canEdit ? `
-                    <button onclick='editSesi("${s.id_sesi}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition mr-1"><i class="fa-solid fa-edit"></i></button>
-                    <button onclick='deleteSesi("${s.id_sesi}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition"><i class="fa-solid fa-trash"></i></button>` : '-'}
-                </td>
-            </tr>`;
+            html += `
+                <tr>
+                    <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.tanggal}</td>
+                    <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${s.nama_siswa}</td>
+                    <td class="p-4 text-sm text-gray-500 whitespace-nowrap">${s.nama_guru}</td>
+                    <td class="p-4 text-sm whitespace-nowrap"><span class="px-3 py-1 text-xs rounded-full font-bold ${badge}">${s.status_sesi}</span></td>
+                    <td class="p-4 text-sm whitespace-nowrap">${canEdit ? `
+                        <button onclick='editSesi("${s.id_sesi}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition mr-1"><i class="fa-solid fa-edit"></i></button>
+                        <button onclick='deleteSesi("${s.id_sesi}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition"><i class="fa-solid fa-trash"></i></button>` : '-'}
+                    </td>
+                </tr>`;
         });
         document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="5" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data.</td></tr>';
     } catch (e) { console.error(e); }
