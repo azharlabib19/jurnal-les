@@ -262,31 +262,47 @@
         .nav-fab-wrapper {
             position: relative;
             flex: 0 0 auto;
-            width: 72px;
+            width: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            padding-bottom: 4px;
+            padding-bottom: 6px;
+        }
+        /* Lingkaran putih background di belakang FAB */
+        .nav-fab-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+            z-index: 0;
         }
         .nav-fab {
-            width: 58px; height: 58px;
+            width: 64px; height: 64px;
             border-radius: 50%;
             background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            box-shadow: 0 6px 20px rgba(30,64,175,0.45), 0 2px 8px rgba(30,64,175,0.3);
+            box-shadow: 0 8px 24px rgba(30,64,175,0.5), 0 2px 8px rgba(30,64,175,0.3);
             display: flex; align-items: center; justify-content: center;
-            border: none; cursor: pointer;
+            border: 3px solid white;
+            cursor: pointer;
             transition: transform 0.18s, box-shadow 0.18s;
-            margin-bottom: -4px;
             position: relative;
-            top: -12px;
+            top: -18px;
+            z-index: 1;
         }
-        .nav-fab:active { transform: scale(0.93); box-shadow: 0 3px 10px rgba(30,64,175,0.35); }
-        .nav-fab i { font-size: 22px; color: white; }
+        .nav-fab:active { transform: scale(0.92); box-shadow: 0 4px 12px rgba(30,64,175,0.4); }
+        .nav-fab i { font-size: 24px; color: white; }
         .nav-fab-text {
             font-size: 10px; font-weight: 700;
             color: var(--primary); line-height: 1;
-            position: relative; top: -8px;
+            position: relative; top: -14px;
+            z-index: 1;
         }
         .nav-fab-wrapper.active .nav-fab-text { color: var(--primary); }
 
@@ -1064,7 +1080,7 @@
         </div>
 
         <!-- Bottom Nav -->
-        <div class="flex-none w-full bg-white border-t border-gray-100 flex justify-around items-end shadow-[0_-4px_20px_rgba(0,0,0,0.06)] z-50 px-1 pt-1 pb-safe" style="min-height:64px" id="mobileNav"></div>
+        <div class="flex-none w-full bg-white border-t border-gray-100 flex justify-around items-end shadow-[0_-4px_20px_rgba(0,0,0,0.06)] z-50 px-1 pb-safe" style="min-height:68px;padding-top:0;overflow:visible" id="mobileNav"></div>
     </div>
 </div>
 
@@ -1788,9 +1804,9 @@ function buildNavigation() {
         mNav += navBtn('dashboard', 'fa-home', 'Beranda');
         mNav += navBtn('rekap', 'fa-chart-bar', 'Rekap');
         mNav += navFAB('input', 'fa-clipboard-check', 'Absen');
-        mNav += navBtn('profil', 'fa-user', 'Profil');
+        mNav += navBtn('profil', 'fa-user-circle', 'Profil');
     } else {
-        // ADMIN NAV: Beranda | Siswa | [FAB] | Guru | Rekap — no profil for admin (or show it too)
+        // ADMIN NAV: Beranda | Siswa | [FAB Guru] | Rekap | Keluar
         mNav += navBtn('dashboard', 'fa-home', 'Beranda');
         mNav += navBtn('siswa', 'fa-users', 'Siswa');
         mNav += navFAB('guru', 'fa-chalkboard-user', 'Guru');
