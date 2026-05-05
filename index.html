@@ -1143,41 +1143,61 @@ document.getElementById('promptBtnSubmit').addEventListener('click', () => {
     closePromptModal();
 });
 
+// ============================================================
+// BANNER SETTINGS (Supabase: tabel app_settings)
+// ============================================================
+async function loadAllBanners() {
+    try {
+        const { data, error } = await dbClient.from('app_settings').select('key,value').in('key', ['motivasi_banner', 'rekap_banner']);
+        if (error || !data) return;
+        data.forEach(row => {
+            if (row.key === 'motivasi_banner' && row.value?.trim()) {
+                document.getElementById('bannerText').innerText = row.value;
+            }
+            if (row.key === 'rekap_banner' && row.value?.trim()) {
+                document.getElementById('rekapBannerText').innerText = row.value;
+            }
+        });
+    } catch(e) { console.error('Gagal load banner settings:', e); }
+}
+
+async function saveBannerSetting(key, value) {
+    const { error } = await dbClient.from('app_settings').upsert({ key, value }, { onConflict: 'key' });
+    if (error) throw error;
+}
+
 function editCustomBanner() {
     if (currentUser.role !== 'admin') {
         showToast("Akses ditolak! Hanya admin yang dapat mengubah banner.", "error");
         return;
     }
-    showPrompt("Edit Banner Motivasi", "Ketikkan kata-kata penyemangat baru:", document.getElementById('bannerText').innerText, (newText) => {
-        if (newText?.trim()) {
-            document.getElementById('bannerText').innerText = newText;
-            localStorage.setItem('customBannerText', newText);
-            showToast("Banner berhasil diubah!");
-        }
+    showPrompt("Edit Banner Motivasi", "Ketikkan kata-kata penyemangat baru:", document.getElementById('bannerText').innerText, async (newText) => {
+        if (!newText?.trim()) return;
+        showLoading(true, "Menyimpan banner...");
+        try {
+            await saveBannerSetting('motivasi_banner', newText.trim());
+            document.getElementById('bannerText').innerText = newText.trim();
+            showToast("Banner motivasi berhasil diubah!");
+        } catch(e) { showToast("Gagal menyimpan banner: " + e.message, "error"); }
+        showLoading(false);
     });
 }
+
 function editRekapBanner() {
     if (currentUser.role !== 'admin') {
         showToast("Akses ditolak! Hanya admin yang dapat mengubah banner.", "error");
         return;
     }
-    showPrompt("Edit Banner Aturan / Peringatan", "Ketikkan teks aturan atau peringatan:", document.getElementById('rekapBannerText').innerText, (newText) => {
-        if (newText?.trim()) {
-            document.getElementById('rekapBannerText').innerText = newText;
-            localStorage.setItem('rekapBannerText', newText);
-            showToast("Banner berhasil diubah!");
-        }
+    showPrompt("Edit Banner Aturan / Peringatan", "Ketikkan teks aturan atau peringatan:", document.getElementById('rekapBannerText').innerText, async (newText) => {
+        if (!newText?.trim()) return;
+        showLoading(true, "Menyimpan banner...");
+        try {
+            await saveBannerSetting('rekap_banner', newText.trim());
+            document.getElementById('rekapBannerText').innerText = newText.trim();
+            showToast("Banner aturan berhasil diubah!");
+        } catch(e) { showToast("Gagal menyimpan banner: " + e.message, "error"); }
+        showLoading(false);
     });
-}
-function applyRekapBanner() {
-    const saved = localStorage.getItem('rekapBannerText');
-    if (saved) document.getElementById('rekapBannerText').innerText = saved;
-}
-
-
-function applyCustomBanner() {
-    const saved = localStorage.getItem('customBannerText');
-    if (saved) document.getElementById('bannerText').innerText = saved;
 }
 // ============================================================
 // UI HELPERS
@@ -1591,8 +1611,6 @@ function deleteLowongan(idLowongan) {
 // INIT & LOGIN
 // ============================================================
 window.onload = () => {
-    applyCustomBanner();
-    applyRekapBanner();
     let savedUser = localStorage.getItem('les_user');
     if (savedUser) {
         try {
@@ -1642,6 +1660,7 @@ async function initApp() {
     dataSiswa = (await apiCall('getSiswa')) || [];
     dataGuru = (await apiCall('getGuru')) || [];
     loadSiswaOptions();
+    loadAllBanners();
     navigate('dashboard');
 }
 
