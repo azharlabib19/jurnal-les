@@ -17,7 +17,7 @@
             --primary-light: #3b82f6;
             --primary-dark: #1e3a8a;
             --accent: #f59e0b;
-            --surface: #eef2f9;
+            --surface: #f8fafc;
             --card: #ffffff;
             --text: #0f172a;
             --text-muted: #64748b;
@@ -160,45 +160,28 @@
         }
         #toastBackdrop.show { opacity: 1; }
 
-        /* ════════════════════════════════════════
-           ── NEW HEADER REDESIGN ──
-        ════════════════════════════════════════ */
+        /* ── HEADER ── */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
         .app-header {
-            background: linear-gradient(135deg, #1a3586 0%, #1e40af 50%, #2563eb 100%);
+            background: linear-gradient(135deg, #1a3a8f 0%, #1e50c8 55%, #2563eb 100%);
+            box-shadow: 0 4px 24px rgba(30,58,138,0.35);
+            padding: 14px 20px 20px;
+            border-radius: 0 0 28px 28px;
             position: relative;
-            overflow: visible;
-            flex-shrink: 0;
-            /* Tall enough to allow overlap */
-            padding-bottom: 40px;
-            z-index: 30;
+            z-index: 40;
         }
-        /* Big rounded bottom curve */
         .app-header::after {
             content: '';
             position: absolute;
-            bottom: -1px;
-            left: -5%;
-            right: -5%;
-            height: 50px;
-            background: var(--surface);
-            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-            z-index: 1;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 70% 0%, rgba(255,255,255,0.12) 0%, transparent 60%);
+            border-radius: 0 0 28px 28px;
+            pointer-events: none;
         }
-        .header-inner {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 18px 10px;
-        }
+
         /* Logo box */
         .header-logo-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .header-logo-icon {
             width: 40px; height: 40px;
             background: white;
             border-radius: 12px;
@@ -206,156 +189,73 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             flex-shrink: 0;
         }
-        .header-logo-icon i {
+        .header-logo-box i {
             font-size: 18px;
             color: #1e40af;
         }
-        .header-app-name {
-            font-size: 16px;
+        .header-brand-text {
+            font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
+            font-size: 16px;
             color: white;
-            letter-spacing: -0.01em;
-            line-height: 1.1;
+            letter-spacing: 0.04em;
+            line-height: 1;
         }
-        .header-app-sub {
-            font-size: 10px;
-            color: rgba(255,255,255,0.6);
-            font-weight: 500;
-            margin-top: 1px;
-        }
-        /* Header right actions */
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        /* Notification bell */
+
+        /* Notif bell */
         .header-notif-btn {
             position: relative;
-            width: 38px; height: 38px;
-            background: rgba(255,255,255,0.15);
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.18);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            border: none;
+            border: none; cursor: pointer;
             transition: background 0.2s;
         }
-        .header-notif-btn:hover { background: rgba(255,255,255,0.25); }
-        .header-notif-btn i { color: white; font-size: 15px; }
+        .header-notif-btn:hover { background: rgba(255,255,255,0.28); }
+        .header-notif-btn i { color: white; font-size: 16px; }
         .header-notif-badge {
             position: absolute;
-            top: -3px; right: -3px;
+            top: -2px; right: -2px;
             background: #ef4444;
             color: white;
             font-size: 9px;
             font-weight: 800;
-            width: 17px; height: 17px;
+            width: 18px; height: 18px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            border: 2px solid #1e40af;
+            border: 2px solid #1e50c8;
         }
+
         /* Profile chip */
-        .header-profile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 30px;
-            padding: 4px 10px 4px 4px;
+        .header-profile-chip {
+            display: flex; align-items: center; gap: 8px;
             cursor: pointer;
-            transition: background 0.2s;
         }
-        .header-profile:hover { background: rgba(255,255,255,0.2); }
         .header-avatar {
-            width: 30px; height: 30px;
+            width: 40px; height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, #60a5fa, #a78bfa);
             display: flex; align-items: center; justify-content: center;
-            font-size: 13px;
-            font-weight: 800;
-            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+            font-size: 14px; font-weight: 800; color: white;
             flex-shrink: 0;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.3);
         }
-        .header-user-info { display: flex; flex-direction: column; }
-        .header-user-name { font-size: 12px; font-weight: 700; color: white; line-height: 1.2; }
-        .header-user-code { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 500; }
-        .header-chevron { color: rgba(255,255,255,0.6); font-size: 11px; margin-left: 2px; }
-
-        /* ════════════════════════════════════════
-           ── NEW WELCOME CARD (floating overlap) ──
-        ════════════════════════════════════════ */
-        .welcome-card-wrapper {
-            position: relative;
-            z-index: 40;
-            margin-top: -32px;
-            padding: 0 16px;
-            margin-bottom: 16px;
+        .header-avatar img {
+            width: 100%; height: 100%; object-fit: cover;
         }
-        .welcome-card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 8px 40px rgba(30, 58, 138, 0.12), 0 2px 12px rgba(0,0,0,0.06);
-            padding: 22px 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            overflow: hidden;
-            position: relative;
+        .header-profile-text { line-height: 1.2; }
+        .header-profile-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px; font-weight: 700; color: white;
+            white-space: nowrap;
         }
-        .welcome-card-left {
-            flex: 1;
-            min-width: 0;
+        .header-profile-id {
+            font-size: 10px; color: rgba(255,255,255,0.6); font-weight: 500;
         }
-        .welcome-greeting {
-            font-size: 14px;
-            font-weight: 700;
-            color: #0f172a;
-            line-height: 1.3;
-            margin-bottom: 2px;
-        }
-        .welcome-name {
-            font-size: 18px;
-            font-weight: 800;
-            color: #1e40af;
-            line-height: 1.2;
-        }
-        .welcome-emoji { font-size: 18px; }
-        .welcome-quote {
-            margin-top: 10px;
-            font-size: 11.5px;
-            color: #64748b;
-            font-weight: 500;
-            line-height: 1.65;
-            font-style: italic;
-        }
-        .welcome-card-right {
-            flex-shrink: 0;
-            width: 110px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        /* SVG illustration replacement - decorative book stack */
-        .book-illustration {
-            position: relative;
-            width: 100px;
-            height: 90px;
-        }
-        /* Decorative dots/stars */
-        .deco-star {
-            position: absolute;
-            color: #bfdbfe;
-            font-size: 14px;
-        }
-        .deco-star-sm {
-            position: absolute;
-            width: 6px; height: 6px;
-            background: #bfdbfe;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        .header-dropdown-icon {
+            color: rgba(255,255,255,0.7); font-size: 11px; margin-left: 2px;
         }
 
         /* ── CARDS ── */
@@ -419,13 +319,68 @@
             width: 100%; overflow: hidden;
         }
 
-        /* ── BANNER GRADIENT (kept for other areas) ── */
+        /* ── WELCOME CARD (new design matching screenshot) ── */
         .welcome-banner {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #7c3aed 100%);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(30,58,138,0.25);
-            overflow: hidden; position: relative;
+            background: white !important;
+            border-radius: 24px !important;
+            box-shadow: 0 8px 40px rgba(30,58,138,0.12), 0 2px 8px rgba(0,0,0,0.06) !important;
+            overflow: hidden !important;
+            position: relative !important;
+            margin-top: -12px !important;
+            border: none !important;
         }
+        .welcome-banner-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 28px 28px 28px 28px;
+            gap: 16px;
+        }
+        .welcome-text-col { flex: 1; min-width: 0; }
+        .welcome-greeting {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px; font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+            margin-bottom: 2px;
+        }
+        .welcome-name {
+            color: #2563eb;
+            display: inline;
+        }
+        .welcome-quote {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12.5px;
+            color: #64748b;
+            line-height: 1.7;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        /* Illustration column */
+        .welcome-illus-col {
+            flex-shrink: 0;
+            width: 130px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .welcome-illus-bg {
+            width: 120px; height: 120px;
+            background: #eef2ff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        /* Sparkle decorations */
+        .welcome-spark {
+            position: absolute;
+            color: #818cf8;
+            font-size: 14px;
+        }
+        .welcome-spark-1 { top: -6px; right: 14px; font-size: 12px; }
+        .welcome-spark-2 { top: 18px; right: -6px; font-size: 8px; color: #a5b4fc; }
+        .welcome-spark-3 { bottom: 10px; left: -4px; font-size: 10px; }
+        /* Book stack SVG illustration */
+        .books-illus { width: 96px; height: 80px; }
 
         /* ── TABLE ── */
         .data-table { width: 100%; border-collapse: collapse; }
@@ -584,11 +539,6 @@
         }
         .lowongan-item:last-child { border-bottom: none; }
         .lowongan-item:hover { background: #f0f9ff; }
-
-        /* ── PAGES CONTAINER adjustment for new header ── */
-        #pagesContainer {
-            padding-top: 0 !important;
-        }
     </style>
 </head>
 <body>
@@ -774,114 +724,101 @@
     </div>
 
     <!-- ===== MAIN LAYOUT ===== -->
-    <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col overflow-hidden" style="background:#eef2f9">
+    <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col overflow-hidden" style="background:#f1f5f9">
 
-        <!-- ══════════════════════════════════
-             NEW HEADER — matches reference image
-        ══════════════════════════════════ -->
-        <div class="app-header flex-none z-40">
-            <div class="header-inner">
-                <!-- Left: Logo + App Name -->
-                <div class="header-logo-box">
-                    <div class="header-logo-icon">
+        <!-- Header -->
+        <div class="app-header flex-none text-white z-40" style="font-family:'Poppins','Plus Jakarta Sans',sans-serif">
+            <div class="flex justify-between items-center">
+                <!-- Left: Logo + Brand -->
+                <div class="flex items-center gap-3">
+                    <div class="header-logo-box">
                         <i class="fa-solid fa-graduation-cap"></i>
                     </div>
-                    <div>
-                        <div class="header-app-name">LBB SAINSPIQ</div>
-                        <div class="header-app-sub">Jurnal Les Privat</div>
-                    </div>
+                    <span class="header-brand-text">LBB SAINSPIQ</span>
                 </div>
-
                 <!-- Right: Notif + Profile -->
-                <div class="header-actions">
-                    <!-- Notification Bell -->
+                <div class="flex items-center gap-3">
                     <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide header-notif-btn">
-                        <i class="fa-solid fa-bell"></i>
-                        <span id="notifBadge" class="hide header-notif-badge pulse-red">0</span>
+                        <i class="fa-regular fa-bell"></i>
+                        <span id="notifBadge" class="hide header-notif-badge pulse-red">2</span>
                     </button>
-
-                    <!-- Profile chip -->
-                    <div class="header-profile" onclick="navigate('profil')">
+                    <div class="header-profile-chip">
                         <div class="header-avatar" id="headerAvatarEl">
-                            <i class="fa-solid fa-user" style="font-size:13px"></i>
+                            <i class="fa-solid fa-user text-sm"></i>
                         </div>
-                        <div class="header-user-info">
-                            <span class="header-user-name" id="desktopUserName">–</span>
-                            <span class="header-user-code" id="headerUserCode">–</span>
+                        <div class="header-profile-text hidden sm:block">
+                            <div class="header-profile-name" id="desktopUserName"></div>
+                            <div class="header-profile-id" id="headerUserId"></div>
                         </div>
-                        <i class="fa-solid fa-chevron-down header-chevron"></i>
+                        <div class="header-profile-text sm:hidden">
+                            <div class="header-profile-name" id="mobileUserName"></div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down header-dropdown-icon"></i>
                     </div>
-
-                    <!-- Hidden mobile name (kept for JS compat) -->
-                    <span id="mobileUserName" class="hidden"></span>
                 </div>
             </div>
         </div>
 
         <!-- Pages -->
-        <div id="pagesContainer" class="flex-1 overflow-y-auto md:px-6">
-            <div class="max-w-4xl mx-auto pb-6">
+        <div id="pagesContainer" class="flex-1 overflow-y-auto px-4 pt-4 pb-5 md:px-6" style="background:#f1f5f9">
+            <div class="max-w-4xl mx-auto space-y-5 pb-6">
 
                 <!-- ===== DASHBOARD ===== -->
                 <div id="pageDashboard" class="page-content hide">
 
-                    <!-- ══ WELCOME CARD — floating overlap ══ -->
-                    <div class="welcome-card-wrapper">
-                        <div class="welcome-card">
-                            <!-- Left: Text -->
-                            <div class="welcome-card-left">
-                                <div class="welcome-greeting">Selamat datang,</div>
-                                <div class="welcome-name" id="welcomeUserName">Tutor! <span class="welcome-emoji">👋</span></div>
+                    <!-- Welcome Banner -->
+                    <div class="welcome-banner mb-5 mt-1" style="font-family:'Poppins','Plus Jakarta Sans',sans-serif">
+                        <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-3 right-3 text-gray-400 hover:text-blue-500 bg-gray-100 rounded-full p-2 w-8 h-8 flex items-center justify-center z-20 transition" style="top:12px;right:12px;position:absolute">
+                            <i class="fa-solid fa-pencil text-xs"></i>
+                        </button>
+                        <div class="welcome-banner-inner">
+                            <!-- Left: text -->
+                            <div class="welcome-text-col">
+                                <div class="welcome-greeting">
+                                    Selamat datang, <br>
+                                    <span class="welcome-name" id="bannerUserName">Tutor</span>! 👋
+                                </div>
                                 <p id="bannerText" class="welcome-quote">"Amanah yang kamu jalankan dengan penuh keikhlasan hari ini akan menjadi kebaikan dan amal jariyah di masa mendatang. Tetap semangat mencerdaskan generasi penerus bangsa!"</p>
-                                <!-- Admin edit btn -->
-                                <button id="btnEditBanner" onclick="editCustomBanner()" class="hide mt-3 text-xs text-blue-400 hover:text-blue-600 font-semibold flex items-center gap-1 bg-blue-50 px-3 py-1.5 rounded-full transition">
-                                    <i class="fa-solid fa-pencil text-[10px]"></i> Edit Quote
-                                </button>
                             </div>
-
-                            <!-- Right: Illustration -->
-                            <div class="welcome-card-right">
-                                <!-- Inline SVG book stack illustration -->
-                                <svg width="110" height="100" viewBox="0 0 110 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <!-- Decorative stars -->
-                                    <path d="M18 14 L19.5 18 L24 18 L20.5 20.5 L22 25 L18 22 L14 25 L15.5 20.5 L12 18 L16.5 18 Z" fill="#BFDBFE" opacity="0.7"/>
-                                    <path d="M95 8 L96 11 L99 11 L96.8 12.7 L97.8 16 L95 14 L92.2 16 L93.2 12.7 L91 11 L94 11 Z" fill="#BFDBFE" opacity="0.6"/>
-                                    <circle cx="8" cy="40" r="3" fill="#BFDBFE" opacity="0.5"/>
-                                    <circle cx="104" cy="55" r="2.5" fill="#93C5FD" opacity="0.5"/>
-
-                                    <!-- Arch background -->
-                                    <rect x="30" y="18" width="60" height="72" rx="30" fill="#EFF6FF" opacity="0.8"/>
-
-                                    <!-- Plant pot -->
-                                    <ellipse cx="62" cy="90" rx="12" ry="4" fill="#D1FAE5" opacity="0.6"/>
-                                    <rect x="57" y="80" width="10" height="12" rx="3" fill="#6EE7B7"/>
-                                    <rect x="58" y="81" width="8" height="10" rx="2" fill="#A7F3D0"/>
-                                    <!-- Leaves -->
-                                    <ellipse cx="55" cy="74" rx="9" ry="6" fill="#34D399" transform="rotate(-20 55 74)"/>
-                                    <ellipse cx="69" cy="72" rx="9" ry="6" fill="#10B981" transform="rotate(20 69 72)"/>
-                                    <ellipse cx="62" cy="70" rx="7" ry="10" fill="#6EE7B7"/>
-
-                                    <!-- Book stack (back) -->
-                                    <rect x="28" y="62" width="52" height="12" rx="4" fill="#1D4ED8" opacity="0.5"/>
-                                    <!-- Book stack (middle) -->
-                                    <rect x="31" y="52" width="48" height="12" rx="4" fill="#2563EB"/>
-                                    <rect x="31" y="52" width="5" height="12" rx="2" fill="#1E40AF"/>
-                                    <!-- Book stack (top large) -->
-                                    <rect x="26" y="40" width="54" height="14" rx="5" fill="#3B82F6"/>
-                                    <rect x="26" y="40" width="6" height="14" rx="3" fill="#1D4ED8"/>
-                                    <!-- Book highlight -->
-                                    <rect x="34" y="42" width="32" height="2" rx="1" fill="white" opacity="0.25"/>
-                                    <!-- Smallest top book -->
-                                    <rect x="33" y="32" width="40" height="11" rx="4" fill="#60A5FA"/>
-                                    <rect x="33" y="32" width="5" height="11" rx="2" fill="#3B82F6"/>
-                                    <rect x="40" y="34" width="22" height="2" rx="1" fill="white" opacity="0.3"/>
-                                </svg>
+                            <!-- Right: illustration -->
+                            <div class="welcome-illus-col">
+                                <div class="welcome-illus-bg">
+                                    <span class="welcome-spark welcome-spark-1">✦</span>
+                                    <span class="welcome-spark welcome-spark-2">✦</span>
+                                    <span class="welcome-spark welcome-spark-3">✦</span>
+                                    <!-- SVG Book Stack Illustration -->
+                                    <svg class="books-illus" viewBox="0 0 96 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Plant pot -->
+                                        <ellipse cx="24" cy="68" rx="10" ry="4" fill="#e0e7ff" opacity="0.6"/>
+                                        <rect x="18" y="58" width="12" height="12" rx="3" fill="#c7d2fe"/>
+                                        <rect x="19" y="57" width="10" height="3" rx="1.5" fill="#a5b4fc"/>
+                                        <!-- Plant leaves -->
+                                        <path d="M24 56 Q18 48 14 44 Q20 46 24 52" fill="#34d399"/>
+                                        <path d="M24 54 Q30 46 34 42 Q28 46 24 50" fill="#6ee7b7"/>
+                                        <path d="M24 52 Q20 44 22 38 Q26 44 24 50" fill="#34d399"/>
+                                        <!-- Book 3 (bottom, largest, dark blue) -->
+                                        <rect x="34" y="54" width="52" height="16" rx="4" fill="#1e40af"/>
+                                        <rect x="34" y="54" width="8" height="16" rx="4" fill="#1d4ed8"/>
+                                        <rect x="38" y="54" width="2" height="16" fill="#3b82f6" opacity="0.4"/>
+                                        <!-- Book 2 (middle, medium blue) -->
+                                        <rect x="38" y="40" width="46" height="16" rx="4" fill="#2563eb"/>
+                                        <rect x="38" y="40" width="8" height="16" rx="4" fill="#1d4ed8"/>
+                                        <rect x="42" y="40" width="2" height="16" fill="#60a5fa" opacity="0.4"/>
+                                        <!-- Book 1 (top, light blue) -->
+                                        <rect x="42" y="28" width="38" height="14" rx="4" fill="#3b82f6"/>
+                                        <rect x="42" y="28" width="7" height="14" rx="4" fill="#2563eb"/>
+                                        <rect x="45" y="28" width="2" height="14" fill="#93c5fd" opacity="0.5"/>
+                                        <!-- Small book on top (accent) -->
+                                        <rect x="52" y="19" width="22" height="11" rx="3" fill="#60a5fa"/>
+                                        <rect x="52" y="19" width="5" height="11" rx="3" fill="#3b82f6"/>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Lowongan Tutor -->
-                    <div class="lowongan-card mb-4 mx-4" id="lowonganSection">
+                    <div class="lowongan-card mb-5" id="lowonganSection">
                         <div class="lowongan-header px-5 py-4 flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <div class="bg-white/20 p-2 rounded-xl border border-white/20">
@@ -907,10 +844,10 @@
                     </div>
 
                     <!-- Stats -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 px-4" id="dashboardStats"></div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5" id="dashboardStats"></div>
 
                     <!-- Grafik Progress Pertemuan (Admin Only) -->
-                    <div id="grafikProgressSection" class="hide mb-4 px-4">
+                    <div id="grafikProgressSection" class="hide mb-5">
                         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                             <div style="background:linear-gradient(135deg,#1e3a8a,#4f46e5)" class="px-5 py-4 flex items-center justify-between">
                                 <div class="flex items-center gap-3">
@@ -936,7 +873,7 @@
                     </div>
 
                     <!-- Missing Sesi -->
-                    <div id="missingSesiCard" class="hide mb-4 px-4">
+                    <div id="missingSesiCard" class="hide mb-5">
                         <div class="bg-white rounded-2xl overflow-hidden border border-red-100 shadow-sm">
                             <div style="background:linear-gradient(135deg,#ef4444,#f97316)" class="px-5 py-4 flex items-center justify-between">
                                 <div class="flex items-center gap-3">
@@ -968,7 +905,7 @@
                     </div>
 
                     <!-- AI Asisten -->
-                    <div class="bg-white rounded-2xl border border-indigo-100 shadow-sm p-6 relative overflow-hidden mx-4 mb-4">
+                    <div class="bg-white rounded-2xl border border-indigo-100 shadow-sm p-6 relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-5 opacity-5">
                             <i class="fa-solid fa-robot text-8xl text-indigo-900"></i>
                         </div>
@@ -994,7 +931,7 @@
                 </div>
 
                 <!-- ===== DATA SISWA ===== -->
-                <div id="pageDataSiswa" class="page-content hide px-4 py-5">
+                <div id="pageDataSiswa" class="page-content hide">
                     <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Kelola Data Siswa</h2>
                     <form id="formSiswa" onsubmit="handleSaveSiswa(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-5">
                         <h3 class="font-bold text-gray-800 mb-5 flex items-center gap-2 text-sm">
@@ -1073,7 +1010,7 @@
                 </div>
 
                 <!-- ===== DATA GURU ===== -->
-                <div id="pageDataGuru" class="page-content hide px-4 py-5">
+                <div id="pageDataGuru" class="page-content hide">
                     <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Kelola Data Guru / Tutor</h2>
                     <form id="formGuru" onsubmit="handleSaveGuru(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-5">
                         <h3 class="font-bold text-gray-800 mb-5 flex items-center gap-2 text-sm">
@@ -1126,7 +1063,7 @@
                 </div>
 
                 <!-- ===== INPUT SESI ===== -->
-                <div id="pageInputSesi" class="page-content hide px-4 py-5">
+                <div id="pageInputSesi" class="page-content hide">
                     <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight"><i class="fa-solid fa-clipboard-check text-blue-500 mr-2"></i>Absen / Input Sesi</h2>
                     <form id="formSesi" onsubmit="handleSaveSesi(event)" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
                         <input type="hidden" id="sesiId">
@@ -1155,117 +1092,100 @@
                         <div class="mb-8">
                             <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Jurnal / Materi yang Diajarkan</label>
                             <div class="relative">
-                                <textarea id="sesiJurnal" rows="5" class="form-input resize-none" placeholder="Tuliskan materi yang diajarkan hari ini, perkembangan siswa, catatan khusus..."></textarea>
-                                <button type="button" onclick="generateJurnal()" id="btnGenerateJurnal"
-                                    style="background:linear-gradient(135deg,#7c3aed,#4f46e5)"
-                                    class="absolute bottom-3 right-3 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md hover:opacity-90 transition">
-                                    <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i>
-                                    <span id="btnGenerateJurnalText">✨ AI Bantu Tulis</span>
-                                </button>
+                                <textarea id="sesiJurnal" rows="5"
+                                    class="form-input resize-none leading-relaxed"
+                                    placeholder="Catat kasar materi, evaluasi, atau PR siswa di sini..." required></textarea>
+                                <div class="absolute bottom-3 right-3">
+                                    <button type="button" id="btnAIEnhance" onclick="enhanceJurnalWithAI()"
+                                        style="background:linear-gradient(135deg,#7c3aed,#4f46e5)"
+                                        class="text-xs text-white font-bold px-3 py-2 rounded-lg shadow-md flex items-center gap-1.5 hover:opacity-90 transition">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        <span id="textAIEnhance">✨ Rapikan AI</span>
+                                    </button>
+                                </div>
                             </div>
+                            <p class="text-xs text-gray-400 mt-2"><i class="fa-solid fa-circle-info"></i> Tulis catatan kasar lalu gunakan AI untuk merapikannya.</p>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3">
-                            <button type="submit" class="flex-1 bg-blue-600 text-white font-extrabold py-3.5 rounded-2xl hover:bg-blue-700 transition shadow-md text-sm tracking-wide">
-                                <i class="fa-solid fa-save mr-2"></i>Simpan Sesi
-                            </button>
-                            <button type="button" onclick="resetFormSesi()" class="bg-gray-100 text-gray-700 font-bold px-6 py-3.5 rounded-2xl hover:bg-gray-200 transition text-sm">
-                                Batal / Reset
+                        <div class="flex gap-3 pt-4 border-t border-gray-100">
+                            <button type="button" onclick="resetFormSesi()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-6 py-3.5 rounded-xl hover:bg-gray-200 transition text-sm">Batal / Reset</button>
+                            <button type="submit" class="flex-[2] bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl hover:bg-blue-700 transition shadow-md flex justify-center items-center gap-2 text-sm">
+                                <i class="fa-solid fa-save"></i> Simpan Sesi
                             </button>
                         </div>
                     </form>
                 </div>
 
-                <!-- ===== REKAP / LAPORAN ===== -->
-                <div id="pageRekap" class="page-content hide px-4 py-5">
-                    <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight"><i class="fa-solid fa-chart-bar text-blue-500 mr-2"></i>Rekap & Laporan</h2>
+                <!-- ===== REKAP ===== -->
+                <div id="pageRekap" class="page-content hide">
+                    <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Rekap, Laporan & Riwayat</h2>
 
-                    <!-- Banner Aturan -->
-                    <div class="welcome-banner p-5 text-white mb-5 flex items-start gap-4 relative">
-                        <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 80% 20%, white 0%, transparent 60%)"></div>
-                        <div class="bg-white/20 p-3 rounded-xl border border-white/20 flex-shrink-0 z-10">
-                            <i class="fa-solid fa-shield-halved text-xl text-white"></i>
+                    <!-- Banner Aturan / Peringatan Admin -->
+                    <div id="rekapAdminBanner" class="mb-5 relative rounded-2xl border-2 border-red-500 bg-red-50 px-5 py-4 flex items-start gap-4 shadow-sm">
+                        <div class="flex-shrink-0 w-9 h-9 rounded-xl bg-red-500 flex items-center justify-center">
+                            <i class="fa-solid fa-triangle-exclamation text-white text-sm"></i>
                         </div>
-                        <div class="z-10 flex-1">
-                            <h3 class="font-extrabold text-base mb-1">Peraturan & Kebijakan</h3>
-                            <p id="rekapBannerText" class="text-yellow-200/90 text-xs leading-relaxed font-medium">Pastikan setiap sesi telah diinput dengan benar dan jujur. Data yang tercatat adalah tanggung jawab tutor yang bersangkutan.</p>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-red-600 uppercase tracking-wide mb-1">Pengumuman / Aturan</p>
+                            <p id="rekapBannerText" class="text-sm text-red-800 font-medium leading-relaxed">Harap isi rekap sesi dengan lengkap dan jujur. Data yang tidak akurat dapat mempengaruhi laporan ke orang tua siswa.</p>
                         </div>
-                        <button id="btnEditRekapBanner" onclick="editRekapBanner()" class="hide absolute top-3 right-3 text-white/70 hover:text-amber-300 bg-black/20 rounded-full p-2 w-8 h-8 flex items-center justify-center z-20 transition">
+                        <button id="btnEditRekapBanner" onclick="editRekapBanner()" class="hide flex-shrink-0 text-red-400 hover:text-red-600 bg-red-100 hover:bg-red-200 rounded-full p-1.5 transition" title="Edit Banner">
                             <i class="fa-solid fa-pencil text-xs"></i>
                         </button>
                     </div>
 
-                    <!-- Filter -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-5">
-                        <h3 class="font-bold text-gray-800 mb-4 text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-filter text-blue-500"></i> Filter Laporan
+                    <div id="rekapMotivasiCard" class="hide mb-5 p-6 text-white flex items-center justify-between shadow-lg"
+                        style="background:linear-gradient(135deg,#f97316,#ec4899);border-radius:20px">
+                        <div class="p-5">
+                            <h3 class="font-bold text-xl mb-1 text-white">Ayo Semangat! 💪</h3>
+                            <p class="text-white/90 text-sm font-medium" id="rekapMotivasiText">Tugas kamu tinggal X pertemuan lagi.</p>
+                        </div>
+                        <div class="mr-5 bg-white/20 rounded-2xl w-16 h-16 flex items-center justify-center border border-white/30 flex-shrink-0">
+                            <span class="text-3xl font-black text-white" id="rekapMotivasiAngka">0</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-5">
+                        <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-sm">
+                            <span class="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
+                                <i class="fa-solid fa-filter text-blue-500 text-xs"></i>
+                            </span>
+                            Filter Laporan
                         </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Siswa</label>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Pilih Siswa</label>
                                 <select id="filterSiswa" class="form-input"></select>
                             </div>
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Dari Tanggal</label>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tanggal Mulai</label>
                                 <input type="date" id="filterStart" class="form-input">
                             </div>
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Sampai Tanggal</label>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tanggal Akhir</label>
                                 <input type="date" id="filterEnd" class="form-input">
                             </div>
                         </div>
-                        <button onclick="generateReport()" class="bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-magnifying-glass"></i> Lihat Laporan
-                        </button>
+                        <button onclick="generateReport()" class="mt-5 bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm text-sm w-full md:w-auto">Tampilkan Laporan</button>
                     </div>
 
-                    <!-- Report Container -->
-                    <div id="reportContainer" class="hide mb-5">
-                        <!-- Motivasi Card (guru only) -->
-                        <div id="rekapMotivasiCard" class="hide bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-5 mb-4 flex items-center gap-4 shadow-md">
-                            <div class="bg-white/20 rounded-2xl w-14 h-14 flex items-center justify-center flex-shrink-0">
-                                <span id="rekapMotivasiAngka" class="font-black text-2xl">0</span>
+                    <div id="reportContainer" class="hide">
+                        <div class="bg-white border border-blue-100 rounded-2xl p-6 text-center mb-5 shadow-sm">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-solid fa-file-circle-check text-2xl text-blue-500"></i>
                             </div>
-                            <p id="rekapMotivasiText" class="font-semibold text-sm leading-relaxed"></p>
-                        </div>
-
-                        <!-- Report header -->
-                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4">
-                            <div class="p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                                <div>
-                                    <h3 class="font-extrabold text-gray-900 text-base" id="reportSiswaName">–</h3>
-                                    <p class="text-gray-500 text-xs mt-0.5" id="reportDateRange">–</p>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-2 text-center">
-                                        <div class="text-2xl font-black text-blue-600" id="reportVisualTotalHadir">0</div>
-                                        <div class="text-xs text-blue-400 font-semibold">Sesi Hadir</div>
-                                    </div>
-                                </div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-1">Laporan Berhasil Disusun!</h3>
+                            <p class="text-gray-500 text-sm mb-5">Total sesi kehadiran: <strong class="text-blue-600 text-lg" id="reportVisualTotalHadir">0</strong> sesi.</p>
+                            <div class="flex flex-col sm:flex-row justify-center gap-3">
+                                <button type="button" id="btnAINarrative" onclick="generateReportNarrativeWithAI()"
+                                    style="background:linear-gradient(135deg,#7c3aed,#4f46e5)"
+                                    class="text-white font-bold px-5 py-3 rounded-xl shadow-md hover:opacity-90 transition flex items-center justify-center gap-2 text-sm">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    <span id="textAINarrative">Buat Evaluasi AI untuk Ortu</span>
+                                </button>
+                                <button onclick="exportToPDF()" class="bg-red-500 text-white font-bold px-6 py-3 rounded-xl shadow-md hover:bg-red-600 transition flex items-center justify-center gap-2 text-sm">
+                                    <i class="fa-solid fa-file-pdf text-base"></i> Download PDF
+                                </button>
                             </div>
-                            <div class="overflow-x-auto">
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Tanggal</th>
-                                            <th>Tutor</th>
-                                            <th>Status</th>
-                                            <th>Jurnal & Materi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="reportTableContainer"></tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-wrap gap-3 justify-end">
-                            <button onclick="generateAINarrative()" id="btnAINarrative"
-                                style="background:linear-gradient(135deg,#7c3aed,#4f46e5)"
-                                class="text-white font-bold px-5 py-3 rounded-xl shadow-md hover:opacity-90 transition flex items-center justify-center gap-2 text-sm">
-                                <i class="fa-solid fa-wand-magic-sparkles text-base"></i> Buat Evaluasi AI untuk Ortu
-                            </button>
-                            <button onclick="exportToPDF()" class="bg-red-500 text-white font-bold px-6 py-3 rounded-xl shadow-md hover:bg-red-600 transition flex items-center justify-center gap-2 text-sm">
-                                <i class="fa-solid fa-file-pdf text-base"></i> Download PDF
-                            </button>
                         </div>
                     </div>
 
@@ -1333,7 +1253,7 @@
                 </div><!-- /pageRekap -->
 
                 <!-- ===== PROFIL GURU ===== -->
-                <div id="pageProfil" class="page-content hide px-4 py-5">
+                <div id="pageProfil" class="page-content hide">
                     <!-- Profile Header -->
                     <div class="profile-header text-white mb-5 flex flex-col items-center text-center relative z-10">
                         <div class="profile-avatar mb-3" id="profileAvatar">?</div>
@@ -1424,53 +1344,55 @@ async function callAIBackend(action, payload) {
     return data.result;
 }
 
-async function generateJurnal() {
-    const siswaId = document.getElementById('sesiSiswa').value;
-    const status = document.getElementById('sesiStatus').value;
-    const existing = document.getElementById('sesiJurnal').value.trim();
-    const btn = document.getElementById('btnGenerateJurnal');
-    const txt = document.getElementById('btnGenerateJurnalText');
-    if (!siswaId) { showToast("Pilih siswa terlebih dahulu!", "error"); return; }
-    const siswa = dataSiswa.find(s => s.id_siswa === siswaId);
-    if (!siswa) return;
+async function enhanceJurnalWithAI() {
+    const textarea = document.getElementById('sesiJurnal');
+    const raw = textarea.value.trim();
+    const btn = document.getElementById('btnAIEnhance');
+    const icon = btn.querySelector('i');
+    const txt = document.getElementById('textAIEnhance');
+    if (!raw) { showToast("Ketik catatan kasar dulu!", "error"); return; }
+    icon.className = "fa-solid fa-spinner fa-spin";
+    txt.innerText = "Memproses...";
+    btn.disabled = true;
+    try {
+        const result = await callAIBackend("enhanceJurnal", { rawText: raw });
+        textarea.value = result;
+        showToast("✨ Jurnal disempurnakan AI!");
+    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    finally {
+        icon.className = "fa-solid fa-wand-magic-sparkles";
+        txt.innerText = "✨ Rapikan AI";
+        btn.disabled = false;
+    }
+}
+
+async function generateReportNarrativeWithAI() {
+    const rows = document.getElementById('reportTableBody').querySelectorAll('tr');
+    const btn = document.getElementById('btnAINarrative');
+    const icon = btn.querySelector('i');
+    const txt = document.getElementById('textAINarrative');
+    if (!rows.length || rows[0].innerText.includes('Tidak ada data')) {
+        showToast("Tidak ada data sesi.", "error"); return;
+    }
+    const journals = Array.from(rows).map(r => {
+        const c = r.querySelectorAll('td');
+        return c.length === 4 ? `- Tanggal: ${c[0].innerText}, Materi: ${c[3].innerText}` : null;
+    }).filter(Boolean);
+    const namaSiswa = document.getElementById('reportSiswaName').innerText;
+    icon.className = "fa-solid fa-spinner fa-spin";
     txt.innerText = "Menulis...";
     btn.disabled = true;
     try {
-        const hasil = await callAIBackend("generateJurnal", {
-            namaSiswa: siswa.nama_siswa, kelas: siswa.kelas || siswa.program_les || '-',
-            status, existingNote: existing
-        });
-        document.getElementById('sesiJurnal').value = hasil;
-        showToast("Jurnal berhasil dibuat oleh AI! ✨");
-    } catch (err) { showToast("AI Error: " + err.message, "error"); }
-    finally { txt.innerText = "✨ AI Bantu Tulis"; btn.disabled = false; }
-}
-
-async function generateAINarrative() {
-    const idSiswa = document.getElementById('filterSiswa').value;
-    const btn = document.getElementById('btnAINarrative');
-    const icon = btn.querySelector('i');
-    const txt = btn.querySelector('span') || btn;
-    icon.className = "fa-solid fa-spinner fa-spin";
-    btn.disabled = true;
-    try {
-        dataSesi = (await apiCall('getSesi')) || [];
-        let filtered = dataSesi;
-        if (currentUser.role === 'guru') filtered = filtered.filter(s => s.id_guru === currentUser.username);
-        if (idSiswa !== "ALL" && idSiswa) filtered = filtered.filter(s => s.id_siswa === idSiswa);
-        const siswa = dataSiswa.find(s => s.id_siswa === idSiswa);
-        const riwayatArr = filtered.map(s => `- ${s.tanggal}: ${s.status_sesi} | ${s.jurnal_materi}`);
-        const hasil = await callAIBackend("generateNarrative", {
-            namaSiswa: siswa?.nama_siswa || "Semua Siswa",
-            kelas: siswa?.kelas || siswa?.program_les || '-',
-            riwayat: riwayatArr
-        });
+        const hasil = await callAIBackend("reportNarrative", { namaSiswa, journals });
         document.getElementById('aiNarrativeText').innerText = hasil;
         document.getElementById('aiNarrativeContainer').classList.remove('hide');
-        showToast("Evaluasi AI berhasil dibuat! ✨");
-    } catch (err) { showToast("AI Error: " + err.message, "error"); }
+        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Evaluasi AI';
+        document.getElementById('aiModalContent').innerText = "Teks ini sudah ditambahkan ke PDF:\n\n" + hasil;
+        document.getElementById('aiModal').classList.remove('hide');
+    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
     finally {
         icon.className = "fa-solid fa-wand-magic-sparkles";
+        txt.innerText = "Buat Evaluasi AI untuk Ortu";
         btn.disabled = false;
     }
 }
@@ -1651,11 +1573,12 @@ function showToast(msg, type = "success") {
         : '<i class="fa-solid fa-circle-xmark"></i>';
     msgEl.innerText = msg;
     backdrop.classList.add('show');
+
     if (toastTimer) clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
-        toast.className = toast.className.replace(' show','').replace('show ','');
+        toast.className = type === 'success' ? 'success' : 'error';
         backdrop.classList.remove('show');
-    }, 3000);
+    }, 2800);
 }
 
 // Tap backdrop to dismiss toast
@@ -2021,567 +1944,619 @@ async function saveLowongan() {
         showToast(editId ? "Lowongan berhasil diperbarui!" : "Lowongan berhasil ditambahkan!");
         closeLowonganModal();
         await loadLowongan();
-    } catch (e) { showToast("Gagal: " + e.message, "error"); }
+    } catch(e) { showToast("Gagal menyimpan: " + e.message, "error"); }
     showLoading(false);
 }
 
-async function deleteLowongan(idLowongan) {
+function deleteLowongan(idLowongan) {
+    if (currentUser.role !== 'admin') { showToast("Akses ditolak!", "error"); return; }
     showConfirm('Hapus Lowongan', 'Lowongan ini akan dihapus permanen.', async () => {
         showLoading(true);
         try {
             await apiCall('deleteLowongan', { id_lowongan: idLowongan });
             showToast("Lowongan dihapus.");
             await loadLowongan();
-        } catch (e) { showToast("Gagal: " + e.message, "error"); }
+        } catch(e) { showToast("Gagal menghapus: " + e.message, "error"); }
         showLoading(false);
     });
 }
 
 // ============================================================
-// NAVIGATE
+// INIT & LOGIN
 // ============================================================
-const pages = ['dashboard','siswa','guru','input','rekap','profil'];
+window.onload = () => {
+    applyCustomBanner();
+    applyRekapBanner();
+    let savedUser = localStorage.getItem('les_user');
+    if (savedUser) {
+        try {
+            currentUser = JSON.parse(savedUser);
+            if (!currentUser?.username) throw new Error();
+            initApp();
+        } catch (e) { localStorage.removeItem('les_user'); }
+    }
+};
 
-function navigate(page) {
-    scrollToTop();
-    pages.forEach(p => {
-        const el = document.getElementById('page' + p.charAt(0).toUpperCase() + p.slice(1) + (p === 'siswa' ? 'Siswa' : p === 'guru' ? 'Guru' : p === 'input' ? 'InputSesi' : p === 'rekap' ? 'Rekap' : p === 'profil' ? 'Profil' : 'Dashboard'));
-        // handle special page IDs
-    });
-
-    // Map page names to IDs
-    const pageMap = {
-        'dashboard': 'pageDashboard',
-        'siswa': 'pageDataSiswa',
-        'guru': 'pageDataGuru',
-        'input': 'pageInputSesi',
-        'rekap': 'pageRekap',
-        'profil': 'pageProfil'
-    };
-
-    Object.values(pageMap).forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hide');
-    });
-
-    const target = document.getElementById(pageMap[page]);
-    if (target) target.classList.remove('hide');
-
-    // Update nav buttons
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.page === page) btn.classList.add('active');
-    });
-    document.querySelectorAll('.nav-fab-wrapper').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.page === page) btn.classList.add('active');
-    });
-
-    // Load data per page
-    if (page === 'dashboard') { loadDashboard(); }
-    else if (page === 'siswa') { loadDataSiswa(); }
-    else if (page === 'guru') { loadDataGuru(); }
-    else if (page === 'input') { loadFormSesi(); }
-    else if (page === 'rekap') { loadRiwayat(); populateFilterSiswa(); applyRekapBanner(); }
-    else if (page === 'profil') { loadProfil(); }
-}
-
-// ============================================================
-// NAV RENDER
-// ============================================================
-function renderNav() {
-    const nav = document.getElementById('mobileNav');
-    const isAdmin = currentUser.role === 'admin';
-    const navItems = [
-        { page: 'dashboard', icon: 'fa-house', label: 'Beranda' },
-        isAdmin ? { page: 'siswa', icon: 'fa-users', label: 'Siswa' } : null,
-        isAdmin ? { page: 'guru', icon: 'fa-chalkboard-user', label: 'Tutor' } : null,
-        { page: 'input', icon: 'fa-plus', label: 'Absen', fab: true },
-        { page: 'rekap', icon: 'fa-chart-bar', label: 'Rekap' },
-        { page: 'profil', icon: 'fa-user', label: 'Profil' },
-    ].filter(Boolean);
-
-    nav.innerHTML = navItems.map(item => {
-        if (item.fab) {
-            return `<div class="nav-fab-wrapper" data-page="${item.page}" onclick="navigate('${item.page}')">
-                <div class="nav-fab"><i class="fa-solid ${item.icon}"></i></div>
-                <span class="nav-fab-text">${item.label}</span>
-            </div>`;
-        }
-        return `<button class="nav-btn flex flex-col items-center justify-end gap-1 flex-1 py-2 bg-transparent border-none cursor-pointer" data-page="${item.page}" onclick="navigate('${item.page}')">
-            <div class="nav-pill flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all">
-                <i class="fa-solid ${item.icon} text-base text-gray-400"></i>
-                <span class="text-[10px] font-bold text-gray-400">${item.label}</span>
-            </div>
-        </button>`;
-    }).join('');
-}
-
-// ============================================================
-// AUTH
-// ============================================================
 async function handleLogin(e) {
     e.preventDefault();
-    const username = document.getElementById('loginUsername').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-    showLoading(true, "Memverifikasi...");
+    showLoading(true, "Otentikasi...");
     try {
-        const user = await apiCall('login', { username, password });
-        currentUser = user;
-        document.getElementById('pageLogin').classList.add('hide');
-        document.getElementById('mainLayout').classList.remove('hide');
-        // Update header elements
-        const nama = user.nama_lengkap || user.username;
-        document.getElementById('desktopUserName').innerText = nama;
-        document.getElementById('mobileUserName').innerText = nama;
-        document.getElementById('headerUserCode').innerText = user.username.toUpperCase();
-        // Update avatar initial
-        const avatarEl = document.getElementById('headerAvatarEl');
-        const initial = nama.charAt(0).toUpperCase();
-        avatarEl.innerHTML = `<span style="font-size:13px;font-weight:800">${initial}</span>`;
-        // Update welcome card name
-        document.getElementById('welcomeUserName').innerHTML = `${nama}! <span class="welcome-emoji">👋</span>`;
-        renderNav();
-        navigate('dashboard');
-        applyCustomBanner();
+        currentUser = await apiCall('login', {
+            username: document.getElementById('loginUsername').value,
+            password: document.getElementById('loginPassword').value
+        });
+        localStorage.setItem('les_user', JSON.stringify(currentUser));
+        initApp();
+        showToast("Login Berhasil! Selamat datang 👋");
     } catch (err) {
-        showToast(err.message, "error");
+        showLoading(false);
+        showToast("Username atau Password salah!", "error");
     }
     showLoading(false);
 }
 
+function logout() {
+    localStorage.removeItem('les_user');
+    currentUser = null;
+    document.getElementById('mainLayout').classList.add('hide');
+    document.getElementById('pageLogin').classList.remove('hide');
+}
+
+async function initApp() {
+    document.getElementById('pageLogin').classList.add('hide');
+    document.getElementById('mainLayout').classList.remove('hide');
+    document.getElementById('desktopUserName').innerText = currentUser.nama_lengkap;
+    document.getElementById('mobileUserName').innerText = currentUser.nama_lengkap;
+    if (document.getElementById('bannerUserName')) document.getElementById('bannerUserName').innerText = currentUser.nama_lengkap;
+    if (document.getElementById('headerUserId')) document.getElementById('headerUserId').innerText = currentUser.username || '';
+    if (currentUser.role === 'admin') {
+        document.getElementById('btnEditBanner').classList.remove('hide');
+        document.getElementById('btnTambahLowongan').classList.remove('hide');
+        document.getElementById('btnEditRekapBanner').classList.remove('hide');
+    }
+    buildNavigation();
+    dataSiswa = (await apiCall('getSiswa')) || [];
+    dataGuru = (await apiCall('getGuru')) || [];
+    loadSiswaOptions();
+    navigate('dashboard');
+}
+
 // ============================================================
-// DASHBOARD
+// NAVIGATION
+// ============================================================
+function buildNavigation() {
+    let mNav = '';
+
+    if (currentUser.role === 'guru') {
+        // GURU NAV: Beranda | Rekap | [FAB Absen] | Profil | Keluar
+        mNav += navBtn('dashboard', 'fa-home', 'Beranda');
+        mNav += navBtn('rekap', 'fa-chart-bar', 'Rekap');
+        mNav += navFAB('input', 'fa-clipboard-check', 'Absen');
+        mNav += navBtn('profil', 'fa-user-circle', 'Profil');
+    } else {
+        // ADMIN NAV: Beranda | Siswa | [FAB Guru] | Rekap | Keluar
+        mNav += navBtn('dashboard', 'fa-home', 'Beranda');
+        mNav += navBtn('siswa', 'fa-users', 'Siswa');
+        mNav += navFAB('guru', 'fa-chalkboard-user', 'Guru');
+        mNav += navBtn('rekap', 'fa-chart-bar', 'Rekap');
+    }
+    mNav += `
+        <button onclick="logout()"
+            class="flex-1 flex flex-col items-center justify-center pb-1 pt-2 text-red-400 font-semibold hover:text-red-600 transition-colors">
+            <div class="px-3 py-1.5 rounded-full hover:bg-red-50 transition-colors mb-0.5">
+                <i class="fa-solid fa-sign-out-alt text-base"></i>
+            </div>
+            <span class="text-[10px] whitespace-nowrap">Keluar</span>
+        </button>`;
+    document.getElementById('mobileNav').innerHTML = mNav;
+}
+
+function navBtn(id, icon, text) {
+    return `
+        <button onclick="navigate('${id}')" id="nav-m-${id}"
+            class="nav-btn flex-1 flex flex-col items-center justify-end pb-1 pt-2 text-gray-500 font-semibold hover:text-blue-600 transition-colors">
+            <div id="nav-icon-bg-${id}" class="nav-pill px-3 py-1.5 rounded-full transition-colors duration-200 mb-0.5">
+                <i class="fa-solid ${icon} text-base"></i>
+            </div>
+            <span class="text-[10px] whitespace-nowrap">${text}</span>
+        </button>`;
+}
+
+function navFAB(id, icon, text) {
+    return `
+        <div class="nav-fab-wrapper" id="nav-m-${id}" onclick="navigate('${id}')">
+            <button class="nav-fab" id="nav-fab-btn-${id}" tabindex="-1">
+                <i class="fa-solid ${icon}"></i>
+            </button>
+            <span class="nav-fab-text" id="nav-fab-text-${id}">${text}</span>
+        </div>`;
+}
+
+function navigate(page) {
+    document.querySelectorAll('.page-content').forEach(el => el.classList.add('hide'));
+    document.querySelectorAll('[id^="nav-m-"]').forEach(el => {
+        el.classList.remove('text-blue-600', 'active'); el.classList.add('text-gray-500');
+    });
+    document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => el.classList.remove('bg-blue-50', 'text-blue-600'));
+    // Reset FAB styles
+    document.querySelectorAll('[id^="nav-fab-btn-"]').forEach(el => {
+        el.style.background = '';
+        el.style.boxShadow = '';
+    });
+
+    let targetId = '';
+    if (page === 'dashboard') { targetId = 'pageDashboard'; loadDashboard(); }
+    if (page === 'guru') { targetId = 'pageDataGuru'; loadDataGuruPage(); }
+    if (page === 'siswa') { targetId = 'pageDataSiswa'; loadDataSiswaPage(); }
+    if (page === 'input') { targetId = 'pageInputSesi'; document.getElementById('sesiTanggal').valueAsDate = new Date(); }
+    if (page === 'rekap') { targetId = 'pageRekap'; populateFilterSiswa(); loadRiwayat(); }
+    if (page === 'profil') { targetId = 'pageProfil'; loadProfil(); }
+    if (targetId) document.getElementById(targetId).classList.remove('hide');
+
+    const mBtn = document.getElementById(`nav-m-${page}`);
+    const mBg = document.getElementById(`nav-icon-bg-${page}`);
+    if (mBtn) {
+        mBtn.classList.remove('text-gray-500');
+        mBtn.classList.add('text-blue-600', 'active');
+    }
+    if (mBg) mBg.classList.add('bg-blue-50', 'text-blue-600');
+    scrollToTop();
+}
 // ============================================================
 async function loadDashboard() {
     showLoading(true);
     try {
-        [dataSiswa, dataSesi, dataGuru] = await Promise.all([
-            apiCall('getSiswa'), apiCall('getSesi'), apiCall('getGuru')
-        ]);
-        renderDashboardStats();
-        await checkMissingSesi();
-        await loadLowongan();
-        // Admin extras
+        dataSesi = (await apiCall('getSesi')) || [];
+        dataSiswa = (await apiCall('getSiswa')) || [];
+        dataGuru = (await apiCall('getGuru')) || [];
+        let filtered = dataSesi;
+        if (currentUser.role === 'guru') filtered = dataSesi.filter(s => s.id_guru === currentUser.username);
+        const total = filtered.length;
+        const selesai = filtered.filter(s => s.status_sesi === 'Selesai').length;
+        const batal = filtered.filter(s => s.status_sesi === 'Batal').length;
+        const reschedule = filtered.filter(s => s.status_sesi === 'Reschedule').length;
+        const label = currentUser.role === 'admin' ? 'Total Sesi' : 'Sesi Anda';
+        document.getElementById('dashboardStats').innerHTML = `
+            <div class="stat-card p-5 flex flex-col items-center text-center" style="border-bottom:3px solid #3b82f6">
+                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">${label}</p>
+                <h3 class="text-3xl font-black text-blue-600 mt-2">${total}</h3>
+            </div>
+            <div class="stat-card p-5 flex flex-col items-center text-center" style="border-bottom:3px solid #10b981">
+                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Hadir</p>
+                <h3 class="text-3xl font-black text-emerald-600 mt-2">${selesai}</h3>
+            </div>
+            <div class="stat-card p-5 flex flex-col items-center text-center" style="border-bottom:3px solid #ef4444">
+                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Batal</p>
+                <h3 class="text-3xl font-black text-red-500 mt-2">${batal}</h3>
+            </div>
+            <div class="stat-card p-5 flex flex-col items-center text-center" style="border-bottom:3px solid #f59e0b">
+                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Reschedule</p>
+                <h3 class="text-3xl font-black text-amber-500 mt-2">${reschedule}</h3>
+            </div>`;
+
+        // Grafik progress hanya untuk admin
         if (currentUser.role === 'admin') {
-            document.getElementById('btnEditBanner').classList.remove('hide');
-            document.getElementById('btnTambahLowongan').classList.remove('hide');
             document.getElementById('grafikProgressSection').classList.remove('hide');
+            // Isi filter dropdown guru
+            const guruSel = document.getElementById('grafikFilterGuru');
+            guruSel.innerHTML = '<option value="ALL" style="color:#1e3a8a;background:white">Semua Tutor</option>';
+            dataGuru.forEach(g => {
+                guruSel.innerHTML += `<option value="${g.username}" style="color:#1e3a8a;background:white">${g.nama_lengkap}</option>`;
+            });
             renderGrafikProgress();
+        } else {
+            document.getElementById('grafikProgressSection').classList.add('hide');
         }
-    } catch (e) { console.error(e); }
+
+        await checkMissingSesi();
+    } catch (e) {
+        document.getElementById('dashboardStats').innerHTML = '<p class="text-red-500 text-sm col-span-4">Gagal memuat data.</p>';
+    }
+    await loadLowongan();
     showLoading(false);
 }
 
-function renderDashboardStats() {
-    const container = document.getElementById('dashboardStats');
-    let siswaSaya = dataSiswa;
-    if (currentUser.role === 'guru') {
-        const assigned = (currentUser.assigned_siswa || '').split(',').map(x=>x.trim()).filter(Boolean);
-        siswaSaya = dataSiswa.filter(s => assigned.includes(s.id_siswa));
-    }
-    const sesiSaya = currentUser.role === 'guru'
-        ? dataSesi.filter(s => s.id_guru === currentUser.username)
-        : dataSesi;
-    const sesiSelesai = sesiSaya.filter(s => s.status_sesi === 'Selesai').length;
-    const sesiHariIni = sesiSaya.filter(s => s.tanggal === getTodayDate()).length;
-    const siswaAktif = siswaSaya.filter(s => (s.sisa_sesi || 0) > 0).length;
-
-    const stats = currentUser.role === 'admin'
-        ? [
-            { label: 'Total Siswa', value: dataSiswa.length, icon: 'fa-users', color: '#3b82f6', bg: '#eff6ff' },
-            { label: 'Total Tutor', value: dataGuru.length, icon: 'fa-chalkboard-user', color: '#8b5cf6', bg: '#f5f3ff' },
-            { label: 'Sesi Selesai', value: sesiSelesai, icon: 'fa-circle-check', color: '#10b981', bg: '#f0fdf4' },
-            { label: 'Sesi Hari Ini', value: sesiHariIni, icon: 'fa-calendar-day', color: '#f59e0b', bg: '#fffbeb' },
-          ]
-        : [
-            { label: 'Siswa Saya', value: siswaSaya.length, icon: 'fa-users', color: '#3b82f6', bg: '#eff6ff' },
-            { label: 'Siswa Aktif', value: siswaAktif, icon: 'fa-circle-check', color: '#10b981', bg: '#f0fdf4' },
-            { label: 'Total Sesi', value: sesiSelesai, icon: 'fa-clipboard-check', color: '#8b5cf6', bg: '#f5f3ff' },
-            { label: 'Sesi Hari Ini', value: sesiHariIni, icon: 'fa-calendar-day', color: '#f59e0b', bg: '#fffbeb' },
-          ];
-
-    container.innerHTML = stats.map(s => `
-        <div class="stat-card p-4">
-            <div class="flex items-center gap-3 mb-2">
-                <div style="background:${s.bg};color:${s.color}" class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <i class="fa-solid ${s.icon} text-base"></i>
-                </div>
-            </div>
-            <div class="font-black text-2xl text-gray-900 leading-none">${s.value}</div>
-            <div class="text-xs text-gray-500 font-semibold mt-1">${s.label}</div>
-        </div>`).join('');
-}
-
 function renderGrafikProgress() {
-    const filterGuru = document.getElementById('grafikFilterGuru').value;
+    const filterGuru = document.getElementById('grafikFilterGuru')?.value || 'ALL';
     const container = document.getElementById('grafikProgressContainer');
     const emptyMsg = document.getElementById('grafikEmptyMsg');
 
-    // Populate guru filter options if empty
-    const sel = document.getElementById('grafikFilterGuru');
-    if (sel.options.length <= 1) {
-        dataGuru.forEach(g => {
-            const opt = document.createElement('option');
-            opt.value = g.username;
-            opt.textContent = g.nama_lengkap;
-            sel.appendChild(opt);
-        });
-    }
+    // Hanya ambil sesi Selesai
+    let sesiSelesai = dataSesi.filter(s => s.status_sesi === 'Selesai');
+    if (filterGuru !== 'ALL') sesiSelesai = sesiSelesai.filter(s => s.id_guru === filterGuru);
 
-    const sesiSelesai = dataSesi.filter(s => s.status_sesi === 'Selesai');
-    const filtered = filterGuru === 'ALL' ? sesiSelesai : sesiSelesai.filter(s => s.id_guru === filterGuru);
-
-    // Group by siswa
-    const byStudent = {};
-    filtered.forEach(s => {
-        const key = s.id_siswa;
-        if (!byStudent[key]) byStudent[key] = { nama: s.nama_siswa, count: 0, guru: s.nama_guru };
-        byStudent[key].count++;
-    });
-
-    const sorted = Object.values(byStudent).sort((a,b) => b.count - a.count);
-    if (sorted.length === 0) {
+    if (sesiSelesai.length === 0) {
         container.innerHTML = '';
         emptyMsg.classList.remove('hide');
         return;
     }
     emptyMsg.classList.add('hide');
-    const max = sorted[0].count;
-    container.innerHTML = sorted.map(s => `
-        <div class="flex items-center gap-3">
-            <div class="text-xs font-bold text-gray-700 w-28 truncate flex-shrink-0">${s.nama}</div>
-            <div class="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
-                <div style="width:${Math.round((s.count/max)*100)}%;background:linear-gradient(90deg,#3b82f6,#818cf8)" class="h-5 rounded-full flex items-center justify-end pr-2 transition-all duration-500">
-                    <span class="text-white text-[10px] font-black">${s.count}</span>
-                </div>
+
+    // Kelompokkan per guru -> per siswa -> hitung pertemuan, urutkan tanggal
+    const guruMap = {}; // { id_guru: { nama_guru, siswaMap: { id_siswa: { nama_siswa, count, paket } } } }
+    const allSorted = [...dataSesi].filter(s => s.status_sesi === 'Selesai').sort((a,b) => new Date(a.tanggal) - new Date(b.tanggal));
+
+    // Hitung pertemuan per guru per siswa
+    const counter = {};
+    allSorted.forEach(s => {
+        if (filterGuru !== 'ALL' && s.id_guru !== filterGuru) return;
+        const gKey = s.id_guru;
+        const sKey = s.id_siswa;
+        if (!guruMap[gKey]) guruMap[gKey] = { nama_guru: s.nama_guru, siswaMap: {} };
+        if (!guruMap[gKey].siswaMap[sKey]) {
+            const siswaObj = dataSiswa.find(x => x.id_siswa === sKey);
+            guruMap[gKey].siswaMap[sKey] = {
+                nama_siswa: s.nama_siswa,
+                count: 0,
+                paket: siswaObj ? ((siswaObj.sisa_sesi || 0) + 0) : 0,
+                // paket awal = selesai sudah + sisa
+            };
+        }
+        guruMap[gKey].siswaMap[sKey].count++;
+    });
+
+    // Hitung total paket (selesai + sisa) per siswa
+    dataSiswa.forEach(sw => {
+        const selesaiCount = sesiSelesai.filter(s => s.id_siswa === sw.id_siswa).length;
+        // paket awal = sudah selesai + sisa saat ini
+        Object.values(guruMap).forEach(g => {
+            if (g.siswaMap[sw.id_siswa]) {
+                g.siswaMap[sw.id_siswa].paket = selesaiCount + (parseInt(sw.sisa_sesi) || 0);
+            }
+        });
+    });
+
+    // Warna per tutor
+    const colors = ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899','#06b6d4','#84cc16'];
+    const guruKeys = Object.keys(guruMap);
+
+    let html = '';
+    guruKeys.forEach((gKey, gi) => {
+        const guru = guruMap[gKey];
+        const color = colors[gi % colors.length];
+        const siswaKeys = Object.keys(guru.siswaMap);
+        const totalSesiGuru = siswaKeys.reduce((acc, sk) => acc + guru.siswaMap[sk].count, 0);
+
+        html += `
+        <div class="mb-4">
+            <div class="flex items-center gap-2 mb-2">
+                <div class="w-3 h-3 rounded-full flex-shrink-0" style="background:${color}"></div>
+                <span class="font-extrabold text-gray-800 text-sm">${guru.nama_guru}</span>
+                <span class="text-xs text-gray-400 font-medium">${totalSesiGuru} sesi total</span>
             </div>
-            <div class="text-[10px] text-gray-400 w-20 truncate text-right flex-shrink-0">${s.guru}</div>
-        </div>`).join('');
+            <div class="space-y-2 pl-5">`;
+
+        siswaKeys.forEach(sKey => {
+            const sw = guru.siswaMap[sKey];
+            const pct = sw.paket > 0 ? Math.min(100, Math.round((sw.count / sw.paket) * 100)) : 0;
+            const paketLabel = sw.paket > 0 ? `${sw.count} / ${sw.paket} sesi` : `${sw.count} sesi`;
+            const urgentClass = pct >= 80 ? 'text-red-500' : pct >= 50 ? 'text-amber-500' : 'text-emerald-600';
+
+            html += `
+                <div class="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="text-xs font-bold text-gray-700 truncate flex-1 mr-2">${sw.nama_siswa}</span>
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            <span class="text-[11px] font-black ${urgentClass}">${paketLabel}</span>
+                            <span class="text-[10px] bg-blue-50 text-blue-700 border border-blue-100 font-bold px-2 py-0.5 rounded-lg">Ptm ke-${sw.count}</span>
+                        </div>
+                    </div>
+                    <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full rounded-full transition-all duration-500" style="width:${pct}%;background:${color}"></div>
+                    </div>
+                    <div class="flex justify-between mt-1">
+                        <span class="text-[10px] text-gray-400">${pct}% paket terpakai</span>
+                        <span class="text-[10px] text-gray-400">Sisa: ${Math.max(0, sw.paket - sw.count)} sesi</span>
+                    </div>
+                </div>`;
+        });
+
+        html += `</div></div>`;
+        if (gi < guruKeys.length - 1) html += `<div class="border-t border-gray-100 my-3"></div>`;
+    });
+
+    container.innerHTML = html;
 }
 
 // ============================================================
-// DATA SISWA
+// CRUD SISWA
 // ============================================================
-async function loadDataSiswa() {
+async function loadSiswaOptions() {
+    try {
+        dataSiswa = (await apiCall('getSiswa')) || [];
+        const sel = document.getElementById('sesiSiswa');
+        sel.innerHTML = '<option value="">-- Pilih Siswa --</option>';
+        dataSiswa.forEach(s => {
+            if (currentUser.role === 'guru') {
+                const assigned = (currentUser.assigned_siswa || "").split(',');
+                if (!assigned.includes(s.id_siswa)) return;
+            }
+            sel.innerHTML += `<option value="${s.id_siswa}">${s.nama_siswa} (Sisa: ${s.sisa_sesi ?? 0} Sesi)</option>`;
+        });
+    } catch (e) { console.error(e); }
+}
+
+function checkSisaSesi() {
+    const id = document.getElementById('sesiSiswa').value;
+    const w = document.getElementById('warningSisaSesi');
+    if (!id) { w.classList.add('hide'); return; }
+    const s = dataSiswa.find(x => x.id_siswa === id);
+    if (s && (s.sisa_sesi <= 0 || s.sisa_sesi == null)) {
+        w.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Paket sesi siswa ini sudah habis. Harap lapor Admin.";
+        w.classList.remove('hide');
+    } else { w.classList.add('hide'); }
+}
+
+async function loadDataSiswaPage() {
     showLoading(true);
     try {
         dataSiswa = (await apiCall('getSiswa')) || [];
-        renderTabelSiswa();
-        renderAssignSiswaCheckboxes();
-    } catch (e) { console.error(e); }
+        let html = '';
+        dataSiswa.forEach(s => {
+            const badgeSisa = s.sisa_sesi > 0
+                ? `<span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-blue-100">${s.sisa_sesi} Sesi</span>`
+                : `<span class="bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-lg border border-red-100">Habis!</span>`;
+            const jadwalBadge = siswaJadwalHariIni(s)
+                ? `<span class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded ml-1">Hari ini</span>` : '';
+            html += `
+                <tr>
+                    <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${s.nama_siswa}</td>
+                    <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
+                    <td class="p-4 text-sm text-gray-600">${formatJadwal(s)}${jadwalBadge}</td>
+                    <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
+                    <td class="p-4 text-sm whitespace-nowrap">
+                        <div class="flex gap-1">
+                            <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="text-indigo-500 hover:text-indigo-700 bg-indigo-50 p-2 rounded-lg transition" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
+                            <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="text-emerald-500 hover:text-emerald-700 p-2 rounded-lg hover:bg-emerald-50 transition" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
+                            <button onclick='editDataSiswa("${s.id_siswa}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition" title="Edit"><i class="fa-solid fa-edit"></i></button>
+                            <button onclick='deleteDataSiswa("${s.id_siswa}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>`;
+        });
+        document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data siswa.</td></tr>';
+    } catch (e) { }
     showLoading(false);
-}
-
-function renderTabelSiswa() {
-    let filtered = dataSiswa;
-    if (currentUser.role === 'guru') {
-        const assigned = (currentUser.assigned_siswa || '').split(',').map(x=>x.trim()).filter(Boolean);
-        filtered = dataSiswa.filter(s => assigned.includes(s.id_siswa));
-    }
-    const tbody = document.getElementById('tabelDataSiswa');
-    if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data siswa.</td></tr>';
-        return;
-    }
-    tbody.innerHTML = filtered.map(s => {
-        const sisa = parseInt(s.sisa_sesi) || 0;
-        const sisaColor = sisa <= 2 ? 'text-red-600 bg-red-50' : sisa <= 5 ? 'text-amber-600 bg-amber-50' : 'text-green-600 bg-green-50';
-        const canEdit = currentUser.role === 'admin';
-        return `<tr>
-            <td class="p-4 font-bold text-gray-900 text-sm">${s.nama_siswa}</td>
-            <td class="p-4 text-sm text-gray-600">${s.program_les || s.kelas || '-'}</td>
-            <td class="p-4 text-xs text-gray-500">${formatJadwal(s)}</td>
-            <td class="p-4">
-                <span class="inline-flex items-center gap-1 text-xs font-black px-2.5 py-1 rounded-xl ${sisaColor}">
-                    <i class="fa-solid fa-hourglass-half text-[9px]"></i>${sisa}
-                </span>
-            </td>
-            <td class="p-4 whitespace-nowrap">
-                <div class="flex items-center gap-1.5">
-                    ${canEdit ? `
-                    <button onclick="editSiswa('${s.id_siswa}')" class="text-blue-500 hover:text-blue-700 p-1.5 rounded-lg hover:bg-blue-50 transition">
-                        <i class="fa-solid fa-edit text-xs"></i>
-                    </button>
-                    <button onclick="deleteSiswa('${s.id_siswa}')" class="text-red-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition">
-                        <i class="fa-solid fa-trash text-xs"></i>
-                    </button>` : ''}
-                    <button onclick="analyzeStudentWithAI('${s.id_siswa}')" class="text-purple-500 hover:text-purple-700 p-1.5 rounded-lg hover:bg-purple-50 transition" title="Analisis AI">
-                        <i class="fa-solid fa-brain text-xs"></i>
-                    </button>
-                </div>
-            </td>
-        </tr>`;
-    }).join('');
-}
-
-function editSiswa(id) {
-    const s = dataSiswa.find(x => x.id_siswa === id);
-    if (!s) return;
-    document.getElementById('siswaIdInput').value = s.id_siswa;
-    document.getElementById('siswaNama').value = s.nama_siswa;
-    document.getElementById('siswaProgram').value = s.program_les || s.kelas || '';
-    document.getElementById('siswaAlamat').value = s.alamat_rumah || '';
-    document.getElementById('siswaSisaSesi').value = s.sisa_sesi || 0;
-    setSelectedHari(s.jadwal_hari || '');
-    document.getElementById('siswaTanggalTetap').value = s.jadwal_tanggal || '';
-    document.getElementById('formSiswa').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 async function handleSaveSiswa(e) {
     e.preventDefault();
     const payload = {
-        id_siswa: document.getElementById('siswaIdInput').value || null,
-        nama_siswa: document.getElementById('siswaNama').value.trim(),
-        program_les: document.getElementById('siswaProgram').value.trim(),
-        kelas: document.getElementById('siswaProgram').value.trim(),
-        alamat_rumah: document.getElementById('siswaAlamat').value.trim(),
+        id_siswa: document.getElementById('siswaIdInput').value || "",
+        nama_siswa: document.getElementById('siswaNama').value,
+        kelas: document.getElementById('siswaProgram').value,
+        program_les: document.getElementById('siswaProgram').value,
+        alamat_rumah: document.getElementById('siswaAlamat').value,
         sisa_sesi: parseInt(document.getElementById('siswaSisaSesi').value) || 0,
         jadwal_hari: getSelectedHari(),
-        jadwal_tanggal: document.getElementById('siswaTanggalTetap').value.trim()
+        jadwal_tanggal: document.getElementById('siswaTanggalTetap').value.replace(/\s/g, '')
     };
-    showLoading(true);
+    showLoading(true, "Menyimpan Siswa...");
     try {
         await apiCall('saveSiswa', payload);
         showToast("Data siswa berhasil disimpan!");
-        resetFormSiswa();
-        await loadDataSiswa();
+        resetFormSiswa(); loadDataSiswaPage(); loadSiswaOptions();
     } catch (e) { showToast("Gagal: " + e.message, "error"); }
     showLoading(false);
 }
 
-function resetFormSiswa() {
-    document.getElementById('formSiswa').reset();
-    document.getElementById('siswaIdInput').value = '';
-    setSelectedHari('');
+function editDataSiswa(id) {
+    const data = dataSiswa.find(s => s.id_siswa === id);
+    if (!data) return;
+    document.getElementById('siswaIdInput').value = data.id_siswa;
+    document.getElementById('siswaNama').value = data.nama_siswa;
+    document.getElementById('siswaProgram').value = data.kelas || data.program_les || '';
+    document.getElementById('siswaAlamat').value = data.alamat_rumah || '';
+    document.getElementById('siswaSisaSesi').value = data.sisa_sesi ?? 0;
+    setSelectedHari(data.jadwal_hari || '');
+    document.getElementById('siswaTanggalTetap').value = data.jadwal_tanggal || '';
+    scrollToTop();
 }
 
-async function deleteSiswa(id) {
-    showConfirm('Hapus Siswa', 'Data siswa akan dihapus permanen.', async () => {
+async function deleteDataSiswa(id) {
+    showConfirm("Hapus Data Siswa", "Data siswa akan dihapus permanen.", async () => {
         showLoading(true);
         try {
             await apiCall('deleteSiswa', { id_siswa: id });
-            showToast("Siswa dihapus.");
-            await loadDataSiswa();
+            showToast("Data siswa dihapus.");
+            loadDataSiswaPage(); loadSiswaOptions();
+        } catch (e) { showToast("Gagal: " + e.message, "error"); }
+        showLoading(false);
+    });
+}
+
+function resetFormSiswa() {
+    document.getElementById('siswaIdInput').value = "";
+    document.getElementById('formSiswa').reset();
+    setSelectedHari('');
+    document.getElementById('siswaSisaSesi').value = 8;
+}
+
+async function topUpSesiSiswa(id) {
+    const siswa = dataSiswa.find(s => s.id_siswa === id);
+    if (!siswa) return;
+    showPrompt("Perpanjang Paket", `Jumlah paket baru untuk ${siswa.nama_siswa}:`, "8", async (val) => {
+        const n = parseInt(val);
+        if (isNaN(n) || n <= 0) { showToast("Jumlah tidak valid!", "error"); return; }
+        showLoading(true);
+        try {
+            await apiCall('saveSiswa', { ...siswa, sisa_sesi: n });
+            showToast("Paket diperbarui!");
+            loadDataSiswaPage(); loadSiswaOptions();
         } catch (e) { showToast("Gagal: " + e.message, "error"); }
         showLoading(false);
     });
 }
 
 // ============================================================
-// DATA GURU
+// CRUD GURU
 // ============================================================
-function renderAssignSiswaCheckboxes(selectedIds = []) {
-    const container = document.getElementById('guruAssignSiswaContainer');
-    if (!container) return;
-    if (dataSiswa.length === 0) {
-        container.innerHTML = '<span class="text-sm text-gray-400 italic">Belum ada siswa terdaftar</span>';
-        return;
-    }
-    container.innerHTML = dataSiswa.map(s => `
-        <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
-            <input type="checkbox" name="assignSiswa" value="${s.id_siswa}" class="accent-blue-600 w-4 h-4" ${selectedIds.includes(s.id_siswa) ? 'checked' : ''}>
-            <span class="text-sm font-medium text-gray-700">${s.nama_siswa}</span>
-        </label>`).join('');
-}
-
-async function loadDataGuru() {
+async function loadDataGuruPage() {
     showLoading(true);
     try {
-        [dataSiswa, dataGuru] = await Promise.all([apiCall('getSiswa'), apiCall('getGuru')]);
-        renderAssignSiswaCheckboxes();
-        renderTabelGuru();
-    } catch (e) { console.error(e); }
+        dataSiswa = (await apiCall('getSiswa')) || [];
+        const container = document.getElementById('guruAssignSiswaContainer');
+        container.innerHTML = dataSiswa.length === 0
+            ? '<p class="text-sm text-red-500">Belum ada data siswa.</p>'
+            : dataSiswa.map(s => `
+                <label class="flex items-center gap-3 text-sm cursor-pointer hover:bg-white p-2 rounded-xl border border-transparent hover:border-gray-200 transition">
+                    <input type="checkbox" name="assignSiswaCb" value="${s.id_siswa}" class="w-4 h-4 rounded text-blue-600">
+                    <span class="text-gray-700 font-medium">${s.nama_siswa}</span>
+                </label>`).join('');
+        dataGuru = (await apiCall('getGuru')) || [];
+        let html = '';
+        dataGuru.forEach(g => {
+            const arr = (g.assigned_siswa || '').split(',').filter(x=>x);
+            const names = arr.map(id => dataSiswa.find(x=>x.id_siswa===id)?.nama_siswa || id).join(', ')
+                || '<span class="text-gray-400 italic text-xs">Belum ditugaskan</span>';
+            html += `
+                <tr>
+                    <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${g.nama_lengkap}</td>
+                    <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                        <div class="font-mono text-xs bg-gray-50 px-2 py-1 rounded">${g.username}</div>
+                        <div class="font-mono text-xs text-gray-400 mt-0.5">${g.password}</div>
+                    </td>
+                    <td class="p-4 text-sm text-gray-600 max-w-xs">${names}</td>
+                    <td class="p-4 text-sm whitespace-nowrap">
+                        <button onclick='editDataGuru("${g.username}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition mr-1"><i class="fa-solid fa-edit"></i></button>
+                        <button onclick='deleteDataGuru("${g.username}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`;
+        });
+        document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data tutor.</td></tr>';
+    } catch (e) { }
     showLoading(false);
-}
-
-function renderTabelGuru() {
-    const tbody = document.getElementById('tabelDataGuru');
-    if (dataGuru.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data tutor.</td></tr>';
-        return;
-    }
-    tbody.innerHTML = dataGuru.map(g => {
-        const assignedNames = (g.assigned_siswa || '').split(',').filter(Boolean)
-            .map(id => dataSiswa.find(s=>s.id_siswa===id.trim())?.nama_siswa || id).join(', ');
-        return `<tr>
-            <td class="p-4 font-bold text-gray-900 text-sm">${g.nama_lengkap}</td>
-            <td class="p-4 text-sm text-gray-600 font-mono">${g.username}</td>
-            <td class="p-4 text-xs text-gray-500">${assignedNames || '<span class="italic text-gray-300">Belum ditugaskan</span>'}</td>
-            <td class="p-4 whitespace-nowrap">
-                <button onclick="editGuru('${g.username}')" class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition mr-1">
-                    <i class="fa-solid fa-edit text-xs"></i>
-                </button>
-                <button onclick="deleteGuru('${g.username}')" class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition">
-                    <i class="fa-solid fa-trash text-xs"></i>
-                </button>
-            </td>
-        </tr>`;
-    }).join('');
-}
-
-function editGuru(username) {
-    const g = dataGuru.find(x => x.username === username);
-    if (!g) return;
-    document.getElementById('guruUsernameOld').value = g.username;
-    document.getElementById('guruNama').value = g.nama_lengkap;
-    document.getElementById('guruUsername').value = g.username;
-    document.getElementById('guruPassword').value = g.password || '';
-    const assignedIds = (g.assigned_siswa || '').split(',').map(x=>x.trim()).filter(Boolean);
-    renderAssignSiswaCheckboxes(assignedIds);
-    document.getElementById('formGuru').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 async function handleSaveGuru(e) {
     e.preventDefault();
-    const checked = Array.from(document.querySelectorAll('input[name="assignSiswa"]:checked')).map(i => i.value);
+    const checked = document.querySelectorAll('input[name="assignSiswaCb"]:checked');
     const payload = {
-        old_username: document.getElementById('guruUsernameOld').value || null,
-        nama_lengkap: document.getElementById('guruNama').value.trim(),
-        username: document.getElementById('guruUsername').value.trim(),
-        password: document.getElementById('guruPassword').value.trim(),
-        assigned_siswa: checked.join(',')
+        old_username: document.getElementById('guruUsernameOld').value || "",
+        username: document.getElementById('guruUsername').value,
+        password: document.getElementById('guruPassword').value,
+        nama_lengkap: document.getElementById('guruNama').value,
+        assigned_siswa: Array.from(checked).map(cb=>cb.value).join(',')
     };
-    showLoading(true);
+    showLoading(true, "Menyimpan Tutor...");
     try {
         await apiCall('saveGuru', payload);
-        showToast("Data tutor berhasil disimpan!");
-        resetFormGuru();
-        await loadDataGuru();
+        showToast("Tutor berhasil disimpan!");
+        resetFormGuru(); loadDataGuruPage();
     } catch (e) { showToast("Gagal: " + e.message, "error"); }
     showLoading(false);
 }
 
-function resetFormGuru() {
-    document.getElementById('formGuru').reset();
-    document.getElementById('guruUsernameOld').value = '';
-    renderAssignSiswaCheckboxes();
+function editDataGuru(username) {
+    const data = dataGuru.find(g=>g.username===username);
+    if (!data) return;
+    document.getElementById('guruUsernameOld').value = data.username;
+    document.getElementById('guruUsername').value = data.username;
+    document.getElementById('guruPassword').value = data.password;
+    document.getElementById('guruNama').value = data.nama_lengkap;
+    const arr = (data.assigned_siswa || '').split(',');
+    document.querySelectorAll('input[name="assignSiswaCb"]').forEach(cb => { cb.checked = arr.includes(cb.value); });
+    scrollToTop();
 }
 
-async function deleteGuru(username) {
-    showConfirm('Hapus Tutor', 'Akun tutor akan dihapus permanen.', async () => {
+async function deleteDataGuru(username) {
+    showConfirm("Hapus Tutor", "Akun tutor ini akan dihapus permanen.", async () => {
         showLoading(true);
         try {
             await apiCall('deleteGuru', { username });
             showToast("Tutor dihapus.");
-            await loadDataGuru();
+            loadDataGuruPage();
         } catch (e) { showToast("Gagal: " + e.message, "error"); }
         showLoading(false);
     });
 }
 
-// ============================================================
-// INPUT SESI
-// ============================================================
-async function loadFormSesi() {
-    if (dataSiswa.length === 0) dataSiswa = (await apiCall('getSiswa')) || [];
-    const sel = document.getElementById('sesiSiswa');
-    let options = '<option value="">-- Pilih Siswa --</option>';
-    let filtered = dataSiswa;
-    if (currentUser.role === 'guru') {
-        const assigned = (currentUser.assigned_siswa || '').split(',').map(x=>x.trim()).filter(Boolean);
-        filtered = dataSiswa.filter(s => assigned.includes(s.id_siswa));
-    }
-    filtered.forEach(s => { options += `<option value="${s.id_siswa}">${s.nama_siswa}</option>`; });
-    sel.innerHTML = options;
-    // Set today's date
-    document.getElementById('sesiTanggal').value = getTodayDate();
+function resetFormGuru() {
+    document.getElementById('guruUsernameOld').value = "";
+    document.getElementById('formGuru').reset();
+    document.querySelectorAll('input[name="assignSiswaCb"]').forEach(cb => cb.checked = false);
 }
 
-function checkSisaSesi() {
-    const id = document.getElementById('sesiSiswa').value;
-    const siswa = dataSiswa.find(s => s.id_siswa === id);
-    const warn = document.getElementById('warningSisaSesi');
-    if (siswa && parseInt(siswa.sisa_sesi) <= 0) {
-        warn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Sisa sesi siswa ini sudah 0! Harap perpanjang paket.';
-        warn.classList.remove('hide');
-    } else {
-        warn.classList.add('hide');
-    }
+// ============================================================
+// CRUD SESI
+// ============================================================
+function resetFormSesi() {
+    document.getElementById('sesiId').value = "";
+    document.getElementById('sesiSiswa').value = "";
+    document.getElementById('sesiTanggal').valueAsDate = new Date();
+    document.getElementById('sesiStatus').value = "Selesai";
+    document.getElementById('sesiJurnal').value = "";
+    document.getElementById('warningSisaSesi').classList.add('hide');
 }
 
 async function handleSaveSesi(e) {
     e.preventDefault();
     const idSiswa = document.getElementById('sesiSiswa').value;
-    const siswa = dataSiswa.find(s => s.id_siswa === idSiswa);
+    const siswaObj = dataSiswa.find(s => s.id_siswa === idSiswa);
+    if (!siswaObj) { showToast("Siswa tidak ditemukan!", "error"); return; }
+    const isEdit = !!document.getElementById('sesiId').value;
     const payload = {
-        id_sesi: document.getElementById('sesiId').value || null,
+        id_sesi: document.getElementById('sesiId').value || "",
         tanggal: document.getElementById('sesiTanggal').value,
-        id_guru: currentUser.username,
-        nama_guru: currentUser.nama_lengkap || currentUser.username,
-        id_siswa: idSiswa,
-        nama_siswa: siswa?.nama_siswa || '',
+        id_guru: currentUser.username, nama_guru: currentUser.nama_lengkap,
+        id_siswa: idSiswa, nama_siswa: siswaObj.nama_siswa,
         status_sesi: document.getElementById('sesiStatus').value,
-        jurnal_materi: document.getElementById('sesiJurnal').value.trim()
+        jurnal_materi: document.getElementById('sesiJurnal').value
     };
-    if (!payload.tanggal || !payload.id_siswa) { showToast("Lengkapi semua field!", "error"); return; }
-    showLoading(true);
+    showLoading(true, "Menyimpan Sesi...");
     try {
         await apiCall('saveSesi', payload);
-        showToast("Sesi berhasil disimpan! ✅");
+        showToast(isEdit ? "✅ Sesi berhasil diperbarui!" : "✅ Sesi berhasil disimpan!");
         resetFormSesi();
+        await loadSiswaOptions();
+        navigate('rekap');
     } catch (e) { showToast("Gagal: " + e.message, "error"); }
     showLoading(false);
 }
 
-function resetFormSesi() {
-    document.getElementById('formSesi').reset();
-    document.getElementById('sesiId').value = '';
-    document.getElementById('sesiTanggal').value = getTodayDate();
-    document.getElementById('warningSisaSesi').classList.add('hide');
-}
-
 // ============================================================
-// PROFIL
+// PROFIL GURU
 // ============================================================
-async function loadProfil() {
+function loadProfil() {
     if (!currentUser) return;
-    // Fetch latest from DB
-    try {
-        const { data } = await dbClient.from('users').select('*').eq('username', currentUser.username).maybeSingle();
-        if (data) currentUser = { ...currentUser, ...data };
-    } catch(e) { /* silent */ }
+    const nama = currentUser.nama_lengkap || '';
+    const initials = nama.split(' ').map(w => w[0]).join('').toUpperCase().substring(0, 2) || '?';
+    document.getElementById('profileAvatar').innerText = initials;
+    document.getElementById('profileNameDisplay').innerText = nama || '–';
+    document.getElementById('profileRoleDisplay').innerText = currentUser.role === 'admin' ? 'Administrator' : 'Tutor / Guru';
+    document.getElementById('profileUsernameDisplay').innerText = '@' + (currentUser.username || '');
 
-    const nama = currentUser.nama_lengkap || currentUser.username;
-    document.getElementById('profileAvatar').innerText = nama.charAt(0).toUpperCase();
-    document.getElementById('profileNameDisplay').innerText = nama;
-    document.getElementById('profileRoleDisplay').innerText = currentUser.role === 'admin' ? '👑 Admin / Koordinator' : '📚 Tutor Pengajar';
-    document.getElementById('profileUsernameDisplay').innerText = '@' + currentUser.username;
-    document.getElementById('profilNama').value = currentUser.nama_lengkap || '';
+    document.getElementById('profilNama').value = nama;
     document.getElementById('profilNoHp').value = currentUser.no_hp || '';
     document.getElementById('profilAlamat').value = currentUser.alamat || '';
     document.getElementById('profilMapel').value = currentUser.mapel || '';
     document.getElementById('profilDaerah').value = currentUser.daerah || '';
     document.getElementById('profilBio').value = currentUser.bio || '';
-
-    // Show rekap banner edit for admin
-    if (currentUser.role === 'admin') {
-        const el = document.getElementById('btnEditRekapBanner');
-        if (el) el.classList.remove('hide');
-    }
 }
 
 async function saveProfil() {
     const nama = document.getElementById('profilNama').value.trim();
     if (!nama) { showToast("Nama tidak boleh kosong!", "error"); return; }
-    showLoading(true);
+    const payload = {
+        nama_lengkap: nama,
+        no_hp: document.getElementById('profilNoHp').value.trim(),
+        alamat: document.getElementById('profilAlamat').value.trim(),
+        mapel: document.getElementById('profilMapel').value.trim(),
+        daerah: document.getElementById('profilDaerah').value.trim(),
+        bio: document.getElementById('profilBio').value.trim()
+    };
+    showLoading(true, "Menyimpan profil...");
     try {
-        const { error } = await dbClient.from('users').update({
-            nama_lengkap: nama,
-            no_hp: document.getElementById('profilNoHp').value.trim(),
-            alamat: document.getElementById('profilAlamat').value.trim(),
-            mapel: document.getElementById('profilMapel').value.trim(),
-            daerah: document.getElementById('profilDaerah').value.trim(),
-            bio: document.getElementById('profilBio').value.trim(),
-        }).eq('username', currentUser.username);
+        const { error } = await dbClient.from('users').update(payload).eq('username', currentUser.username);
         if (error) throw error;
-        currentUser.nama_lengkap = nama;
+        // Update local currentUser
+        Object.assign(currentUser, payload);
+        localStorage.setItem('les_user', JSON.stringify(currentUser));
         // Update header display
         document.getElementById('desktopUserName').innerText = nama;
         document.getElementById('mobileUserName').innerText = nama;
-        document.getElementById('headerUserCode').innerText = currentUser.username.toUpperCase();
-        // Update avatar
-        document.getElementById('headerAvatarEl').innerHTML = `<span style="font-size:13px;font-weight:800">${nama.charAt(0).toUpperCase()}</span>`;
+        if (document.getElementById('bannerUserName')) document.getElementById('bannerUserName').innerText = nama;
+        if (document.getElementById('headerUserId')) document.getElementById('headerUserId').innerText = currentUser.username || '';
         // Refresh profile header
         loadProfil();
         showToast("Profil berhasil disimpan! ✅");
@@ -2719,9 +2694,6 @@ async function generateReport() {
             </tr>`;
         });
         document.getElementById('reportTableBody').innerHTML = html || '<tr><td colspan="4" class="text-center p-6 italic text-gray-500">Tidak ada data.</td></tr>';
-        // For the visible table in rekap page
-        const visibleContainer = document.getElementById('reportTableContainer');
-        if (visibleContainer) visibleContainer.innerHTML = html || '<tr><td colspan="4" class="text-center p-6 italic text-gray-500">Tidak ada data.</td></tr>';
         document.getElementById('reportVisualTotalHadir').innerText = hadir;
         document.getElementById('reportTotalHadir').innerText = hadir;
         document.getElementById('aiNarrativeContainer').classList.add('hide');
