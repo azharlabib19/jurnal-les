@@ -20,7 +20,7 @@
             --surface: #f8fafc;
             --card: #ffffff;
             --text: #0f172a;
-            --text-muted: #64748b;
+            --text-muted: #475569; /* Sedikit digelapkan dari aslinya */
             --border: #cbd5e1;
             --radius: 16px;
             --font: 'Plus Jakarta Sans', sans-serif;
@@ -28,7 +28,7 @@
         * { box-sizing: border-box; }
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            overflow-x: hidden; /* MENCEGAH SCROLL KANAN KIRI */
+            overflow-x: hidden; 
             overflow-y: hidden;
             font-family: var(--font);
             -webkit-font-smoothing: antialiased;
@@ -37,7 +37,7 @@
         #app-container {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background-color: var(--surface); z-index: 999999;
-            overflow-x: hidden; /* MENCEGAH SCROLL KANAN KIRI */
+            overflow-x: hidden; 
             overflow-y: hidden;
         }
         .hide { display: none !important; }
@@ -74,7 +74,7 @@
         @keyframes pulse-red { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
         .pulse-red { animation: pulse-red 1.5s infinite; }
 
-        /* ── LOGIN PAGE (TEMA BIRU MAYORITAS & KONTRAS) ── */
+        /* ── LOGIN PAGE ── */
         #pageLogin {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
             overflow-x: hidden;
@@ -93,21 +93,15 @@
             font-weight: 800;
             transition: all 0.3s;
         }
-        .login-input::placeholder { color: #94a3b8; font-weight: 600; }
+        .login-input::placeholder { color: #64748b; font-weight: 600; }
         .login-input:focus {
             outline: none;
             border-color: #2563eb;
             box-shadow: 0 0 0 5px rgba(37,99,235,0.25);
             transform: translateY(-2px);
         }
-        .login-label {
-            color: #ffffff;
-            font-weight: 900;
-            letter-spacing: 0.05em;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
         .login-btn {
-            background: #f59e0b; /* Warna Kuning/Amber kontras */
+            background: #f59e0b; 
             color: white; font-weight: 900; letter-spacing: 0.05em;
             border: 2px solid #fcd34d; cursor: pointer;
             box-shadow: 0 8px 25px rgba(245,158,11,0.5);
@@ -119,9 +113,7 @@
             background: #d97706;
         }
         .login-btn:active { transform: translateY(0) scale(0.98); }
-        .login-orb {
-            position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none;
-        }
+        .login-orb { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; }
 
         /* ── TOAST ── */
         #toast {
@@ -138,37 +130,25 @@
         #toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         #toast.success { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
         #toast.error { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; }
-        .toast-icon {
-            width: 40px; height: 40px; border-radius: 12px;
-            background: rgba(255,255,255,0.25);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        #toastBackdrop {
-            position: fixed; inset: 0; background: rgba(15,23,42,0.3); backdrop-filter: blur(3px);
-            z-index: 10000009; opacity: 0; pointer-events: none; transition: opacity 0.2s;
-        }
+        .toast-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        #toastBackdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.3); backdrop-filter: blur(3px); z-index: 10000009; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
         #toastBackdrop.show { opacity: 1; pointer-events: auto; }
 
-        /* ── HEADER TETAP DI BELAKANG ── */
+        /* ── HEADER BISA DI-SCROLL ── */
         .app-header {
             background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            box-shadow: 0 10px 30px -10px rgba(37,99,235,0.5);
+            box-shadow: 0 10px 30px -10px rgba(37,99,235,0.4);
+            position: relative;
+            overflow: hidden;
             border-bottom-left-radius: 2.5rem;
             border-bottom-right-radius: 2.5rem;
-            position: relative;
-            z-index: 0; /* Index direndahkan agar terselip di belakang */
-            overflow: hidden;
-            /* Padding bawah dibesarkan agar header memotong ke bawah banner */
-            padding-bottom: 5rem !important; 
         }
         .header-orb-1 { position: absolute; top: -30px; left: -20px; width: 120px; height: 120px; background: rgba(255,255,255,0.2); border-radius: 50%; filter: blur(20px); }
         .header-orb-2 { position: absolute; bottom: -20px; right: 20px; width: 150px; height: 150px; background: rgba(147,197,253,0.3); border-radius: 50%; filter: blur(25px); }
 
         /* ── CARDS ── */
         .stat-card {
-            background: white; border-radius: 24px;
-            border: 2px solid rgba(226,232,240,0.8);
+            background: white; border-radius: 24px; border: 2px solid rgba(226,232,240,0.8);
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative; overflow: hidden;
@@ -178,62 +158,32 @@
         /* ── NAV ── */
         .nav-btn { transition: all 0.2s; }
         .nav-btn.active .nav-pill {
-            background: #eff6ff;
-            color: var(--primary);
+            background: #dbeafe;
+            color: #1e3a8a;
             box-shadow: 0 4px 12px rgba(37,99,235,0.15);
             transform: translateY(-2px);
         }
 
         /* ── FORM INPUTS ── */
         .form-input {
-            width: 100%; padding: 12px 18px;
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            font-family: var(--font); font-size: 14px; font-weight: 700;
-            transition: all 0.2s; background: #f8fafc;
-            color: var(--text);
+            width: 100%; padding: 12px 18px; border: 2px solid var(--border); border-radius: 16px;
+            font-family: var(--font); font-size: 14px; font-weight: 700; transition: all 0.2s; background: #f8fafc; color: var(--text);
         }
-        .form-input:focus {
-            outline: none; border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
-        }
-        .label-icon-box {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 26px; height: 26px; border-radius: 8px; margin-right: 8px;
-            font-size: 12px;
-        }
+        .form-input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(37,99,235,0.15); }
+        .label-icon-box { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 8px; margin-right: 8px; font-size: 12px; }
 
         /* ── LOADING OVERLAY ── */
-        #loadingOverlay {
-            position: fixed; inset: 0; background: rgba(15,23,42,0.8); backdrop-filter: blur(8px);
-            z-index: 10000000; display: flex; align-items: center; justify-content: center;
-        }
-        .loading-box {
-            background: white; padding: 30px 40px; border-radius: 28px;
-            display: flex; flex-direction: column; align-items: center; gap: 16px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4); border: 2px solid var(--primary-light);
-        }
+        #loadingOverlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); backdrop-filter: blur(8px); z-index: 10000000; display: flex; align-items: center; justify-content: center; }
+        .loading-box { background: white; padding: 30px 40px; border-radius: 28px; display: flex; flex-direction: column; align-items: center; gap: 16px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); border: 2px solid var(--primary-light); }
 
         /* ── MODAL ── */
-        .modal-backdrop {
-            position: fixed; inset: 0; background: rgba(15,23,42,0.7); backdrop-filter: blur(8px);
-            z-index: 1000002; display: flex; align-items: center; justify-content: center; padding: 16px;
-        }
-        .modal-card {
-            background: white; border-radius: 28px;
-            box-shadow: 0 35px 80px rgba(0,0,0,0.4); width: 100%; overflow: hidden;
-            border: 2px solid #e2e8f0;
-        }
+        .modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.7); backdrop-filter: blur(8px); z-index: 1000002; display: flex; align-items: center; justify-content: center; padding: 16px; }
+        .modal-card { background: white; border-radius: 28px; box-shadow: 0 35px 80px rgba(0,0,0,0.4); width: 100%; overflow: hidden; border: 2px solid #e2e8f0; }
 
         /* ── TABLE ── */
         .data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
         .data-table thead tr { background: #f8fafc; }
-        .data-table thead th { 
-            padding: 16px; font-size: 11px; font-weight: 900; letter-spacing: 0.08em; 
-            text-transform: uppercase; color: var(--text-muted); white-space: nowrap; 
-            border-bottom: 2px solid #e2e8f0;
-        }
+        .data-table thead th { padding: 16px; font-size: 11px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; border-bottom: 2px solid #e2e8f0; }
         .data-table tbody tr { transition: all 0.2s; }
         .data-table tbody tr td { border-bottom: 1px dashed #e2e8f0; padding: 16px; font-size: 13.5px; }
         .data-table tbody tr:hover td { background: #f1f5f9; }
@@ -242,39 +192,30 @@
         @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .page-content:not(.hide) { animation: fadeSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
-        /* ── BOTTOM NAV FAB ── */
-        .nav-fab-wrapper { position: relative; flex: 0 0 auto; width: 80px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 6px; cursor: pointer; }
-        .nav-fab-wrapper::before { content: ''; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 88px; height: 88px; border-radius: 50%; background: white; box-shadow: 0 -8px 20px rgba(0,0,0,0.06); z-index: 0; }
+        /* ── BOTTOM NAV FAB (REDESIGN) ── */
+        .nav-fab-wrapper { position: relative; flex: 0 0 auto; width: 80px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 10px; cursor: pointer; }
+        .nav-fab-wrapper::before { content: ''; position: absolute; top: -16px; left: 50%; transform: translateX(-50%); width: 84px; height: 84px; border-radius: 50%; background: white; box-shadow: 0 -8px 20px rgba(0,0,0,0.06); z-index: 0; }
         .nav-fab {
-            width: 64px; height: 64px; border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            box-shadow: 0 10px 25px rgba(37,99,235,0.4), 0 2px 10px rgba(37,99,235,0.2);
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            box-shadow: 0 10px 20px rgba(15,23,42,0.4), 0 2px 8px rgba(15,23,42,0.2);
             display: flex; align-items: center; justify-content: center;
             border: 4px solid white; cursor: pointer; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative; top: -24px; z-index: 1;
+            position: relative; top: -20px; z-index: 1;
         }
-        .nav-fab:active { transform: scale(0.9) translateY(4px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
-        .nav-fab i { font-size: 24px; color: white; transition: transform 0.3s; }
+        .nav-fab:active { transform: scale(0.9) translateY(4px); box-shadow: 0 4px 10px rgba(15,23,42,0.3); }
+        .nav-fab i { font-size: 22px; color: white; transition: transform 0.3s; }
         .nav-fab-wrapper:hover .nav-fab i { transform: rotate(15deg) scale(1.1); }
-        .nav-fab-text { font-size: 10px; font-weight: 900; color: var(--text-muted); line-height: 1; position: relative; top: -18px; z-index: 1; transition: color 0.2s;}
+        .nav-fab-text { font-size: 10px; font-weight: 900; color: #475569; line-height: 1; position: relative; top: -14px; z-index: 1; transition: color 0.2s;}
         .nav-fab-wrapper.active .nav-fab { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); box-shadow: 0 10px 25px rgba(30,58,138,0.4); }
-        .nav-fab-wrapper.active .nav-fab-text { color: var(--primary); }
+        .nav-fab-wrapper.active .nav-fab-text { color: #1e3a8a; }
 
         /* ── PROFILE PAGE ── */
-        .profile-field-card {
-            background: white; border-radius: 20px; border: 2px solid transparent;
-            padding: 16px 20px; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+        .profile-field-card { background: white; border-radius: 20px; border: 2px solid transparent; padding: 16px 20px; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .profile-field-card:focus-within { border-color: var(--primary-light); box-shadow: 0 10px 25px rgba(96,165,250,0.15); transform: translateY(-2px); border-width: 2px; }
         .profile-field-label { font-size: 11px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; }
         .profile-field-input { width: 100%; border: none; outline: none; font-family: var(--font); font-size: 15px; font-weight: 800; color: var(--text); background: transparent; padding: 0; resize: none; }
-        .profile-save-btn {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            color: white; font-weight: 900; font-size: 15px;
-            border: 2px solid #60a5fa; border-radius: 20px; padding: 18px; width: 100%; cursor: pointer;
-            box-shadow: 0 10px 25px rgba(37,99,235,0.4); transition: all 0.2s; letter-spacing: 0.03em;
-        }
+        .profile-save-btn { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; font-weight: 900; font-size: 15px; border: 2px solid #60a5fa; border-radius: 20px; padding: 18px; width: 100%; cursor: pointer; box-shadow: 0 10px 25px rgba(37,99,235,0.4); transition: all 0.2s; letter-spacing: 0.03em; }
         .profile-save-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(37,99,235,0.5); }
         .profile-save-btn:active { transform: translateY(2px); box-shadow: 0 5px 15px rgba(37,99,235,0.3); }
 
@@ -287,7 +228,6 @@
         .badge-soon { background: #fef9c3; color: #92400e; border: 2px solid #fde047; box-shadow: 0 2px 8px rgba(146,64,14,0.15);}
         
         .grad-text { background: linear-gradient(135deg, #1e3a8a, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
     </style>
 </head>
 <body>
@@ -431,7 +371,7 @@
         </div>
     </div>
 
-    <!-- ===== LOGIN (BIRU MAYORITAS KONTRAS BORDER TINGGI) ===== -->
+    <!-- ===== LOGIN PAGE ===== -->
     <div id="pageLogin" class="absolute inset-0 w-full h-full flex items-center justify-center p-5 z-50 overflow-hidden">
         <div class="login-orb w-96 h-96 bg-blue-400/20" style="top:-10%;left:-10%"></div>
         <div class="login-orb w-80 h-80 bg-blue-300/20" style="bottom:5%;right:-10%"></div>
@@ -449,9 +389,8 @@
                 </div>
             </div>
 
-            <form onsubmit="handleLogin(event)" class="space-y-6">
+            <form onsubmit="handleLogin(event)" class="space-y-5">
                 <div>
-                    <label class="login-label block mb-2 flex items-center gap-2"><i class="fa-solid fa-at opacity-80"></i> USERNAME</label>
                     <div class="relative">
                         <span class="absolute left-5 top-1/2 -translate-y-1/2" style="color:#2563eb">
                             <i class="fa-solid fa-user text-lg"></i>
@@ -462,7 +401,6 @@
                     </div>
                 </div>
                 <div>
-                    <label class="login-label block mb-2 flex items-center gap-2"><i class="fa-solid fa-key opacity-80"></i> PASSWORD</label>
                     <div class="relative">
                         <span class="absolute left-5 top-1/2 -translate-y-1/2" style="color:#2563eb">
                             <i class="fa-solid fa-lock text-lg"></i>
@@ -472,7 +410,7 @@
                             placeholder="Masukkan password">
                     </div>
                 </div>
-                <button type="submit" class="login-btn w-full py-4 rounded-2xl text-base mt-6 uppercase tracking-widest flex items-center justify-center gap-3">
+                <button type="submit" class="login-btn w-full py-4 rounded-2xl text-base mt-4 uppercase tracking-widest flex items-center justify-center gap-3">
                     MASUK SEKARANG <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </form>
@@ -486,45 +424,43 @@
     <!-- ===== MAIN LAYOUT ===== -->
     <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col overflow-hidden" style="background:#f1f5f9">
 
-        <!-- HEADER TETAP (FIXED) DI BELAKANG -->
-        <div class="app-header flex-none px-6 pt-5 pb-24 flex justify-between items-start z-0 relative">
-            <div class="header-orb-1"></div>
-            <div class="header-orb-2"></div>
-            
-            <div class="font-black text-xl text-white flex items-center gap-3 tracking-tight relative z-10 drop-shadow-md mt-1">
-                <div class="w-10 h-10 rounded-2xl bg-white text-blue-700 flex items-center justify-center border-2 border-blue-300 shadow-lg">
-                    <i class="fa-solid fa-graduation-cap text-lg"></i>
-                </div>
-                SAINSPIQ
-            </div>
-            
-            <div class="flex items-center gap-3 relative z-10 mt-1">
-                <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-white/20 hover:bg-white/30 border-2 border-white/30 text-white p-3 rounded-xl transition shadow-lg backdrop-blur-md">
-                    <i class="fa-solid fa-bell text-sm"></i>
-                    <span id="notifBadge" class="hide absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-md border-2 border-white pulse-red">0</span>
-                </button>
-                <!-- Desktop User -->
-                <div class="text-xs bg-white/20 border-2 border-white/30 text-white px-5 py-3 rounded-xl font-black hidden sm:flex items-center gap-2 shadow-lg backdrop-blur-md">
-                    <i class="fa-solid fa-circle-user text-white text-lg"></i>
-                    Halo, <span id="desktopUserName"></span>
-                </div>
-                <!-- Mobile User -->
-                <div class="text-xs bg-white/20 border-2 border-white/30 text-white w-10 h-10 rounded-xl font-black sm:hidden flex items-center justify-center shadow-lg backdrop-blur-md">
-                    <i class="fa-solid fa-user"></i>
-                    <span id="mobileUserName" class="hide"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- CONTAINER KONTEN (SCROLLABLE, MENARIK KE ATAS HEADER) -->
-        <div id="pagesContainer" class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 relative z-10 -mt-16 w-full">
-            <div class="max-w-4xl mx-auto space-y-6 pb-24 relative">
+        <!-- CONTAINER KONTEN (SCROLLABLE) -->
+        <div id="pagesContainer" class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 relative z-10 w-full pt-4">
+            <div class="max-w-4xl mx-auto space-y-6 pb-28 relative">
 
                 <!-- ===== DASHBOARD ===== -->
                 <div id="pageDashboard" class="page-content hide">
 
-                    <!-- Banner Memotong Header -->
-                    <div class="welcome-banner bg-white border-2 border-blue-100 p-6 md:p-8 mb-4 flex items-center gap-6 relative rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(37,99,235,0.2)] overflow-hidden">
+                    <!-- HEADER BISA DI-SCROLL MENGIKUTI KONTEN DASHBOARD -->
+                    <div class="app-header px-6 pt-6 pb-8 flex justify-between items-center -mx-4 md:-mx-6 mb-6">
+                        <div class="header-orb-1"></div>
+                        <div class="header-orb-2"></div>
+                        
+                        <div class="font-black text-xl text-white flex items-center gap-3 tracking-tight relative z-10 drop-shadow-md">
+                            <div class="w-10 h-10 rounded-2xl bg-white text-blue-700 flex items-center justify-center border-2 border-blue-300 shadow-lg">
+                                <i class="fa-solid fa-graduation-cap text-lg"></i>
+                            </div>
+                            SAINSPIQ
+                        </div>
+                        
+                        <div class="flex items-center gap-3 relative z-10">
+                            <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-white/20 hover:bg-white/30 border-2 border-white/30 text-white p-3 rounded-xl transition shadow-lg backdrop-blur-md">
+                                <i class="fa-solid fa-bell text-sm"></i>
+                                <span id="notifBadge" class="hide absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-md border-2 border-white pulse-red">0</span>
+                            </button>
+                            <!-- Desktop User -->
+                            <div class="text-xs bg-white/20 border-2 border-white/30 text-white px-4 py-2.5 rounded-xl font-black hidden sm:flex items-center gap-2 shadow-lg backdrop-blur-md tracking-wide">
+                                Halo, <span id="desktopUserName"></span>
+                            </div>
+                            <!-- Mobile User -->
+                            <div class="text-[11px] bg-white/20 border-2 border-white/30 text-white px-3 py-2.5 rounded-xl font-black sm:hidden flex items-center justify-center shadow-lg backdrop-blur-md tracking-wide">
+                                Halo, <span id="mobileUserName"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Banner Motivasi -->
+                    <div class="welcome-banner bg-white border-2 border-blue-100 p-6 md:p-8 mb-6 flex items-center gap-6 relative rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(37,99,235,0.2)] overflow-hidden">
                         <!-- Abstract Shapes -->
                         <div class="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full blur-3xl opacity-80 pointer-events-none"></div>
                         <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-cyan-100 to-blue-100 rounded-full blur-3xl opacity-80 pointer-events-none"></div>
@@ -666,7 +602,7 @@
 
                 <!-- ===== DATA SISWA ===== -->
                 <div id="pageDataSiswa" class="page-content hide">
-                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex">
+                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex mt-2">
                         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-lg shadow-emerald-200 border-2 border-emerald-300"><i class="fa-solid fa-users text-xl"></i></div>
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Kelola Data Siswa</h2>
                     </div>
@@ -769,7 +705,7 @@
 
                 <!-- ===== DATA GURU ===== -->
                 <div id="pageDataGuru" class="page-content hide">
-                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex">
+                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex mt-2">
                         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-200 border-2 border-blue-400"><i class="fa-solid fa-chalkboard-user text-xl"></i></div>
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Kelola Data Tutor</h2>
                     </div>
@@ -842,7 +778,7 @@
 
                 <!-- ===== INPUT SESI ===== -->
                 <div id="pageInputSesi" class="page-content hide">
-                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex">
+                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex mt-2">
                         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-lg shadow-amber-200 border-2 border-amber-300"><i class="fa-solid fa-pen-clip text-xl"></i></div>
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Input Jurnal Sesi</h2>
                     </div>
@@ -912,7 +848,7 @@
 
                 <!-- ===== REKAP ===== -->
                 <div id="pageRekap" class="page-content hide">
-                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex">
+                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex mt-2">
                         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-purple-200 border-2 border-purple-300"><i class="fa-solid fa-chart-pie text-xl"></i></div>
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Rekap & Laporan</h2>
                     </div>
@@ -1063,7 +999,7 @@
                 <!-- ===== PROFIL GURU ===== -->
                 <div id="pageProfil" class="page-content hide">
                     <!-- Modern 3D Profile Header -->
-                    <div class="profile-header mb-8 flex flex-col items-center text-center relative z-10 rounded-[2.5rem] shadow-2xl py-12 overflow-hidden border-2 border-blue-400"
+                    <div class="profile-header mb-8 mt-2 flex flex-col items-center text-center relative z-10 rounded-[2.5rem] shadow-2xl py-12 overflow-hidden border-2 border-blue-400"
                         style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);">
                         <!-- BG Shapes -->
                         <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-400/30 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
@@ -1125,8 +1061,8 @@
             </div>
         </div>
 
-        <!-- Modern Floating Bottom Nav -->
-        <div class="flex-none w-full bg-white/90 backdrop-blur-xl border-t-2 border-slate-200/80 flex justify-around items-end z-50 px-2 pb-safe absolute bottom-0 shadow-[0_-15px_40px_rgba(0,0,0,0.1)]" style="min-height:80px;padding-top:0;overflow:visible; border-top-left-radius:2rem; border-top-right-radius:2rem;" id="mobileNav"></div>
+        <!-- Modern Floating Bottom Nav (Redesign) -->
+        <div class="flex-none w-full bg-white/95 backdrop-blur-xl border-t border-slate-200/80 flex justify-around items-end z-50 px-2 pb-safe absolute bottom-0 shadow-[0_-10px_30px_rgba(15,23,42,0.08)]" style="min-height:80px;padding-top:0;overflow:visible; border-top-left-radius:2rem; border-top-right-radius:2rem;" id="mobileNav"></div>
     </div>
 </div>
 
@@ -1400,14 +1336,6 @@ function showToast(msg, type = "success") {
     }, 3000);
 }
 
-// Tap backdrop to dismiss toast
-document.getElementById('toastBackdrop').addEventListener('click', () => {
-    const toast = document.getElementById('toast');
-    toast.className = toast.className.replace(' show','').replace('show ','');
-    document.getElementById('toastBackdrop').classList.remove('show');
-    if (toastTimer) clearTimeout(toastTimer);
-});
-
 function scrollToTop() {
     const c = document.getElementById('pagesContainer');
     if (c) c.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1638,7 +1566,7 @@ function quickInputSesi(idSiswa) {
 }
 
 // ============================================================
-// LOWONGAN TUTOR  (data disimpan di Supabase, tabel: lowongan_tutor)
+// LOWONGAN TUTOR
 // ============================================================
 let dataLowongan = [];
 
@@ -1839,7 +1767,7 @@ async function initApp() {
 }
 
 // ============================================================
-// NAVIGATION
+// NAVIGATION (REDESIGN)
 // ============================================================
 function buildNavigation() {
     let mNav = '';
@@ -1859,11 +1787,11 @@ function buildNavigation() {
     }
     mNav += `
         <button onclick="logout()"
-            class="flex-1 flex flex-col items-center justify-end pb-2 pt-2 text-rose-400 font-semibold transition-colors group">
-            <div class="px-4 py-1.5 rounded-2xl transition-all duration-300 mb-1 group-hover:bg-rose-50 group-hover:text-rose-600">
-                <i class="fa-solid fa-arrow-right-from-bracket text-lg"></i>
+            class="flex-1 flex flex-col items-center justify-end pb-3 pt-2 text-rose-500 font-bold transition-colors group">
+            <div class="px-4 py-1.5 rounded-2xl transition-all duration-300 mb-1 group-hover:bg-rose-100 group-hover:text-rose-700">
+                <i class="fa-solid fa-arrow-right-from-bracket text-[18px]"></i>
             </div>
-            <span class="text-[10px] font-black whitespace-nowrap group-hover:text-rose-600">Keluar</span>
+            <span class="text-[10px] font-black whitespace-nowrap group-hover:text-rose-700">Keluar</span>
         </button>`;
     document.getElementById('mobileNav').innerHTML = mNav;
 }
@@ -1871,9 +1799,9 @@ function buildNavigation() {
 function navBtn(id, icon, text) {
     return `
         <button onclick="navigate('${id}')" id="nav-m-${id}"
-            class="nav-btn flex-1 flex flex-col items-center justify-end pb-2 pt-2 text-slate-400 font-semibold transition-colors">
+            class="nav-btn flex-1 flex flex-col items-center justify-end pb-3 pt-2 text-slate-500 hover:text-slate-700 font-bold transition-colors">
             <div id="nav-icon-bg-${id}" class="nav-pill px-4 py-1.5 rounded-2xl transition-all duration-300 mb-1">
-                <i class="fa-solid ${icon} text-lg"></i>
+                <i class="fa-solid ${icon} text-[18px]"></i>
             </div>
             <span class="text-[10px] font-black whitespace-nowrap" id="nav-text-${id}">${text}</span>
         </button>`;
@@ -1895,9 +1823,9 @@ function navigate(page) {
     // Reset all normal nav buttons
     document.querySelectorAll('[id^="nav-m-"]').forEach(el => {
         el.classList.remove('active'); 
-        el.querySelector('span:not(.nav-fab-text)')?.classList.replace('text-blue-700', 'text-slate-400');
+        el.querySelector('span:not(.nav-fab-text)')?.classList.replace('text-blue-900', 'text-slate-500');
     });
-    document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => el.classList.remove('bg-blue-100', 'text-blue-700', 'shadow-sm'));
+    document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => el.classList.remove('bg-blue-100', 'text-blue-900', 'shadow-md'));
     
     // Reset FAB
     document.querySelectorAll('[id^="nav-fab-btn-"]').forEach(el => {
@@ -1921,9 +1849,9 @@ function navigate(page) {
     
     if (mBtn) {
         mBtn.classList.add('active');
-        if (mText) mText.classList.replace('text-slate-400', 'text-blue-700');
+        if (mText) mText.classList.replace('text-slate-500', 'text-blue-900');
     }
-    if (mBg) mBg.classList.add('bg-blue-100', 'text-blue-700', 'shadow-sm');
+    if (mBg) mBg.classList.add('bg-blue-100', 'text-blue-900', 'shadow-md');
     
     scrollToTop();
 }
