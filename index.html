@@ -6,8 +6,7 @@
     <title>Aplikasi Jurnal Les Privat - LBB SAINSPIQ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Menambahkan Font Poppins untuk UI Baru -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -24,8 +23,7 @@
             --text-muted: #64748b;
             --border: #e2e8f0;
             --radius: 16px;
-            /* Prioritaskan Poppins */
-            --font: 'Poppins', 'Plus Jakarta Sans', sans-serif;
+            --font: 'Plus Jakarta Sans', sans-serif;
         }
         * { box-sizing: border-box; }
         body, html {
@@ -40,25 +38,6 @@
             overflow: hidden;
         }
         .hide { display: none !important; }
-
-        .font-poppins { font-family: 'Poppins', sans-serif; }
-
-        /* Waving hand animation */
-        @keyframes wave {
-            0% { transform: rotate(0.0deg) }
-            10% { transform: rotate(14.0deg) }
-            20% { transform: rotate(-8.0deg) }
-            30% { transform: rotate(14.0deg) }
-            40% { transform: rotate(-4.0deg) }
-            50% { transform: rotate(10.0deg) }
-            60% { transform: rotate(0.0deg) }
-            100% { transform: rotate(0.0deg) }
-        }
-        .animate-wave {
-            animation: wave 2.5s infinite;
-            transform-origin: 70% 70%;
-            display: inline-block;
-        }
 
         /* ── Spinner ── */
         .spinner {
@@ -181,7 +160,7 @@
         }
         #toastBackdrop.show { opacity: 1; }
 
-        /* ── HEADER (CSS lamasnya tetap ada jika dipanggil) ── */
+        /* ── HEADER ── */
         .app-header {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 60%, #2563eb 100%);
             box-shadow: 0 2px 20px rgba(30,58,138,0.3);
@@ -248,7 +227,7 @@
             width: 100%; overflow: hidden;
         }
 
-        /* ── BANNER GRADIENT (CSS lama, masih ada untuk berjaga-jaga) ── */
+        /* ── BANNER GRADIENT ── */
         .welcome-banner {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #7c3aed 100%);
             border-radius: 20px;
@@ -600,148 +579,49 @@
     <!-- ===== MAIN LAYOUT ===== -->
     <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col overflow-hidden" style="background:#f1f5f9">
 
-        <!-- ===== REDESIGNED HEADER ===== -->
-        <div class="flex-none text-white px-6 sm:px-10 pt-6 pb-28 flex justify-between items-start z-0 relative font-poppins shadow-sm"
-style="background: linear-gradient(135deg, #021a6b 0%, #0832ac 100%);
-border-bottom-left-radius: 40px;
-border-bottom-right-radius: 40px;
-margin-bottom: -80px;">
-
-    <!-- Brand -->
-    <div class="flex items-center gap-3">
-        <div class="w-12 h-12 bg-white rounded-[14px] flex items-center justify-center shadow-md">
-            <i class="fa-solid fa-graduation-cap text-[#0832ac] text-xl"></i>
-        </div>
-        <div class="font-bold text-xl tracking-wide uppercase mt-0.5">
-            LBB SAINSPIQ
-        </div>
-    </div>
-
-    <!-- Right -->
-    <div class="flex items-center gap-5 sm:gap-7 mt-1">
-
-        <!-- Notif -->
-        <button id="btnNotifBell"
-            onclick="navigate('dashboard')"
-            class="hide relative hover:opacity-80 transition flex items-center justify-center mt-1">
-            <i class="fa-regular fa-bell text-2xl"></i>
-
-            <span id="notifBadge"
-                class="hide absolute -top-1 -right-1 bg-[#ef4444] text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center border-2 border-[#05268c] pulse-red">
-                0
-            </span>
-        </button>
-
-        <!-- Profile -->
-        <div class="flex items-center gap-3 cursor-pointer"
-            onclick="navigate('profil')">
-
-            <div class="relative">
-                <img
-                    src="https://ui-avatars.com/api/?name=User&background=f1f5f9&color=0832ac"
-                    class="w-11 h-11 rounded-full border-[2px] border-white/80 object-cover shadow-sm"
-                    id="headerAvatar"
-                    alt="Avatar">
+        <!-- Header -->
+        <div class="app-header flex-none text-white px-5 py-3.5 flex justify-between items-center z-40">
+            <div class="font-extrabold text-base flex items-center gap-2.5 tracking-tight">
+                <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
+                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                </div>
+                LBB SAINSPIQ
             </div>
-
-            <div class="hidden sm:flex flex-col text-left justify-center">
-                <span class="text-white font-semibold text-[15px] leading-none"
-                    id="desktopUserName">
-                    User
-                </span>
-
-                <span class="text-white/70 text-[11px] font-medium mt-1 uppercase tracking-wider"
-                    id="headerUserId">
-                    ID
-                </span>
+            <div class="flex items-center gap-2">
+                <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-white/15 hover:bg-white/25 p-2.5 rounded-full transition">
+                    <i class="fa-solid fa-bell text-sm"></i>
+                    <span id="notifBadge" class="hide absolute -top-1 -right-1 bg-amber-400 text-gray-900 text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center pulse-red" style="width:18px;height:18px">0</span>
+                </button>
+                <div class="text-xs bg-white/10 border border-white/15 px-3 py-1.5 rounded-full font-semibold hidden sm:block">
+                    Hi, <span id="desktopUserName" class="font-extrabold"></span>
+                </div>
+                <div class="text-xs bg-white/10 border border-white/15 px-3 py-1.5 rounded-full font-semibold sm:hidden">
+                    <i class="fa-solid fa-user mr-1"></i><span id="mobileUserName" class="font-extrabold"></span>
+                </div>
             </div>
-
-            <i class="fa-solid fa-chevron-down text-white text-xs hidden sm:block ml-1 opacity-90 mt-0.5"></i>
         </div>
 
-        <span id="mobileUserName" class="hidden"></span>
-    </div>
-</div>
+        <!-- Pages -->
+        <div id="pagesContainer" class="flex-1 overflow-y-auto px-4 py-5 md:px-6">
+            <div class="max-w-4xl mx-auto space-y-5 pb-6">
 
-<!-- ===== DASHBOARD ===== -->
-<div id="pageDashboard" class="page-content hide">
+                <!-- ===== DASHBOARD ===== -->
+                <div id="pageDashboard" class="page-content hide">
 
-    <!-- ===== WELCOME CARD ===== -->
-    <div class="bg-white rounded-[32px] relative z-20 p-8 sm:px-10 sm:py-10
-    shadow-[0_12px_40px_rgba(0,0,0,0.06)]
-    mb-6 flex flex-col md:flex-row items-center gap-8
-    overflow-hidden font-poppins border border-gray-100 mx-auto w-full">
-
-        <button id="btnEditBanner"
-            onclick="editCustomBanner()"
-            class="hide absolute top-4 right-4 text-gray-400 hover:text-blue-600 bg-gray-50 hover:bg-gray-100 rounded-full w-9 h-9 flex items-center justify-center z-20 transition shadow-sm border border-gray-100">
-
-            <i class="fa-solid fa-pencil text-sm"></i>
-        </button>
-
-        <!-- Text -->
-        <div class="flex-1 relative z-10 w-full pt-2">
-
-            <h2 class="text-[32px] sm:text-[36px] leading-[1.2] font-bold text-[#1e293b] mb-1">
-                Selamat datang,<br>
-
-                <span class="text-[#2563eb]"
-                    id="welcomeBannerName">
-                    Tutor
-                </span>!
-
-                <span class="inline-block origin-bottom-right animate-wave">
-                    👋
-                </span>
-            </h2>
-
-            <p id="bannerText"
-                class="text-[#64748b] text-[15px] leading-[1.8] mt-4 font-medium max-w-[95%]">
-
-                "Amanah yang kamu jalankan dengan penuh keikhlasan hari ini
-                akan menjadi kebaikan dan amal jariyah di masa mendatang.
-                Tetap semangat mencerdaskan generasi penerus bangsa!"
-            </p>
-        </div>
-
-        <!-- Illustration -->
-        <div class="w-full md:w-[280px] flex justify-center items-center relative z-0 mt-6 md:mt-0">
-
-            <!-- SVG -->
-            <svg width="260"
-                height="200"
-                viewBox="0 0 260 200"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="relative z-0 scale-100 w-full max-w-[260px]">
-
-                <!-- Background -->
-                <path d="M 60 200 L 60 100 A 90 90 0 0 1 240 100 L 240 200 Z"
-                    fill="#eef2ff"/>
-
-                <!-- Sparkles -->
-                <path d="M 45 60 Q 55 60 55 50 Q 55 60 65 60 Q 55 60 55 70 Q 55 60 45 60 Z"
-                    fill="#8da4fb"/>
-
-                <path d="M 210 85 Q 220 85 220 75 Q 220 85 230 85 Q 220 85 220 95 Q 220 85 210 85 Z"
-                    fill="#ffffff"/>
-
-                <!-- Books -->
-                <rect x="110" y="174" width="140" height="26" rx="6" fill="#3b82f6"/>
-                <rect x="118" y="178" width="132" height="18" rx="4" fill="#ffffff"/>
-                <rect x="110" y="174" width="12" height="26" rx="5" fill="#2563eb"/>
-
-                <rect x="120" y="152" width="120" height="22" rx="6" fill="#60a5fa"/>
-                <rect x="128" y="156" width="112" height="14" rx="4" fill="#ffffff"/>
-                <rect x="120" y="152" width="12" height="22" rx="5" fill="#3b82f6"/>
-
-                <rect x="110" y="130" width="135" height="22" rx="6" fill="#3b82f6"/>
-                <rect x="118" y="134" width="127" height="14" rx="4" fill="#ffffff"/>
-                <rect x="110" y="130" width="12" height="22" rx="5" fill="#2563eb"/>
-            </svg>
-        </div>
-    </div>
-</div>
+                    <!-- Welcome Banner -->
+                    <div class="welcome-banner p-6 text-white mb-5 flex items-center gap-5 relative mt-1">
+                        <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 80% 20%, white 0%, transparent 60%)"></div>
+                        <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-3 right-3 text-white/70 hover:text-amber-300 bg-black/20 rounded-full p-2 w-8 h-8 flex items-center justify-center z-20 transition">
+                            <i class="fa-solid fa-pencil text-xs"></i>
+                        </button>
+                        <div class="hidden sm:flex bg-white/15 p-4 rounded-2xl flex-shrink-0 border border-white/20 z-10">
+                            <i class="fa-solid fa-hand-holding-heart text-3xl text-white"></i>
+                        </div>
+                        <div class="z-10 pr-6">
+                            <h3 class="font-extrabold text-xl md:text-2xl mb-2 tracking-tight">Selamat Datang Tutor Hebat!</h3>
+                            <p id="bannerText" class="text-yellow-300/90 font-medium text-sm leading-relaxed">"Amanah yang kamu jalankan dengan penuh keikhlasan hari ini akan menjadi kebaikan dan amal jariyah di masa mendatang. Tetap semangat mencerdaskan generasi penerus bangsa!"</p>
+                        </div>
+                    </div>
 
                     <!-- Lowongan Tutor -->
                     <div class="lowongan-card mb-5" id="lowonganSection">
@@ -1365,7 +1245,7 @@ async function analyzeStudentWithAI(id) {
     finally { showLoading(false); }
 }
 
-// =======================================================
+// ============================================================
 // HELPER: HARI & JADWAL
 // ============================================================
 const NAMA_HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
@@ -1931,33 +1811,8 @@ function logout() {
 async function initApp() {
     document.getElementById('pageLogin').classList.add('hide');
     document.getElementById('mainLayout').classList.remove('hide');
-    
-    // Retain existing bindings
-    const deskName = document.getElementById('desktopUserName');
-    if (deskName) deskName.innerText = currentUser.nama_lengkap;
-    const mobName = document.getElementById('mobileUserName');
-    if (mobName) mobName.innerText = currentUser.nama_lengkap;
-
-    // --- NEW UI DYNAMIC UPDATES ---
-    try {
-        const firstName = currentUser.nama_lengkap.split(' ')[0];
-        const welcomeBanner = document.getElementById('welcomeBannerName');
-        if(welcomeBanner) welcomeBanner.innerText = firstName;
-
-        const roleDisplay = document.getElementById('headerUserId');
-        if(roleDisplay) {
-            roleDisplay.innerText = currentUser.role === 'admin' ? 'ADMIN' : (currentUser.username || 'SPQ001').toUpperCase();
-        }
-
-        const avatarDisplay = document.getElementById('headerAvatar');
-        if(avatarDisplay) {
-            avatarDisplay.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(firstName)}&background=f1f5f9&color=0832ac&bold=true`;
-        }
-    } catch(e) {
-        console.log("UI Update safely failed", e);
-    }
-    // ------------------------------
-
+    document.getElementById('desktopUserName').innerText = currentUser.nama_lengkap;
+    document.getElementById('mobileUserName').innerText = currentUser.nama_lengkap;
     if (currentUser.role === 'admin') {
         document.getElementById('btnEditBanner').classList.remove('hide');
         document.getElementById('btnTambahLowongan').classList.remove('hide');
@@ -2501,19 +2356,10 @@ async function saveProfil() {
         // Update local currentUser
         Object.assign(currentUser, payload);
         localStorage.setItem('les_user', JSON.stringify(currentUser));
-        
-        // Update new UI bindings dynamically
-        const firstName = nama.split(' ')[0];
-        const welcomeBanner = document.getElementById('welcomeBannerName');
-        if(welcomeBanner) welcomeBanner.innerText = firstName;
-        const avatarDisplay = document.getElementById('headerAvatar');
-        if(avatarDisplay) {
-            avatarDisplay.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(firstName)}&background=f1f5f9&color=0832ac&bold=true`;
-        }
-
+        // Update header display
         document.getElementById('desktopUserName').innerText = nama;
-        if(document.getElementById('mobileUserName')) document.getElementById('mobileUserName').innerText = nama;
-        
+        document.getElementById('mobileUserName').innerText = nama;
+        // Refresh profile header
         loadProfil();
         showToast("Profil berhasil disimpan! ✅");
     } catch (e) {
@@ -2521,6 +2367,8 @@ async function saveProfil() {
     }
     showLoading(false);
 }
+
+
 
 async function loadRiwayat() {
     showLoading(true);
