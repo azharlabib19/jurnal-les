@@ -13,9 +13,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --primary: #1e40af;
+            --primary: #2563eb;
             --primary-light: #3b82f6;
-            --primary-dark: #1e3a8a;
+            --primary-dark: #1d4ed8;
             --accent: #f59e0b;
             --surface: #f8fafc;
             --card: #ffffff;
@@ -107,7 +107,7 @@
         }
         .login-label { color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 
-        /* ── TOAST — centered, modern ── */
+        /* ── TOAST ── */
         #toast {
             position: fixed;
             top: 50%;
@@ -149,7 +149,6 @@
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0; font-size: 16px;
         }
-        /* Toast backdrop */
         #toastBackdrop {
             position: fixed; inset: 0;
             background: rgba(0,0,0,0.15);
@@ -160,21 +159,23 @@
         }
         #toastBackdrop.show { opacity: 1; }
 
-        /* ── HEADER ── */
+        /* ── UNIFIED CLEAN HEADER ── */
         .app-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 60%, #2563eb 100%);
-            box-shadow: 0 2px 20px rgba(30,58,138,0.3);
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 20px -2px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
         }
 
         /* ── CARDS ── */
         .stat-card {
             background: white;
             border-radius: 20px;
-            border: 1px solid var(--border);
-            box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px -3px rgba(0,0,0,0.03);
             transition: transform 0.15s, box-shadow 0.15s;
         }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.06); }
 
         /* ── NAV ── */
         .nav-btn { transition: all 0.15s; }
@@ -227,18 +228,16 @@
             width: 100%; overflow: hidden;
         }
 
-        /* ── BANNER GRADIENT ── */
+        /* ── BANNER (Clean Modern Base) ── */
         .welcome-banner {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #7c3aed 100%);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(30,58,138,0.25);
-            overflow: hidden; position: relative;
+            /* Styling utama dipindah ke utility class tailwind agar lebih fleksibel */
+            transition: transform 0.2s;
         }
 
         /* ── TABLE ── */
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table thead tr { background: #f1f5f9; }
-        .data-table thead th { padding: 14px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; }
+        .data-table thead tr { background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .data-table thead th { padding: 14px 16px; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; }
         .data-table tbody tr { border-bottom: 1px solid #f1f5f9; transition: background 0.1s; }
         .data-table tbody tr:hover { background: #f8fafc; }
         .data-table tbody td { padding: 14px 16px; font-size: 13.5px; }
@@ -270,7 +269,6 @@
             padding-bottom: 6px;
             cursor: pointer;
         }
-        /* Lingkaran putih background di belakang FAB */
         .nav-fab-wrapper::before {
             content: '';
             position: absolute;
@@ -281,14 +279,14 @@
             height: 84px;
             border-radius: 50%;
             background: white;
-            box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.05);
             z-index: 0;
         }
         .nav-fab {
             width: 60px; height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            box-shadow: 0 8px 28px rgba(30,64,175,0.55), 0 2px 8px rgba(30,64,175,0.3);
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            box-shadow: 0 8px 24px rgba(37,99,235,0.4), 0 2px 8px rgba(37,99,235,0.2);
             display: flex; align-items: center; justify-content: center;
             border: 3px solid white;
             cursor: pointer;
@@ -297,39 +295,21 @@
             top: -22px;
             z-index: 1;
         }
-        .nav-fab:active { transform: scale(0.92); box-shadow: 0 4px 12px rgba(30,64,175,0.4); }
+        .nav-fab:active { transform: scale(0.92); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
         .nav-fab i { font-size: 22px; color: white; }
         .nav-fab-text {
-            font-size: 10px; font-weight: 700;
-            color: var(--primary); line-height: 1;
+            font-size: 10px; font-weight: 800;
+            color: var(--text-muted); line-height: 1;
             position: relative; top: -18px;
             z-index: 1;
         }
         .nav-fab-wrapper.active .nav-fab {
-            background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 100%);
-            box-shadow: 0 8px 28px rgba(79,70,229,0.6);
+            background: linear-gradient(135deg, #1d4ed8 0%, #4f46e5 100%);
+            box-shadow: 0 8px 24px rgba(79,70,229,0.5);
         }
-        .nav-fab-wrapper.active .nav-fab-text { color: #4f46e5; }
+        .nav-fab-wrapper.active .nav-fab-text { color: var(--primary); }
 
         /* ── PROFILE PAGE ── */
-        .profile-avatar {
-            width: 88px; height: 88px; border-radius: 50%;
-            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 36px; color: white; font-weight: 800;
-            box-shadow: 0 8px 32px rgba(30,64,175,0.3);
-            border: 4px solid white;
-        }
-        .profile-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #7c3aed 100%);
-            border-radius: 20px; padding: 28px 20px 24px;
-            position: relative; overflow: hidden;
-        }
-        .profile-header::before {
-            content: ''; position: absolute; top: -40px; right: -40px;
-            width: 150px; height: 150px; border-radius: 50%;
-            background: rgba(255,255,255,0.06);
-        }
         .profile-field-card {
             background: white; border-radius: 16px;
             border: 1.5px solid var(--border);
@@ -341,7 +321,7 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
         .profile-field-label {
-            font-size: 10px; font-weight: 700; letter-spacing: 0.07em;
+            font-size: 10px; font-weight: 800; letter-spacing: 0.07em;
             text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;
             display: flex; align-items: center; gap: 6px;
         }
@@ -352,46 +332,40 @@
             padding: 0; resize: none;
         }
         .profile-save-btn {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
             color: white; font-weight: 800; font-size: 14px;
             border: none; border-radius: 16px; padding: 16px;
             width: 100%; cursor: pointer;
-            box-shadow: 0 6px 20px rgba(30,64,175,0.35);
+            box-shadow: 0 6px 20px rgba(37,99,235,0.3);
             transition: all 0.2s; letter-spacing: 0.03em;
         }
-        .profile-save-btn:active { transform: translateY(1px); box-shadow: 0 3px 10px rgba(30,64,175,0.25); }
+        .profile-save-btn:active { transform: translateY(1px); box-shadow: 0 3px 10px rgba(37,99,235,0.2); }
 
         /* ── LOWONGAN TUTOR ── */
         .lowongan-card {
             background: white;
             border-radius: 20px;
-            border: 1px solid #e0f2fe;
-            box-shadow: 0 2px 12px rgba(14,165,233,0.08);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px -3px rgba(0,0,0,0.03);
             overflow: hidden;
             transition: transform 0.15s, box-shadow 0.15s;
         }
-        .lowongan-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(14,165,233,0.14); }
-        .lowongan-header {
-            background: linear-gradient(135deg, #0369a1 0%, #0ea5e9 60%, #38bdf8 100%);
-        }
+        .lowongan-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.06); }
         .lowongan-badge {
             display: inline-flex; align-items: center; gap: 5px;
             padding: 3px 10px; border-radius: 99px;
-            font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
+            font-size: 11px; font-weight: 800; letter-spacing: 0.03em;
         }
-        .badge-open { background: #dcfce7; color: #15803d; }
-        .badge-closed { background: #fee2e2; color: #b91c1c; }
-        .badge-soon { background: #fef9c3; color: #92400e; }
-        @keyframes shimmer {
-            0% { background-position: -400px 0; }
-            100% { background-position: 400px 0; }
-        }
+        .badge-open { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .badge-closed { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+        .badge-soon { background: #fef9c3; color: #92400e; border: 1px solid #fde047; }
+        
         .lowongan-item {
             border-bottom: 1px solid #f1f5f9;
             transition: background 0.12s;
         }
         .lowongan-item:last-child { border-bottom: none; }
-        .lowongan-item:hover { background: #f0f9ff; }
+        .lowongan-item:hover { background: #f8fafc; }
     </style>
 </head>
 <body>
@@ -459,31 +433,31 @@
     <!-- Lowongan Tutor Modal -->
     <div id="lowonganModal" class="modal-backdrop hide">
         <div class="modal-card max-w-lg flex flex-col max-h-[90vh]">
-            <div class="lowongan-header p-5 flex justify-between items-center">
-                <h3 class="text-white font-bold text-base flex items-center gap-2">
-                    <div class="bg-white/20 w-8 h-8 rounded-xl flex items-center justify-center">
+            <div class="bg-white border-b border-slate-100 p-5 flex justify-between items-center">
+                <h3 class="text-slate-800 font-black text-base flex items-center gap-2">
+                    <div class="bg-blue-50 text-blue-600 w-8 h-8 rounded-xl flex items-center justify-center border border-blue-100">
                         <i class="fa-solid fa-briefcase text-sm"></i>
                     </div>
                     <span id="lowonganModalMode">Tambah Lowongan Baru</span>
                 </h3>
-                <button onclick="closeLowonganModal()" class="text-white/70 hover:text-white w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition">
+                <button onclick="closeLowonganModal()" class="text-slate-400 hover:text-slate-600 hover:bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center transition">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div class="p-6 overflow-y-auto flex-1">
+            <div class="p-6 overflow-y-auto flex-1 bg-white">
                 <input type="hidden" id="lowonganIdEdit">
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Posisi / Mata Pelajaran</label>
+                        <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wide mb-1.5">Posisi / Mata Pelajaran</label>
                         <input type="text" id="lowonganPosisi" class="form-input" placeholder="Cth: Tutor Matematika SMP">
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Lokasi</label>
+                            <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wide mb-1.5">Lokasi</label>
                             <input type="text" id="lowonganLokasi" class="form-input" placeholder="Cth: Soreang, Bandung">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Status</label>
+                            <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wide mb-1.5">Status</label>
                             <select id="lowonganStatus" class="form-input">
                                 <option value="open">Dibuka</option>
                                 <option value="soon">Segera Dibuka</option>
@@ -492,24 +466,24 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Persyaratan / Keterangan</label>
+                        <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wide mb-1.5">Persyaratan / Keterangan</label>
                         <textarea id="lowonganKeterangan" rows="3" class="form-input resize-none" placeholder="Cth: Min. D3 semua jurusan, pengalaman mengajar diutamakan..."></textarea>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Kontak / WA</label>
+                            <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wide mb-1.5">Kontak / WA</label>
                             <input type="text" id="lowonganKontak" class="form-input" placeholder="Cth: 0812-xxxx-xxxx">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Batas Pendaftaran</label>
+                            <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wide mb-1.5">Batas Pendaftaran</label>
                             <input type="date" id="lowonganDeadline" class="form-input">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="p-4 border-t bg-gray-50 flex gap-3 justify-end">
-                <button onclick="closeLowonganModal()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200 transition text-sm">Batal</button>
-                <button onclick="saveLowongan()" class="text-white font-bold px-6 py-2.5 rounded-xl transition text-sm flex items-center gap-2" style="background:linear-gradient(135deg,#0369a1,#0ea5e9)">
+            <div class="p-4 border-t border-slate-100 bg-slate-50 flex gap-3 justify-end">
+                <button onclick="closeLowonganModal()" class="bg-white border border-slate-200 text-slate-700 font-bold px-5 py-2.5 rounded-xl hover:bg-slate-100 transition text-sm">Batal</button>
+                <button onclick="saveLowongan()" class="text-white font-bold px-6 py-2.5 rounded-xl transition text-sm flex items-center gap-2 shadow-sm" style="background:linear-gradient(135deg,#2563eb,#3b82f6)">
                     <i class="fa-solid fa-save"></i> Simpan Lowongan
                 </button>
             </div>
@@ -577,72 +551,76 @@
     </div>
 
     <!-- ===== MAIN LAYOUT ===== -->
-    <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col overflow-hidden" style="background:#f1f5f9">
+    <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col overflow-hidden" style="background:#f8fafc">
 
-        <!-- Header -->
-        <div class="app-header flex-none text-white px-5 py-3.5 flex justify-between items-center z-40">
-            <div class="font-extrabold text-base flex items-center gap-2.5 tracking-tight">
-                <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
+        <!-- Unified Clean Header -->
+        <div class="app-header flex-none px-5 py-4 flex justify-between items-center z-40">
+            <div class="font-black text-lg text-slate-800 flex items-center gap-3 tracking-tight">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-500/30">
                     <i class="fa-solid fa-graduation-cap text-sm"></i>
                 </div>
                 LBB SAINSPIQ
             </div>
-            <div class="flex items-center gap-2">
-                <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-white/15 hover:bg-white/25 p-2.5 rounded-full transition">
+            <div class="flex items-center gap-3">
+                <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 p-2.5 rounded-full transition shadow-sm">
                     <i class="fa-solid fa-bell text-sm"></i>
-                    <span id="notifBadge" class="hide absolute -top-1 -right-1 bg-amber-400 text-gray-900 text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center pulse-red" style="width:18px;height:18px">0</span>
+                    <span id="notifBadge" class="hide absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm border-2 border-white pulse-red">0</span>
                 </button>
-                <div class="text-xs bg-white/10 border border-white/15 px-3 py-1.5 rounded-full font-semibold hidden sm:block">
-                    Hi, <span id="desktopUserName" class="font-extrabold"></span>
+                <div class="text-xs bg-slate-50 border border-slate-200 text-slate-700 px-4 py-2.5 rounded-full font-bold hidden sm:block shadow-sm">
+                    Hi, <span id="desktopUserName" class="font-black text-blue-700"></span>
                 </div>
-                <div class="text-xs bg-white/10 border border-white/15 px-3 py-1.5 rounded-full font-semibold sm:hidden">
-                    <i class="fa-solid fa-user mr-1"></i><span id="mobileUserName" class="font-extrabold"></span>
+                <div class="text-xs bg-slate-50 border border-slate-200 text-slate-700 px-3.5 py-2.5 rounded-full font-bold sm:hidden flex items-center shadow-sm">
+                    <i class="fa-solid fa-user text-blue-600 mr-2"></i><span id="mobileUserName" class="font-black"></span>
                 </div>
             </div>
         </div>
 
         <!-- Pages -->
-        <div id="pagesContainer" class="flex-1 overflow-y-auto px-4 py-5 md:px-6">
+        <div id="pagesContainer" class="flex-1 overflow-y-auto px-4 py-5 md:px-6 relative">
             <div class="max-w-4xl mx-auto space-y-5 pb-6">
 
                 <!-- ===== DASHBOARD ===== -->
                 <div id="pageDashboard" class="page-content hide">
 
-                    <!-- Welcome Banner -->
-                    <div class="welcome-banner p-6 text-white mb-5 flex items-center gap-5 relative mt-1">
-                        <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 80% 20%, white 0%, transparent 60%)"></div>
-                        <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-3 right-3 text-white/70 hover:text-amber-300 bg-black/20 rounded-full p-2 w-8 h-8 flex items-center justify-center z-20 transition">
+                    <!-- Unified Clean Banner -->
+                    <div class="welcome-banner bg-white border border-slate-200 p-6 md:p-8 mb-6 flex items-center gap-5 relative mt-1 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)]">
+                        <!-- Modern Decoration Background inside banner -->
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100/40 to-indigo-100/40 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                        
+                        <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-4 right-4 text-slate-400 hover:text-blue-600 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-full p-2 w-8 h-8 flex items-center justify-center z-20 transition shadow-sm">
                             <i class="fa-solid fa-pencil text-xs"></i>
                         </button>
-                        <div class="hidden sm:flex bg-white/15 p-4 rounded-2xl flex-shrink-0 border border-white/20 z-10">
+                        
+                        <div class="hidden sm:flex bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-2xl flex-shrink-0 z-10 shadow-md shadow-blue-500/20">
                             <i class="fa-solid fa-hand-holding-heart text-3xl text-white"></i>
                         </div>
-                        <div class="z-10 pr-6">
-                            <h3 class="font-extrabold text-xl md:text-2xl mb-2 tracking-tight">Selamat Datang Tutor Hebat!</h3>
-                            <p id="bannerText" class="text-yellow-300/90 font-medium text-sm leading-relaxed">"Amanah yang kamu jalankan dengan penuh keikhlasan hari ini akan menjadi kebaikan dan amal jariyah di masa mendatang. Tetap semangat mencerdaskan generasi penerus bangsa!"</p>
+                        
+                        <div class="z-10 pr-6 relative">
+                            <h3 class="font-black text-xl md:text-2xl mb-2 tracking-tight text-slate-800">Selamat Datang Tutor Hebat!</h3>
+                            <p id="bannerText" class="text-slate-600 font-medium text-sm leading-relaxed">"Amanah yang kamu jalankan dengan penuh keikhlasan hari ini akan menjadi kebaikan dan amal jariyah di masa mendatang. Tetap semangat mencerdaskan generasi penerus bangsa!"</p>
                         </div>
                     </div>
 
                     <!-- Lowongan Tutor -->
                     <div class="lowongan-card mb-5" id="lowonganSection">
-                        <div class="lowongan-header px-5 py-4 flex items-center justify-between">
+                        <div class="px-5 py-4 flex items-center justify-between bg-white border-b border-slate-100">
                             <div class="flex items-center gap-3">
-                                <div class="bg-white/20 p-2 rounded-xl border border-white/20">
-                                    <i class="fa-solid fa-briefcase text-white text-base"></i>
+                                <div class="bg-blue-50 p-2.5 rounded-xl border border-blue-100 text-blue-600">
+                                    <i class="fa-solid fa-briefcase text-base"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-white font-extrabold text-sm tracking-tight">Lowongan Tutor LBB SAINSPIQ</h3>
-                                    <p class="text-sky-200 text-xs mt-0.5">Bergabunglah bersama tim pengajar kami</p>
+                                    <h3 class="text-slate-800 font-black text-sm tracking-tight">Lowongan Tutor LBB SAINSPIQ</h3>
+                                    <p class="text-slate-500 text-xs mt-0.5 font-medium">Bergabunglah bersama tim pengajar kami</p>
                                 </div>
                             </div>
-                            <button id="btnTambahLowongan" onclick="openLowonganModal()" class="hide bg-white/20 hover:bg-white/30 border border-white/25 text-white font-bold text-xs px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+                            <button id="btnTambahLowongan" onclick="openLowonganModal()" class="hide bg-white hover:bg-slate-50 border border-slate-200 text-blue-600 font-bold text-xs px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                                 <i class="fa-solid fa-plus"></i> Tambah
                             </button>
                         </div>
-                        <div id="lowonganList" class="divide-y divide-gray-50">
-                            <div class="p-5 text-center text-gray-400 text-sm italic">
-                                <div class="w-10 h-10 bg-sky-50 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                                    <i class="fa-solid fa-inbox text-sky-300 text-lg"></i>
+                        <div id="lowonganList" class="divide-y divide-slate-100 bg-white">
+                            <div class="p-5 text-center text-slate-400 text-sm font-medium">
+                                <div class="w-10 h-10 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-2 text-slate-300">
+                                    <i class="fa-solid fa-inbox text-lg"></i>
                                 </div>
                                 Belum ada lowongan tersedia
                             </div>
@@ -654,44 +632,44 @@
 
                     <!-- Grafik Progress Pertemuan (Admin Only) -->
                     <div id="grafikProgressSection" class="hide mb-5">
-                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                            <div style="background:linear-gradient(135deg,#1e3a8a,#4f46e5)" class="px-5 py-4 flex items-center justify-between">
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] overflow-hidden">
+                            <div class="px-5 py-4 flex items-center justify-between bg-white border-b border-slate-100">
                                 <div class="flex items-center gap-3">
-                                    <div class="bg-white/20 p-2 rounded-xl border border-white/20">
-                                        <i class="fa-solid fa-chart-line text-white text-base"></i>
+                                    <div class="bg-indigo-50 p-2.5 rounded-xl border border-indigo-100 text-indigo-600">
+                                        <i class="fa-solid fa-chart-line text-base"></i>
                                     </div>
                                     <div>
-                                        <h3 class="text-white font-extrabold text-sm tracking-tight">📊 Monitor Progress Pertemuan</h3>
-                                        <p class="text-blue-200 text-xs mt-0.5">Jumlah sesi selesai per tutor per siswa</p>
+                                        <h3 class="text-slate-800 font-black text-sm tracking-tight">📊 Monitor Progress Pertemuan</h3>
+                                        <p class="text-slate-500 text-xs mt-0.5 font-medium">Jumlah sesi selesai per tutor per siswa</p>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <select id="grafikFilterGuru" onchange="renderGrafikProgress()" class="text-xs bg-white/15 border border-white/25 text-white rounded-xl px-3 py-2 font-semibold" style="color:white;background:rgba(255,255,255,0.15)">
-                                        <option value="ALL" style="color:#1e3a8a;background:white">Semua Tutor</option>
+                                    <select id="grafikFilterGuru" onchange="renderGrafikProgress()" class="text-xs bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-3 py-2 font-bold outline-none focus:border-indigo-300 shadow-sm cursor-pointer">
+                                        <option value="ALL">Semua Tutor</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="p-5">
                                 <div id="grafikProgressContainer" class="space-y-3"></div>
-                                <p id="grafikEmptyMsg" class="hide text-center text-gray-400 text-sm italic py-6">Belum ada data sesi selesai.</p>
+                                <p id="grafikEmptyMsg" class="hide text-center text-slate-400 text-sm font-medium py-6">Belum ada data sesi selesai.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Missing Sesi -->
                     <div id="missingSesiCard" class="hide mb-5">
-                        <div class="bg-white rounded-2xl overflow-hidden border border-red-100 shadow-sm">
-                            <div style="background:linear-gradient(135deg,#ef4444,#f97316)" class="px-5 py-4 flex items-center justify-between">
+                        <div class="bg-white rounded-2xl overflow-hidden border border-red-200 shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)]">
+                            <div class="px-5 py-4 flex items-center justify-between bg-red-50 border-b border-red-100">
                                 <div class="flex items-center gap-3">
-                                    <div class="bg-white/20 p-2 rounded-xl">
-                                        <i class="fa-solid fa-triangle-exclamation text-white"></i>
+                                    <div class="bg-white p-2.5 rounded-xl border border-red-100 shadow-sm text-red-500">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
                                     </div>
                                     <div>
-                                        <h3 class="text-white font-bold text-sm">⚠️ Sesi Belum Diinput Hari Ini</h3>
-                                        <p class="text-red-100 text-xs mt-0.5">Notifikasi ini akan hilang otomatis setelah semua sesi diinput</p>
+                                        <h3 class="text-red-800 font-black text-sm">⚠️ Sesi Belum Diinput Hari Ini</h3>
+                                        <p class="text-red-600/80 text-xs mt-0.5 font-medium">Notifikasi ini akan hilang otomatis setelah semua sesi diinput</p>
                                     </div>
                                 </div>
-                                <span id="missingSesiCount" class="bg-white text-red-600 font-black text-lg px-3 py-1 rounded-full shadow-sm min-w-[2rem] text-center">0</span>
+                                <span id="missingSesiCount" class="bg-white text-red-600 font-black text-lg px-3 py-1 rounded-full shadow-sm border border-red-100 min-w-[2.5rem] text-center">0</span>
                             </div>
                             <div class="overflow-x-auto">
                                 <table class="data-table">
@@ -711,16 +689,16 @@
                     </div>
 
                     <!-- AI Asisten -->
-                    <div class="bg-white rounded-2xl border border-indigo-100 shadow-sm p-6 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-5 opacity-5">
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] p-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-5 opacity-[0.03]">
                             <i class="fa-solid fa-robot text-8xl text-indigo-900"></i>
                         </div>
                         <div class="relative z-10">
-                            <h3 class="font-extrabold text-gray-900 text-base mb-1.5 flex items-center gap-2">
-                                <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                            <h3 class="font-black text-slate-800 text-base mb-1.5 flex items-center gap-2">
+                                <div class="bg-amber-50 text-amber-500 w-8 h-8 rounded-lg flex items-center justify-center border border-amber-100"><i class="fa-solid fa-lightbulb"></i></div>
                                 <span class="ai-label">✨ AI Asisten Mengajar</span>
                             </h3>
-                            <p class="text-sm text-gray-500 mb-4">Buntu ide mengajar? Beritahu AI topik yang akan dibahas dan dapatkan 3 ide aktivitas interaktif!</p>
+                            <p class="text-sm text-slate-500 mb-4 font-medium">Buntu ide mengajar? Beritahu AI topik yang akan dibahas dan dapatkan 3 ide aktivitas interaktif!</p>
                             <div class="flex flex-col sm:flex-row gap-3">
                                 <input type="text" id="aiTopicInput"
                                     class="form-input flex-1"
@@ -729,7 +707,7 @@
                                     style="background:linear-gradient(135deg,#7c3aed,#4f46e5)"
                                     class="text-white font-bold px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 whitespace-nowrap shadow-md hover:opacity-90 transition">
                                     <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                    <span>✨ Cari Ide</span>
+                                    <span>Cari Ide</span>
                                 </button>
                             </div>
                         </div>
@@ -738,42 +716,42 @@
 
                 <!-- ===== DATA SISWA ===== -->
                 <div id="pageDataSiswa" class="page-content hide">
-                    <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Kelola Data Siswa</h2>
-                    <form id="formSiswa" onsubmit="handleSaveSiswa(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-5">
-                        <h3 class="font-bold text-gray-800 mb-5 flex items-center gap-2 text-sm">
-                            <span class="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
-                                <i class="fa-solid fa-user-plus text-blue-500 text-xs"></i>
+                    <h2 class="text-xl font-black text-slate-800 mb-5 tracking-tight">Kelola Data Siswa</h2>
+                    <form id="formSiswa" onsubmit="handleSaveSiswa(event)" class="bg-white p-6 rounded-2xl shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] border border-slate-200 mb-5">
+                        <h3 class="font-bold text-slate-800 mb-5 flex items-center gap-2 text-sm">
+                            <span class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center">
+                                <i class="fa-solid fa-user-plus text-blue-600 text-xs"></i>
                             </span>
                             Tambah / Edit Siswa
                         </h3>
                         <input type="hidden" id="siswaIdInput">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Nama Siswa</label>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Nama Siswa</label>
                                 <input type="text" id="siswaNama" class="form-input" required>
                             </div>
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Program Les / Kelas</label>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Program Les / Kelas</label>
                                 <input type="text" id="siswaProgram" class="form-input" required>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div class="md:col-span-2">
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Alamat Rumah Lengkap</label>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Alamat Rumah Lengkap</label>
                                 <textarea id="siswaAlamat" rows="2" class="form-input resize-none" placeholder="Masukkan alamat lengkap siswa..." required></textarea>
                             </div>
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Jumlah Paket Sesi</label>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Jumlah Paket Sesi</label>
                                 <input type="number" id="siswaSisaSesi" min="0" value="8" class="form-input" required>
-                                <p class="text-xs text-gray-400 mt-1.5">Isi total sesi paket baru</p>
+                                <p class="text-xs text-slate-400 mt-1.5 font-medium">Isi total sesi paket baru</p>
                             </div>
                         </div>
-                        <div class="mb-5 bg-blue-50/60 p-4 rounded-2xl border border-blue-100">
-                            <label class="block text-gray-700 font-bold mb-3 text-sm flex items-center gap-2">
+                        <div class="mb-5 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <label class="block text-slate-700 font-bold mb-3 text-sm flex items-center gap-2">
                                 <i class="fa-solid fa-calendar-days text-blue-500"></i> Jadwal Les Rutin
                             </label>
                             <div class="mb-3">
-                                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Pilih Hari</p>
+                                <p class="text-xs text-slate-500 font-extrabold uppercase tracking-wide mb-2">Pilih Hari</p>
                                 <div class="hari-grid" id="jadwalHariGrid">
                                     <button type="button" data-hari="Senin" onclick="toggleHari(this)" class="hari-btn">Sen</button>
                                     <button type="button" data-hari="Selasa" onclick="toggleHari(this)" class="hari-btn">Sel</button>
@@ -785,19 +763,19 @@
                                 </div>
                             </div>
                             <div>
-                                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Atau Tanggal Tetap Per Bulan <span class="normal-case font-normal text-gray-400">(pisahkan koma, cth: 1,8,15,22)</span></p>
+                                <p class="text-xs text-slate-500 font-extrabold uppercase tracking-wide mb-2">Atau Tanggal Tetap Per Bulan <span class="normal-case font-medium text-slate-400">(pisahkan koma, cth: 1,8,15,22)</span></p>
                                 <input type="text" id="siswaTanggalTetap" class="form-input text-sm" placeholder="Cth: 1, 8, 15, 22">
                             </div>
-                            <p class="text-xs text-blue-600 font-medium mt-2 flex items-center gap-1">
+                            <p class="text-xs text-blue-600 font-semibold mt-2 flex items-center gap-1">
                                 <i class="fa-solid fa-circle-info"></i> Bisa pilih keduanya. Notifikasi muncul jika sesi belum diinput setelah jam 20.00.
                             </p>
                         </div>
                         <div class="flex gap-3">
                             <button type="submit" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm text-sm">Simpan Siswa</button>
-                            <button type="button" onclick="resetFormSiswa()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200 transition text-sm">Batal</button>
+                            <button type="button" onclick="resetFormSiswa()" class="bg-white border border-slate-200 text-slate-700 font-bold px-5 py-2.5 rounded-xl hover:bg-slate-50 transition text-sm">Batal</button>
                         </div>
                     </form>
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-white rounded-2xl shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] border border-slate-200 overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="data-table">
                                 <thead>
@@ -817,41 +795,41 @@
 
                 <!-- ===== DATA GURU ===== -->
                 <div id="pageDataGuru" class="page-content hide">
-                    <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Kelola Data Guru / Tutor</h2>
-                    <form id="formGuru" onsubmit="handleSaveGuru(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-5">
-                        <h3 class="font-bold text-gray-800 mb-5 flex items-center gap-2 text-sm">
-                            <span class="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
-                                <i class="fa-solid fa-chalkboard-user text-blue-500 text-xs"></i>
+                    <h2 class="text-xl font-black text-slate-800 mb-5 tracking-tight">Kelola Data Guru / Tutor</h2>
+                    <form id="formGuru" onsubmit="handleSaveGuru(event)" class="bg-white p-6 rounded-2xl shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] border border-slate-200 mb-5">
+                        <h3 class="font-bold text-slate-800 mb-5 flex items-center gap-2 text-sm">
+                            <span class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center">
+                                <i class="fa-solid fa-chalkboard-user text-blue-600 text-xs"></i>
                             </span>
                             Tambah / Edit Tutor
                         </h3>
                         <input type="hidden" id="guruUsernameOld">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Nama Lengkap</label>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Nama Lengkap</label>
                                 <input type="text" id="guruNama" class="form-input" required>
                             </div>
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Username Login</label>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Username Login</label>
                                 <input type="text" id="guruUsername" class="form-input font-mono" required>
                             </div>
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Password</label>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Password</label>
                                 <input type="text" id="guruPassword" class="form-input" required>
                             </div>
                         </div>
                         <div class="mb-5">
-                            <label class="block text-gray-600 font-semibold mb-3 text-xs uppercase tracking-wide">Tugaskan Siswa</label>
-                            <div id="guruAssignSiswaContainer" class="grid grid-cols-1 md:grid-cols-3 gap-2 border border-gray-200 p-4 rounded-xl bg-gray-50 max-h-48 overflow-y-auto">
-                                <span class="text-sm text-gray-500 italic">Memuat data siswa...</span>
+                            <label class="block text-slate-500 font-extrabold mb-3 text-xs uppercase tracking-wide">Tugaskan Siswa</label>
+                            <div id="guruAssignSiswaContainer" class="grid grid-cols-1 md:grid-cols-3 gap-2 border border-slate-200 p-4 rounded-xl bg-slate-50 max-h-48 overflow-y-auto">
+                                <span class="text-sm text-slate-400 font-medium">Memuat data siswa...</span>
                             </div>
                         </div>
                         <div class="flex gap-3">
                             <button type="submit" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm text-sm">Simpan Tutor</button>
-                            <button type="button" onclick="resetFormGuru()" class="bg-gray-100 text-gray-700 font-bold px-5 py-2.5 rounded-xl hover:bg-gray-200 transition text-sm">Batal</button>
+                            <button type="button" onclick="resetFormGuru()" class="bg-white border border-slate-200 text-slate-700 font-bold px-5 py-2.5 rounded-xl hover:bg-slate-50 transition text-sm">Batal</button>
                         </div>
                     </form>
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-white rounded-2xl shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] border border-slate-200 overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="data-table">
                                 <thead>
@@ -870,24 +848,27 @@
 
                 <!-- ===== INPUT SESI ===== -->
                 <div id="pageInputSesi" class="page-content hide">
-                    <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight"><i class="fa-solid fa-clipboard-check text-blue-500 mr-2"></i>Absen / Input Sesi</h2>
-                    <form id="formSesi" onsubmit="handleSaveSesi(event)" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-black text-slate-800 mb-5 tracking-tight flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-sm"><i class="fa-solid fa-clipboard-check"></i></div>
+                        Absen / Input Sesi
+                    </h2>
+                    <form id="formSesi" onsubmit="handleSaveSesi(event)" class="bg-white p-6 md:p-8 rounded-2xl shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] border border-slate-200">
                         <input type="hidden" id="sesiId">
                         <div class="mb-5">
-                            <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Pilih Siswa</label>
-                            <select id="sesiSiswa" onchange="checkSisaSesi()" class="form-input" required>
+                            <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Pilih Siswa</label>
+                            <select id="sesiSiswa" onchange="checkSisaSesi()" class="form-input font-medium cursor-pointer" required>
                                 <option value="">-- Pilih Siswa --</option>
                             </select>
                             <p id="warningSisaSesi" class="text-sm text-red-500 font-bold mt-2 hide"><i class='fa-solid fa-triangle-exclamation'></i></p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Tanggal Sesi</label>
-                                <input type="date" id="sesiTanggal" class="form-input" required>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Tanggal Sesi</label>
+                                <input type="date" id="sesiTanggal" class="form-input font-medium" required>
                             </div>
                             <div>
-                                <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Status</label>
-                                <select id="sesiStatus" class="form-input" required>
+                                <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Status</label>
+                                <select id="sesiStatus" class="form-input font-medium cursor-pointer" required>
                                     <option value="Selesai">Hadir / Selesai</option>
                                     <option value="Batal">Batal (Dari Siswa)</option>
                                     <option value="Reschedule">Reschedule</option>
@@ -896,7 +877,7 @@
                             </div>
                         </div>
                         <div class="mb-8">
-                            <label class="block text-gray-600 font-semibold mb-2 text-xs uppercase tracking-wide">Jurnal / Materi yang Diajarkan</label>
+                            <label class="block text-slate-500 font-extrabold mb-2 text-xs uppercase tracking-wide">Jurnal / Materi yang Diajarkan</label>
                             <div class="relative">
                                 <textarea id="sesiJurnal" rows="5"
                                     class="form-input resize-none leading-relaxed"
@@ -906,15 +887,15 @@
                                         style="background:linear-gradient(135deg,#7c3aed,#4f46e5)"
                                         class="text-xs text-white font-bold px-3 py-2 rounded-lg shadow-md flex items-center gap-1.5 hover:opacity-90 transition">
                                         <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                        <span id="textAIEnhance">✨ Rapikan AI</span>
+                                        <span id="textAIEnhance">Rapikan AI</span>
                                     </button>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-400 mt-2"><i class="fa-solid fa-circle-info"></i> Tulis catatan kasar lalu gunakan AI untuk merapikannya.</p>
+                            <p class="text-xs text-slate-400 mt-2 font-medium"><i class="fa-solid fa-circle-info text-blue-500"></i> Tulis catatan kasar lalu gunakan AI untuk merapikannya.</p>
                         </div>
-                        <div class="flex gap-3 pt-4 border-t border-gray-100">
-                            <button type="button" onclick="resetFormSesi()" class="flex-1 bg-gray-100 text-gray-700 font-bold px-6 py-3.5 rounded-xl hover:bg-gray-200 transition text-sm">Batal / Reset</button>
-                            <button type="submit" class="flex-[2] bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl hover:bg-blue-700 transition shadow-md flex justify-center items-center gap-2 text-sm">
+                        <div class="flex gap-3 pt-5 border-t border-slate-100">
+                            <button type="button" onclick="resetFormSesi()" class="flex-1 bg-white border border-slate-200 text-slate-700 font-bold px-6 py-3.5 rounded-xl hover:bg-slate-50 transition shadow-sm text-sm">Batal / Reset</button>
+                            <button type="submit" class="flex-[2] bg-blue-600 text-white font-bold px-6 py-3.5 rounded-xl hover:bg-blue-700 transition shadow-md shadow-blue-600/20 flex justify-center items-center gap-2 text-sm">
                                 <i class="fa-solid fa-save"></i> Simpan Sesi
                             </button>
                         </div>
@@ -923,72 +904,77 @@
 
                 <!-- ===== REKAP ===== -->
                 <div id="pageRekap" class="page-content hide">
-                    <h2 class="text-xl font-extrabold text-gray-900 mb-5 tracking-tight">Rekap, Laporan & Riwayat</h2>
+                    <h2 class="text-xl font-black text-slate-800 mb-5 tracking-tight">Rekap, Laporan & Riwayat</h2>
 
                     <!-- Banner Aturan / Peringatan Admin -->
-                    <div id="rekapAdminBanner" class="mb-5 relative rounded-2xl border-2 border-red-500 bg-red-50 px-5 py-4 flex items-start gap-4 shadow-sm">
-                        <div class="flex-shrink-0 w-9 h-9 rounded-xl bg-red-500 flex items-center justify-center">
-                            <i class="fa-solid fa-triangle-exclamation text-white text-sm"></i>
+                    <div id="rekapAdminBanner" class="mb-5 relative rounded-2xl border border-red-200 bg-white shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500"></div>
+                        <div class="px-5 py-4 flex items-start gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 rounded-xl bg-red-50 text-red-500 border border-red-100 flex items-center justify-center shadow-sm">
+                                <i class="fa-solid fa-triangle-exclamation text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0 pt-0.5">
+                                <p class="text-xs font-black text-red-600 uppercase tracking-wide mb-1">Pengumuman / Aturan</p>
+                                <p id="rekapBannerText" class="text-sm text-slate-700 font-medium leading-relaxed">Harap isi rekap sesi dengan lengkap dan jujur. Data yang tidak akurat dapat mempengaruhi laporan ke orang tua siswa.</p>
+                            </div>
+                            <button id="btnEditRekapBanner" onclick="editRekapBanner()" class="hide flex-shrink-0 text-slate-400 hover:text-blue-600 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-full p-2 transition shadow-sm" title="Edit Banner">
+                                <i class="fa-solid fa-pencil text-xs"></i>
+                            </button>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-xs font-bold text-red-600 uppercase tracking-wide mb-1">Pengumuman / Aturan</p>
-                            <p id="rekapBannerText" class="text-sm text-red-800 font-medium leading-relaxed">Harap isi rekap sesi dengan lengkap dan jujur. Data yang tidak akurat dapat mempengaruhi laporan ke orang tua siswa.</p>
-                        </div>
-                        <button id="btnEditRekapBanner" onclick="editRekapBanner()" class="hide flex-shrink-0 text-red-400 hover:text-red-600 bg-red-100 hover:bg-red-200 rounded-full p-1.5 transition" title="Edit Banner">
-                            <i class="fa-solid fa-pencil text-xs"></i>
-                        </button>
                     </div>
 
-                    <div id="rekapMotivasiCard" class="hide mb-5 p-6 text-white flex items-center justify-between shadow-lg"
+                    <div id="rekapMotivasiCard" class="hide mb-5 p-6 text-white flex items-center justify-between shadow-[0_10px_25px_-5px_rgba(249,115,22,0.3)] relative overflow-hidden"
                         style="background:linear-gradient(135deg,#f97316,#ec4899);border-radius:20px">
-                        <div class="p-5">
-                            <h3 class="font-bold text-xl mb-1 text-white">Ayo Semangat! 💪</h3>
-                            <p class="text-white/90 text-sm font-medium" id="rekapMotivasiText">Tugas kamu tinggal X pertemuan lagi.</p>
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                        <div class="p-4 relative z-10">
+                            <h3 class="font-black text-xl mb-1 text-white drop-shadow-sm">Ayo Semangat! 💪</h3>
+                            <p class="text-white/95 text-sm font-medium drop-shadow-sm" id="rekapMotivasiText">Tugas kamu tinggal X pertemuan lagi.</p>
                         </div>
-                        <div class="mr-5 bg-white/20 rounded-2xl w-16 h-16 flex items-center justify-center border border-white/30 flex-shrink-0">
+                        <div class="mr-4 bg-white/20 backdrop-blur-sm rounded-2xl w-16 h-16 flex items-center justify-center border border-white/30 flex-shrink-0 relative z-10 shadow-inner">
                             <span class="text-3xl font-black text-white" id="rekapMotivasiAngka">0</span>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-5">
-                        <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-sm">
-                            <span class="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
-                                <i class="fa-solid fa-filter text-blue-500 text-xs"></i>
+                    <div class="bg-white p-6 rounded-2xl shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] border border-slate-200 mb-5">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm">
+                            <span class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center">
+                                <i class="fa-solid fa-filter text-blue-600 text-xs"></i>
                             </span>
                             Filter Laporan
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Pilih Siswa</label>
-                                <select id="filterSiswa" class="form-input"></select>
+                                <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Pilih Siswa</label>
+                                <select id="filterSiswa" class="form-input font-medium"></select>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tanggal Mulai</label>
-                                <input type="date" id="filterStart" class="form-input">
+                                <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Tanggal Mulai</label>
+                                <input type="date" id="filterStart" class="form-input font-medium">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tanggal Akhir</label>
-                                <input type="date" id="filterEnd" class="form-input">
+                                <label class="block text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Tanggal Akhir</label>
+                                <input type="date" id="filterEnd" class="form-input font-medium">
                             </div>
                         </div>
                         <button onclick="generateReport()" class="mt-5 bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-blue-700 transition shadow-sm text-sm w-full md:w-auto">Tampilkan Laporan</button>
                     </div>
 
                     <div id="reportContainer" class="hide">
-                        <div class="bg-white border border-blue-100 rounded-2xl p-6 text-center mb-5 shadow-sm">
-                            <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
-                                <i class="fa-solid fa-file-circle-check text-2xl text-blue-500"></i>
+                        <div class="bg-white border border-blue-200 rounded-2xl p-6 text-center mb-5 shadow-sm relative overflow-hidden">
+                            <div class="absolute inset-0 bg-blue-50/30 pointer-events-none"></div>
+                            <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mx-auto mb-3 shadow-md shadow-blue-500/30 relative z-10">
+                                <i class="fa-solid fa-file-circle-check text-2xl text-white"></i>
                             </div>
-                            <h3 class="font-bold text-gray-900 text-lg mb-1">Laporan Berhasil Disusun!</h3>
-                            <p class="text-gray-500 text-sm mb-5">Total sesi kehadiran: <strong class="text-blue-600 text-lg" id="reportVisualTotalHadir">0</strong> sesi.</p>
-                            <div class="flex flex-col sm:flex-row justify-center gap-3">
+                            <h3 class="font-black text-slate-800 text-lg mb-1 relative z-10">Laporan Berhasil Disusun!</h3>
+                            <p class="text-slate-600 text-sm mb-5 font-medium relative z-10">Total sesi kehadiran: <strong class="text-blue-700 text-lg font-black" id="reportVisualTotalHadir">0</strong> sesi.</p>
+                            <div class="flex flex-col sm:flex-row justify-center gap-3 relative z-10">
                                 <button type="button" id="btnAINarrative" onclick="generateReportNarrativeWithAI()"
                                     style="background:linear-gradient(135deg,#7c3aed,#4f46e5)"
                                     class="text-white font-bold px-5 py-3 rounded-xl shadow-md hover:opacity-90 transition flex items-center justify-center gap-2 text-sm">
                                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                                     <span id="textAINarrative">Buat Evaluasi AI untuk Ortu</span>
                                 </button>
-                                <button onclick="exportToPDF()" class="bg-red-500 text-white font-bold px-6 py-3 rounded-xl shadow-md hover:bg-red-600 transition flex items-center justify-center gap-2 text-sm">
+                                <button onclick="exportToPDF()" class="bg-red-500 text-white font-bold px-6 py-3 rounded-xl shadow-md shadow-red-500/20 hover:bg-red-600 transition flex items-center justify-center gap-2 text-sm">
                                     <i class="fa-solid fa-file-pdf text-base"></i> Download PDF
                                 </button>
                             </div>
@@ -1035,10 +1021,11 @@
 
                     <!-- Riwayat -->
                     <div class="mt-6">
-                        <h3 class="text-base font-extrabold text-gray-900 mb-4 flex items-center gap-2 tracking-tight">
-                            <i class="fa-solid fa-history text-blue-500"></i> Riwayat Absensi
+                        <h3 class="text-base font-black text-slate-800 mb-4 flex items-center gap-2 tracking-tight">
+                            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100"><i class="fa-solid fa-history text-xs"></i></div>
+                            Riwayat Absensi
                         </h3>
-                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-white rounded-2xl shadow-[0_4px_15px_-3px_rgba(0,0,0,0.03)] border border-slate-200 overflow-hidden">
                             <div class="overflow-x-auto">
                                 <table class="data-table">
                                     <thead>
@@ -1060,49 +1047,50 @@
 
                 <!-- ===== PROFIL GURU ===== -->
                 <div id="pageProfil" class="page-content hide">
-                    <!-- Profile Header -->
-                    <div class="profile-header text-white mb-5 flex flex-col items-center text-center relative z-10">
-                        <div class="profile-avatar mb-3" id="profileAvatar">?</div>
-                        <h2 class="font-extrabold text-xl tracking-tight" id="profileNameDisplay">–</h2>
-                        <p class="text-blue-200 text-xs mt-1 font-medium" id="profileRoleDisplay">Tutor</p>
-                        <div class="mt-2 bg-white/15 border border-white/20 rounded-full px-4 py-1.5 text-xs font-bold" id="profileUsernameDisplay">@username</div>
+                    <!-- Profile Header (Unified Light Style) -->
+                    <div class="profile-header bg-white border border-slate-200 mb-5 flex flex-col items-center text-center relative z-10 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] py-8 overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100/40 to-indigo-100/40 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                        <div class="profile-avatar mb-3 relative z-10 border-4 border-white shadow-lg bg-gradient-to-br from-blue-600 to-indigo-600 text-white" id="profileAvatar">?</div>
+                        <h2 class="font-black text-xl tracking-tight text-slate-800 relative z-10" id="profileNameDisplay">–</h2>
+                        <p class="text-blue-600 text-xs mt-1 font-bold relative z-10" id="profileRoleDisplay">Tutor</p>
+                        <div class="mt-3 bg-slate-50 border border-slate-200 text-slate-600 rounded-full px-4 py-1.5 text-xs font-bold relative z-10 shadow-sm" id="profileUsernameDisplay">@username</div>
                     </div>
 
                     <!-- Edit Form -->
                     <div class="space-y-3 pb-4">
-                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest px-1 mb-4">Informasi Profil</p>
+                        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-widest px-1 mb-4">Informasi Profil</p>
 
                         <div class="profile-field-card">
-                            <div class="profile-field-label"><i class="fa-solid fa-user text-blue-400 mr-2"></i>Nama Lengkap</div>
+                            <div class="profile-field-label"><i class="fa-solid fa-user text-blue-500 mr-2"></i>Nama Lengkap</div>
                             <input type="text" id="profilNama" class="profile-field-input" placeholder="Nama lengkap Anda">
                         </div>
 
                         <div class="profile-field-card">
-                            <div class="profile-field-label"><i class="fa-solid fa-phone text-blue-400 mr-2"></i>Nomor HP / WhatsApp</div>
+                            <div class="profile-field-label"><i class="fa-solid fa-phone text-blue-500 mr-2"></i>Nomor HP / WhatsApp</div>
                             <input type="tel" id="profilNoHp" class="profile-field-input" placeholder="Cth: 08123456789">
                         </div>
 
                         <div class="profile-field-card">
-                            <div class="profile-field-label"><i class="fa-solid fa-location-dot text-blue-400 mr-2"></i>Alamat Tinggal</div>
+                            <div class="profile-field-label"><i class="fa-solid fa-location-dot text-blue-500 mr-2"></i>Alamat Tinggal</div>
                             <textarea id="profilAlamat" rows="2" class="profile-field-input" placeholder="Alamat lengkap tempat tinggal Anda"></textarea>
                         </div>
 
                         <div class="profile-field-card">
-                            <div class="profile-field-label"><i class="fa-solid fa-book-open text-blue-400 mr-2"></i>Mata Pelajaran yang Dikuasai</div>
+                            <div class="profile-field-label"><i class="fa-solid fa-book-open text-blue-500 mr-2"></i>Mata Pelajaran yang Dikuasai</div>
                             <input type="text" id="profilMapel" class="profile-field-input" placeholder="Cth: Matematika, Fisika, Kimia">
                         </div>
 
                         <div class="profile-field-card">
-                            <div class="profile-field-label"><i class="fa-solid fa-map text-blue-400 mr-2"></i>Daerah yang Dijangkau</div>
+                            <div class="profile-field-label"><i class="fa-solid fa-map text-blue-500 mr-2"></i>Daerah yang Dijangkau</div>
                             <input type="text" id="profilDaerah" class="profile-field-input" placeholder="Cth: Soreang, Margahayu, Kopo">
                         </div>
 
                         <div class="profile-field-card">
-                            <div class="profile-field-label"><i class="fa-solid fa-pen-to-square text-blue-400 mr-2"></i>Bio / Deskripsi Singkat <span class="text-gray-400 normal-case ml-1 font-normal">(opsional)</span></div>
+                            <div class="profile-field-label"><i class="fa-solid fa-pen-to-square text-blue-500 mr-2"></i>Bio / Deskripsi Singkat <span class="text-slate-400 normal-case ml-1 font-medium">(opsional)</span></div>
                             <textarea id="profilBio" rows="3" class="profile-field-input" placeholder="Ceritakan sedikit tentang pengalaman atau keahlian mengajar Anda..."></textarea>
                         </div>
 
-                        <button onclick="saveProfil()" class="profile-save-btn mt-2">
+                        <button onclick="saveProfil()" class="profile-save-btn mt-4 shadow-md">
                             <i class="fa-solid fa-floppy-disk mr-2"></i> Simpan Perubahan
                         </button>
                     </div>
@@ -1112,7 +1100,7 @@
         </div>
 
         <!-- Bottom Nav -->
-        <div class="flex-none w-full bg-white border-t border-gray-100 flex justify-around items-end shadow-[0_-4px_20px_rgba(0,0,0,0.06)] z-50 px-1 pb-safe" style="min-height:68px;padding-top:0;overflow:visible" id="mobileNav"></div>
+        <div class="flex-none w-full bg-white border-t border-slate-200 flex justify-around items-end shadow-[0_-4px_20px_rgba(0,0,0,0.03)] z-50 px-1 pb-safe" style="min-height:68px;padding-top:0;overflow:visible" id="mobileNav"></div>
     </div>
 </div>
 
@@ -1167,7 +1155,7 @@ async function enhanceJurnalWithAI() {
     } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
     finally {
         icon.className = "fa-solid fa-wand-magic-sparkles";
-        txt.innerText = "✨ Rapikan AI";
+        txt.innerText = "Rapikan AI";
         btn.disabled = false;
     }
 }
@@ -1214,13 +1202,13 @@ async function getTeachingIdeasWithAI() {
     btn.disabled = true;
     try {
         const hasil = await callAIBackend("teachingIdeas", { topic });
-        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-400"></i> Ide Mengajar';
+        document.getElementById('aiModalTitle').innerHTML = '<i class="fa-solid fa-lightbulb text-yellow-500"></i> Ide Mengajar';
         document.getElementById('aiModalContent').innerText = hasil;
         document.getElementById('aiModal').classList.remove('hide');
     } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
     finally {
         icon.className = "fa-solid fa-wand-magic-sparkles";
-        txt.innerText = "✨ Cari Ide";
+        txt.innerText = "Cari Ide";
         btn.disabled = false;
     }
 }
@@ -1602,12 +1590,12 @@ async function checkMissingSesi() {
             jadwalHariIni.push('Tgl ' + getTodayTanggal());
         }
         html += `<tr class="hover:bg-red-50 transition">
-            <td class="p-3 text-sm font-bold text-gray-800 whitespace-nowrap">${s.nama_siswa}</td>
-            <td class="p-3 text-sm text-gray-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
+            <td class="p-3 text-sm font-bold text-slate-800 whitespace-nowrap">${s.nama_siswa}</td>
+            <td class="p-3 text-sm text-slate-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
             <td class="p-3 text-sm whitespace-nowrap"><span class="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded-lg">${jadwalHariIni.join(', ')}</span></td>
-            <td class="p-3 text-sm text-gray-600 whitespace-nowrap">${tutorNames}</td>
+            <td class="p-3 text-sm text-slate-600 whitespace-nowrap">${tutorNames}</td>
             <td class="p-3 text-sm whitespace-nowrap">
-                <button onclick="quickInputSesi('${s.id_siswa}')" class="bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-blue-700 transition flex items-center gap-1">
+                <button onclick="quickInputSesi('${s.id_siswa}')" class="bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-blue-700 transition flex items-center gap-1 shadow-sm">
                     <i class="fa-solid fa-plus"></i> Input Sesi
                 </button>
             </td>
@@ -1646,9 +1634,9 @@ function renderLowongan() {
     if (!container) return;
     if (dataLowongan.length === 0) {
         container.innerHTML = `
-            <div class="p-5 text-center text-gray-400 text-sm italic">
-                <div class="w-10 h-10 bg-sky-50 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                    <i class="fa-solid fa-inbox text-sky-300 text-lg"></i>
+            <div class="p-5 text-center text-slate-400 text-sm font-medium">
+                <div class="w-10 h-10 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-2 text-slate-300">
+                    <i class="fa-solid fa-inbox text-lg"></i>
                 </div>
                 Belum ada lowongan tersedia
             </div>`;
@@ -1660,34 +1648,34 @@ function renderLowongan() {
     let html = '';
     dataLowongan.forEach((item) => {
         const isAdmin = currentUser.role === 'admin';
-        const deadlineText = item.deadline ? `<span class="text-xs text-gray-400 flex items-center gap-1"><i class="fa-regular fa-calendar"></i> Deadline: ${item.deadline}</span>` : '';
+        const deadlineText = item.deadline ? `<span class="text-xs text-slate-400 font-medium flex items-center gap-1"><i class="fa-regular fa-calendar"></i> Deadline: ${item.deadline}</span>` : '';
         html += `
         <div class="lowongan-item px-5 py-4">
             <div class="flex items-start justify-between gap-3">
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 flex-wrap mb-1.5">
-                        <h4 class="font-extrabold text-gray-900 text-sm">${item.posisi}</h4>
+                        <h4 class="font-extrabold text-slate-800 text-sm">${item.posisi}</h4>
                         <span class="lowongan-badge ${statusClass[item.status] || 'badge-open'}">
                             <i class="fa-solid ${statusIcon[item.status] || 'fa-circle-check'} text-[10px]"></i>
                             ${statusLabel[item.status] || 'Dibuka'}
                         </span>
                     </div>
-                    <div class="flex items-center gap-1.5 text-xs text-gray-500 mb-2">
-                        <i class="fa-solid fa-location-dot text-sky-400"></i>
+                    <div class="flex items-center gap-1.5 text-xs text-slate-500 mb-2 font-medium">
+                        <i class="fa-solid fa-location-dot text-blue-500"></i>
                         <span>${item.lokasi || 'Tidak disebutkan'}</span>
                     </div>
-                    ${item.keterangan ? `<p class="text-xs text-gray-600 leading-relaxed mb-2">${item.keterangan}</p>` : ''}
+                    ${item.keterangan ? `<p class="text-xs text-slate-600 leading-relaxed mb-2">${item.keterangan}</p>` : ''}
                     <div class="flex flex-wrap gap-3 mt-1">
-                        ${item.kontak ? `<span class="text-xs text-sky-600 font-semibold flex items-center gap-1"><i class="fa-brands fa-whatsapp"></i> ${item.kontak}</span>` : ''}
+                        ${item.kontak ? `<span class="text-xs text-blue-600 font-bold flex items-center gap-1"><i class="fa-brands fa-whatsapp"></i> ${item.kontak}</span>` : ''}
                         ${deadlineText}
                     </div>
                 </div>
                 ${isAdmin ? `
                 <div class="flex gap-1.5 flex-shrink-0">
-                    <button onclick="editLowongan('${item.id_lowongan}')" class="w-8 h-8 rounded-xl bg-sky-50 text-sky-600 hover:bg-sky-100 flex items-center justify-center transition">
+                    <button onclick="editLowongan('${item.id_lowongan}')" class="w-8 h-8 rounded-xl bg-slate-50 border border-slate-100 text-blue-600 hover:bg-blue-50 flex items-center justify-center transition">
                         <i class="fa-solid fa-edit text-xs"></i>
                     </button>
-                    <button onclick="deleteLowongan('${item.id_lowongan}')" class="w-8 h-8 rounded-xl bg-red-50 text-red-400 hover:bg-red-100 flex items-center justify-center transition">
+                    <button onclick="deleteLowongan('${item.id_lowongan}')" class="w-8 h-8 rounded-xl bg-red-50 border border-red-100 text-red-500 hover:bg-red-100 flex items-center justify-center transition">
                         <i class="fa-solid fa-trash text-xs"></i>
                     </button>
                 </div>` : ''}
@@ -1850,7 +1838,7 @@ function buildNavigation() {
             <div class="px-3 py-1.5 rounded-full hover:bg-red-50 transition-colors mb-0.5">
                 <i class="fa-solid fa-sign-out-alt text-base"></i>
             </div>
-            <span class="text-[10px] whitespace-nowrap">Keluar</span>
+            <span class="text-[10px] font-bold whitespace-nowrap">Keluar</span>
         </button>`;
     document.getElementById('mobileNav').innerHTML = mNav;
 }
@@ -1858,11 +1846,11 @@ function buildNavigation() {
 function navBtn(id, icon, text) {
     return `
         <button onclick="navigate('${id}')" id="nav-m-${id}"
-            class="nav-btn flex-1 flex flex-col items-center justify-end pb-1 pt-2 text-gray-500 font-semibold hover:text-blue-600 transition-colors">
+            class="nav-btn flex-1 flex flex-col items-center justify-end pb-1 pt-2 text-slate-400 font-semibold hover:text-blue-600 transition-colors">
             <div id="nav-icon-bg-${id}" class="nav-pill px-3 py-1.5 rounded-full transition-colors duration-200 mb-0.5">
                 <i class="fa-solid ${icon} text-base"></i>
             </div>
-            <span class="text-[10px] whitespace-nowrap">${text}</span>
+            <span class="text-[10px] font-bold whitespace-nowrap">${text}</span>
         </button>`;
 }
 
@@ -1879,7 +1867,7 @@ function navFAB(id, icon, text) {
 function navigate(page) {
     document.querySelectorAll('.page-content').forEach(el => el.classList.add('hide'));
     document.querySelectorAll('[id^="nav-m-"]').forEach(el => {
-        el.classList.remove('text-blue-600', 'active'); el.classList.add('text-gray-500');
+        el.classList.remove('text-blue-600', 'active'); el.classList.add('text-slate-400');
     });
     document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => el.classList.remove('bg-blue-50', 'text-blue-600'));
     // Reset FAB styles
@@ -1900,7 +1888,7 @@ function navigate(page) {
     const mBtn = document.getElementById(`nav-m-${page}`);
     const mBg = document.getElementById(`nav-icon-bg-${page}`);
     if (mBtn) {
-        mBtn.classList.remove('text-gray-500');
+        mBtn.classList.remove('text-slate-400');
         mBtn.classList.add('text-blue-600', 'active');
     }
     if (mBg) mBg.classList.add('bg-blue-50', 'text-blue-600');
@@ -1922,19 +1910,19 @@ async function loadDashboard() {
         const label = currentUser.role === 'admin' ? 'Total Sesi' : 'Sesi Anda';
         document.getElementById('dashboardStats').innerHTML = `
             <div class="stat-card p-5 flex flex-col items-center text-center" style="border-bottom:3px solid #3b82f6">
-                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">${label}</p>
+                <p class="text-[10px] md:text-xs text-slate-500 font-extrabold uppercase tracking-wider">${label}</p>
                 <h3 class="text-3xl font-black text-blue-600 mt-2">${total}</h3>
             </div>
             <div class="stat-card p-5 flex flex-col items-center text-center" style="border-bottom:3px solid #10b981">
-                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Hadir</p>
+                <p class="text-[10px] md:text-xs text-slate-500 font-extrabold uppercase tracking-wider">Hadir</p>
                 <h3 class="text-3xl font-black text-emerald-600 mt-2">${selesai}</h3>
             </div>
             <div class="stat-card p-5 flex flex-col items-center text-center" style="border-bottom:3px solid #ef4444">
-                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Batal</p>
+                <p class="text-[10px] md:text-xs text-slate-500 font-extrabold uppercase tracking-wider">Batal</p>
                 <h3 class="text-3xl font-black text-red-500 mt-2">${batal}</h3>
             </div>
             <div class="stat-card p-5 flex flex-col items-center text-center" style="border-bottom:3px solid #f59e0b">
-                <p class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">Reschedule</p>
+                <p class="text-[10px] md:text-xs text-slate-500 font-extrabold uppercase tracking-wider">Reschedule</p>
                 <h3 class="text-3xl font-black text-amber-500 mt-2">${reschedule}</h3>
             </div>`;
 
@@ -1943,9 +1931,9 @@ async function loadDashboard() {
             document.getElementById('grafikProgressSection').classList.remove('hide');
             // Isi filter dropdown guru
             const guruSel = document.getElementById('grafikFilterGuru');
-            guruSel.innerHTML = '<option value="ALL" style="color:#1e3a8a;background:white">Semua Tutor</option>';
+            guruSel.innerHTML = '<option value="ALL">Semua Tutor</option>';
             dataGuru.forEach(g => {
-                guruSel.innerHTML += `<option value="${g.username}" style="color:#1e3a8a;background:white">${g.nama_lengkap}</option>`;
+                guruSel.innerHTML += `<option value="${g.username}">${g.nama_lengkap}</option>`;
             });
             renderGrafikProgress();
         } else {
@@ -1954,7 +1942,7 @@ async function loadDashboard() {
 
         await checkMissingSesi();
     } catch (e) {
-        document.getElementById('dashboardStats').innerHTML = '<p class="text-red-500 text-sm col-span-4">Gagal memuat data.</p>';
+        document.getElementById('dashboardStats').innerHTML = '<p class="text-red-500 text-sm col-span-4 font-medium">Gagal memuat data.</p>';
     }
     await loadLowongan();
     showLoading(false);
@@ -2025,8 +2013,8 @@ function renderGrafikProgress() {
         <div class="mb-4">
             <div class="flex items-center gap-2 mb-2">
                 <div class="w-3 h-3 rounded-full flex-shrink-0" style="background:${color}"></div>
-                <span class="font-extrabold text-gray-800 text-sm">${guru.nama_guru}</span>
-                <span class="text-xs text-gray-400 font-medium">${totalSesiGuru} sesi total</span>
+                <span class="font-black text-slate-800 text-sm">${guru.nama_guru}</span>
+                <span class="text-xs text-slate-400 font-bold">${totalSesiGuru} sesi total</span>
             </div>
             <div class="space-y-2 pl-5">`;
 
@@ -2037,26 +2025,26 @@ function renderGrafikProgress() {
             const urgentClass = pct >= 80 ? 'text-red-500' : pct >= 50 ? 'text-amber-500' : 'text-emerald-600';
 
             html += `
-                <div class="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                <div class="bg-white rounded-xl p-3 border border-slate-100 shadow-sm">
                     <div class="flex justify-between items-center mb-1.5">
-                        <span class="text-xs font-bold text-gray-700 truncate flex-1 mr-2">${sw.nama_siswa}</span>
+                        <span class="text-xs font-bold text-slate-700 truncate flex-1 mr-2">${sw.nama_siswa}</span>
                         <div class="flex items-center gap-2 flex-shrink-0">
                             <span class="text-[11px] font-black ${urgentClass}">${paketLabel}</span>
                             <span class="text-[10px] bg-blue-50 text-blue-700 border border-blue-100 font-bold px-2 py-0.5 rounded-lg">Ptm ke-${sw.count}</span>
                         </div>
                     </div>
-                    <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div class="h-full rounded-full transition-all duration-500" style="width:${pct}%;background:${color}"></div>
                     </div>
-                    <div class="flex justify-between mt-1">
-                        <span class="text-[10px] text-gray-400">${pct}% paket terpakai</span>
-                        <span class="text-[10px] text-gray-400">Sisa: ${Math.max(0, sw.paket - sw.count)} sesi</span>
+                    <div class="flex justify-between mt-1 font-medium">
+                        <span class="text-[10px] text-slate-400">${pct}% paket terpakai</span>
+                        <span class="text-[10px] text-slate-400">Sisa: ${Math.max(0, sw.paket - sw.count)} sesi</span>
                     </div>
                 </div>`;
         });
 
         html += `</div></div>`;
-        if (gi < guruKeys.length - 1) html += `<div class="border-t border-gray-100 my-3"></div>`;
+        if (gi < guruKeys.length - 1) html += `<div class="border-t border-slate-100 my-4"></div>`;
     });
 
     container.innerHTML = html;
@@ -2101,24 +2089,24 @@ async function loadDataSiswaPage() {
                 ? `<span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-blue-100">${s.sisa_sesi} Sesi</span>`
                 : `<span class="bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-lg border border-red-100">Habis!</span>`;
             const jadwalBadge = siswaJadwalHariIni(s)
-                ? `<span class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded ml-1">Hari ini</span>` : '';
+                ? `<span class="bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-bold px-1.5 py-0.5 rounded ml-1">Hari ini</span>` : '';
             html += `
                 <tr>
-                    <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${s.nama_siswa}</td>
-                    <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
-                    <td class="p-4 text-sm text-gray-600">${formatJadwal(s)}${jadwalBadge}</td>
+                    <td class="p-4 text-sm font-bold text-slate-800 whitespace-nowrap">${s.nama_siswa}</td>
+                    <td class="p-4 text-sm text-slate-600 font-medium whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
+                    <td class="p-4 text-sm text-slate-600 font-medium">${formatJadwal(s)}${jadwalBadge}</td>
                     <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
                     <td class="p-4 text-sm whitespace-nowrap">
                         <div class="flex gap-1">
-                            <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="text-indigo-500 hover:text-indigo-700 bg-indigo-50 p-2 rounded-lg transition" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
-                            <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="text-emerald-500 hover:text-emerald-700 p-2 rounded-lg hover:bg-emerald-50 transition" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
-                            <button onclick='editDataSiswa("${s.id_siswa}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition" title="Edit"><i class="fa-solid fa-edit"></i></button>
-                            <button onclick='deleteDataSiswa("${s.id_siswa}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                            <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="text-indigo-500 hover:text-indigo-700 bg-indigo-50 border border-indigo-100 p-2 rounded-lg transition shadow-sm" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
+                            <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="text-emerald-500 hover:text-emerald-700 bg-emerald-50 border border-emerald-100 p-2 rounded-lg transition shadow-sm" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
+                            <button onclick='editDataSiswa("${s.id_siswa}")' class="text-blue-500 hover:text-blue-700 bg-blue-50 border border-blue-100 p-2 rounded-lg transition shadow-sm" title="Edit"><i class="fa-solid fa-edit"></i></button>
+                            <button onclick='deleteDataSiswa("${s.id_siswa}")' class="text-red-500 hover:text-red-700 bg-red-50 border border-red-100 p-2 rounded-lg transition shadow-sm" title="Hapus"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>`;
         });
-        document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data siswa.</td></tr>';
+        document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-8 text-slate-400 font-medium italic text-sm">Belum ada data siswa.</td></tr>';
     } catch (e) { }
     showLoading(false);
 }
@@ -2201,33 +2189,33 @@ async function loadDataGuruPage() {
         dataSiswa = (await apiCall('getSiswa')) || [];
         const container = document.getElementById('guruAssignSiswaContainer');
         container.innerHTML = dataSiswa.length === 0
-            ? '<p class="text-sm text-red-500">Belum ada data siswa.</p>'
+            ? '<p class="text-sm text-red-500 font-medium">Belum ada data siswa.</p>'
             : dataSiswa.map(s => `
-                <label class="flex items-center gap-3 text-sm cursor-pointer hover:bg-white p-2 rounded-xl border border-transparent hover:border-gray-200 transition">
+                <label class="flex items-center gap-3 text-sm cursor-pointer hover:bg-white p-2 rounded-xl border border-transparent hover:border-slate-200 transition">
                     <input type="checkbox" name="assignSiswaCb" value="${s.id_siswa}" class="w-4 h-4 rounded text-blue-600">
-                    <span class="text-gray-700 font-medium">${s.nama_siswa}</span>
+                    <span class="text-slate-700 font-bold">${s.nama_siswa}</span>
                 </label>`).join('');
         dataGuru = (await apiCall('getGuru')) || [];
         let html = '';
         dataGuru.forEach(g => {
             const arr = (g.assigned_siswa || '').split(',').filter(x=>x);
             const names = arr.map(id => dataSiswa.find(x=>x.id_siswa===id)?.nama_siswa || id).join(', ')
-                || '<span class="text-gray-400 italic text-xs">Belum ditugaskan</span>';
+                || '<span class="text-slate-400 italic text-xs font-medium">Belum ditugaskan</span>';
             html += `
                 <tr>
-                    <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${g.nama_lengkap}</td>
-                    <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                        <div class="font-mono text-xs bg-gray-50 px-2 py-1 rounded">${g.username}</div>
-                        <div class="font-mono text-xs text-gray-400 mt-0.5">${g.password}</div>
+                    <td class="p-4 text-sm font-bold text-slate-800 whitespace-nowrap">${g.nama_lengkap}</td>
+                    <td class="p-4 text-sm text-slate-500 whitespace-nowrap font-medium">
+                        <div class="font-mono text-xs bg-slate-50 border border-slate-100 px-2 py-1 rounded">${g.username}</div>
+                        <div class="font-mono text-xs text-slate-400 mt-0.5">${g.password}</div>
                     </td>
-                    <td class="p-4 text-sm text-gray-600 max-w-xs">${names}</td>
+                    <td class="p-4 text-sm text-slate-600 font-medium max-w-xs">${names}</td>
                     <td class="p-4 text-sm whitespace-nowrap">
-                        <button onclick='editDataGuru("${g.username}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition mr-1"><i class="fa-solid fa-edit"></i></button>
-                        <button onclick='deleteDataGuru("${g.username}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick='editDataGuru("${g.username}")' class="text-blue-500 hover:text-blue-700 bg-blue-50 border border-blue-100 p-2 rounded-lg transition mr-1 shadow-sm"><i class="fa-solid fa-edit"></i></button>
+                        <button onclick='deleteDataGuru("${g.username}")' class="text-red-500 hover:text-red-700 bg-red-50 border border-red-100 p-2 rounded-lg transition shadow-sm"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>`;
         });
-        document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data tutor.</td></tr>';
+        document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-8 text-slate-400 italic font-medium text-sm">Belum ada data tutor.</td></tr>';
     } catch (e) { }
     showLoading(false);
 }
@@ -2394,10 +2382,10 @@ async function loadRiwayat() {
         });
 
         const statusColors = {
-            'Selesai': 'bg-emerald-100 text-emerald-800',
-            'Batal': 'bg-red-100 text-red-700',
-            'Reschedule': 'bg-amber-100 text-amber-800',
-            'Libur': 'bg-gray-100 text-gray-600'
+            'Selesai': 'bg-emerald-50 border border-emerald-100 text-emerald-700',
+            'Batal': 'bg-red-50 border border-red-100 text-red-600',
+            'Reschedule': 'bg-amber-50 border border-amber-100 text-amber-700',
+            'Libur': 'bg-slate-50 border border-slate-200 text-slate-600'
         };
 
         // Urutkan filtered dari terbaru ke terlama untuk tampilan
@@ -2405,28 +2393,28 @@ async function loadRiwayat() {
 
         let html = '';
         filteredSorted.forEach(s => {
-            const badge = statusColors[s.status_sesi] || 'bg-gray-100 text-gray-600';
+            const badge = statusColors[s.status_sesi] || 'bg-slate-50 text-slate-600';
             const canEdit = currentUser.role === 'admin' || currentUser.username === s.id_guru;
             const noPertemuan = pertemuanByIdSesi[s.id_sesi];
             const pertemuanBadge = noPertemuan
                 ? `<span class="inline-flex items-center gap-1 bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold px-2.5 py-1 rounded-lg">
                        <i class="fa-solid fa-hashtag text-[9px]"></i>${noPertemuan}
                    </span>`
-                : `<span class="text-gray-300 text-xs italic">—</span>`;
+                : `<span class="text-slate-300 text-xs italic font-medium">—</span>`;
             html += `
                 <tr>
-                    <td class="p-4 text-sm text-gray-600 whitespace-nowrap">${s.tanggal}</td>
-                    <td class="p-4 text-sm font-bold text-gray-900 whitespace-nowrap">${s.nama_siswa}</td>
-                    <td class="p-4 text-sm text-gray-500 whitespace-nowrap">${s.nama_guru}</td>
+                    <td class="p-4 text-sm text-slate-600 font-medium whitespace-nowrap">${s.tanggal}</td>
+                    <td class="p-4 text-sm font-bold text-slate-800 whitespace-nowrap">${s.nama_siswa}</td>
+                    <td class="p-4 text-sm text-slate-500 font-medium whitespace-nowrap">${s.nama_guru}</td>
                     <td class="p-4 text-sm whitespace-nowrap">${pertemuanBadge}</td>
                     <td class="p-4 text-sm whitespace-nowrap"><span class="px-3 py-1 text-xs rounded-full font-bold ${badge}">${s.status_sesi}</span></td>
                     <td class="p-4 text-sm whitespace-nowrap">${canEdit ? `
-                        <button onclick='editSesi("${s.id_sesi}")' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition mr-1"><i class="fa-solid fa-edit"></i></button>
-                        <button onclick='deleteSesi("${s.id_sesi}")' class="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition"><i class="fa-solid fa-trash"></i></button>` : '-'}
+                        <button onclick='editSesi("${s.id_sesi}")' class="text-blue-500 hover:text-blue-700 bg-blue-50 border border-blue-100 p-2 rounded-lg transition mr-1 shadow-sm"><i class="fa-solid fa-edit"></i></button>
+                        <button onclick='deleteSesi("${s.id_sesi}")' class="text-red-500 hover:text-red-700 bg-red-50 border border-red-100 p-2 rounded-lg transition shadow-sm"><i class="fa-solid fa-trash"></i></button>` : '-'}
                     </td>
                 </tr>`;
         });
-        document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="6" class="text-center p-8 text-gray-400 italic text-sm">Belum ada data.</td></tr>';
+        document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="6" class="text-center p-8 text-slate-400 font-medium italic text-sm">Belum ada data.</td></tr>';
     } catch (e) { console.error(e); }
     showLoading(false);
 }
