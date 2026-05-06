@@ -13,36 +13,39 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-light: #818cf8;
-            --primary-dark: #3730a3;
-            --accent: #f43f5e;
-            --surface: #f1f5f9;
+            --primary: #2563eb;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e3a8a;
+            --accent: #f59e0b;
+            --surface: #f8fafc;
             --card: #ffffff;
             --text: #0f172a;
             --text-muted: #64748b;
-            --border: #e2e8f0;
+            --border: #cbd5e1;
             --radius: 16px;
             --font: 'Plus Jakarta Sans', sans-serif;
         }
         * { box-sizing: border-box; }
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            overflow: hidden;
+            overflow-x: hidden; /* MENCEGAH SCROLL KANAN KIRI */
+            overflow-y: hidden;
             font-family: var(--font);
             -webkit-font-smoothing: antialiased;
+            background-color: var(--surface);
         }
         #app-container {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background-color: var(--surface); z-index: 999999;
-            overflow: hidden;
+            overflow-x: hidden; /* MENCEGAH SCROLL KANAN KIRI */
+            overflow-y: hidden;
         }
         .hide { display: none !important; }
 
         /* ── Spinner ── */
         .spinner {
-            border: 4px solid rgba(79,70,229,0.15);
-            border-top: 4px solid var(--primary-light);
+            border: 4px solid rgba(37,99,235,0.15);
+            border-top: 4px solid var(--primary);
             border-radius: 50%; width: 32px; height: 32px;
             animation: spin 0.8s linear infinite;
         }
@@ -62,50 +65,58 @@
             font-size: 11px; font-weight: 800; text-align: center; cursor: pointer;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); color: var(--text-muted); background: white;
         }
-        .hari-btn:hover { border-color: #c7d2fe; background: #e0e7ff; color: var(--primary); transform: translateY(-1px); }
+        .hari-btn:hover { border-color: #93c5fd; background: #eff6ff; color: var(--primary); transform: translateY(-1px); }
         .hari-btn.active { 
             border-color: var(--primary); background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); 
-            color: white; box-shadow: 0 4px 10px rgba(79,70,229,0.3); transform: scale(1.05);
+            color: white; box-shadow: 0 4px 10px rgba(37,99,235,0.3); transform: scale(1.05);
         }
 
         @keyframes pulse-red { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
         .pulse-red { animation: pulse-red 1.5s infinite; }
 
-        /* ── LOGIN PAGE ── */
+        /* ── LOGIN PAGE (TEMA BIRU MAYORITAS & KONTRAS) ── */
         #pageLogin {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4f46e5 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+            overflow-x: hidden;
         }
         .login-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(30, 58, 138, 0.4);
+            border: 2px solid rgba(147, 197, 253, 0.4);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
         }
         .login-input {
-            background: rgba(255,255,255,0.08);
-            border: 2px solid rgba(255,255,255,0.1);
-            color: white;
+            background: #ffffff;
+            border: 3px solid #93c5fd;
+            color: #0f172a;
+            font-weight: 800;
             transition: all 0.3s;
         }
-        .login-input::placeholder { color: rgba(255,255,255,0.4); }
+        .login-input::placeholder { color: #94a3b8; font-weight: 600; }
         .login-input:focus {
             outline: none;
-            border-color: #818cf8;
-            background: rgba(255,255,255,0.15);
-            box-shadow: 0 0 0 4px rgba(129,140,248,0.2);
+            border-color: #2563eb;
+            box-shadow: 0 0 0 5px rgba(37,99,235,0.25);
             transform: translateY(-2px);
         }
+        .login-label {
+            color: #ffffff;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
         .login-btn {
-            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            background: #f59e0b; /* Warna Kuning/Amber kontras */
             color: white; font-weight: 900; letter-spacing: 0.05em;
-            border: none; cursor: pointer;
-            box-shadow: 0 8px 25px rgba(225,29,72,0.5);
+            border: 2px solid #fcd34d; cursor: pointer;
+            box-shadow: 0 8px 25px rgba(245,158,11,0.5);
             transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .login-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(225,29,72,0.6);
+            box-shadow: 0 12px 35px rgba(245,158,11,0.6);
+            background: #d97706;
         }
         .login-btn:active { transform: translateY(0) scale(0.98); }
         .login-orb {
@@ -139,37 +150,37 @@
         }
         #toastBackdrop.show { opacity: 1; pointer-events: auto; }
 
-        /* ── STYLISH HEADER ── */
+        /* ── HEADER TETAP DI BELAKANG ── */
         .app-header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border-bottom: none;
-            box-shadow: 0 10px 30px -10px rgba(79,70,229,0.5);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            box-shadow: 0 10px 30px -10px rgba(37,99,235,0.5);
             border-bottom-left-radius: 2.5rem;
             border-bottom-right-radius: 2.5rem;
             position: relative;
+            z-index: 0; /* Index direndahkan agar terselip di belakang */
             overflow: hidden;
-            z-index: 40;
-            padding-bottom: 2rem !important; /* Extra padding for curved shape */
+            /* Padding bawah dibesarkan agar header memotong ke bawah banner */
+            padding-bottom: 5rem !important; 
         }
-        .header-orb-1 { position: absolute; top: -30px; left: -20px; width: 120px; height: 120px; background: rgba(255,255,255,0.15); border-radius: 50%; filter: blur(20px); }
-        .header-orb-2 { position: absolute; bottom: -40px; right: 20px; width: 150px; height: 150px; background: rgba(244,63,94,0.2); border-radius: 50%; filter: blur(25px); }
+        .header-orb-1 { position: absolute; top: -30px; left: -20px; width: 120px; height: 120px; background: rgba(255,255,255,0.2); border-radius: 50%; filter: blur(20px); }
+        .header-orb-2 { position: absolute; bottom: -20px; right: 20px; width: 150px; height: 150px; background: rgba(147,197,253,0.3); border-radius: 50%; filter: blur(25px); }
 
         /* ── CARDS ── */
         .stat-card {
             background: white; border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 2px solid rgba(226,232,240,0.8);
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative; overflow: hidden;
         }
-        .stat-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 35px -5px rgba(0,0,0,0.1); }
+        .stat-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 35px -5px rgba(0,0,0,0.1); border-color: var(--primary-light); }
 
         /* ── NAV ── */
         .nav-btn { transition: all 0.2s; }
         .nav-btn.active .nav-pill {
-            background: #e0e7ff;
+            background: #eff6ff;
             color: var(--primary);
-            box-shadow: 0 4px 12px rgba(79,70,229,0.15);
+            box-shadow: 0 4px 12px rgba(37,99,235,0.15);
             transform: translateY(-2px);
         }
 
@@ -178,16 +189,15 @@
             width: 100%; padding: 12px 18px;
             border: 2px solid var(--border);
             border-radius: 16px;
-            font-family: var(--font); font-size: 14px; font-weight: 600;
+            font-family: var(--font); font-size: 14px; font-weight: 700;
             transition: all 0.2s; background: #f8fafc;
             color: var(--text);
         }
         .form-input:focus {
-            outline: none; border-color: var(--primary-light);
+            outline: none; border-color: var(--primary);
             background: white;
-            box-shadow: 0 0 0 4px rgba(99,102,241,0.15);
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
         }
-        /* Styling label unik */
         .label-icon-box {
             display: inline-flex; align-items: center; justify-content: center;
             width: 26px; height: 26px; border-radius: 8px; margin-right: 8px;
@@ -196,24 +206,24 @@
 
         /* ── LOADING OVERLAY ── */
         #loadingOverlay {
-            position: fixed; inset: 0; background: rgba(15,23,42,0.7); backdrop-filter: blur(6px);
+            position: fixed; inset: 0; background: rgba(15,23,42,0.8); backdrop-filter: blur(8px);
             z-index: 10000000; display: flex; align-items: center; justify-content: center;
         }
         .loading-box {
             background: white; padding: 30px 40px; border-radius: 28px;
             display: flex; flex-direction: column; align-items: center; gap: 16px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4); border: 2px solid var(--primary-light);
         }
 
         /* ── MODAL ── */
         .modal-backdrop {
-            position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(8px);
+            position: fixed; inset: 0; background: rgba(15,23,42,0.7); backdrop-filter: blur(8px);
             z-index: 1000002; display: flex; align-items: center; justify-content: center; padding: 16px;
         }
         .modal-card {
             background: white; border-radius: 28px;
-            box-shadow: 0 35px 80px rgba(0,0,0,0.3); width: 100%; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 35px 80px rgba(0,0,0,0.4); width: 100%; overflow: hidden;
+            border: 2px solid #e2e8f0;
         }
 
         /* ── TABLE ── */
@@ -237,17 +247,17 @@
         .nav-fab-wrapper::before { content: ''; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 88px; height: 88px; border-radius: 50%; background: white; box-shadow: 0 -8px 20px rgba(0,0,0,0.06); z-index: 0; }
         .nav-fab {
             width: 64px; height: 64px; border-radius: 50%;
-            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
-            box-shadow: 0 10px 25px rgba(225,29,72,0.4), 0 2px 10px rgba(225,29,72,0.2);
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            box-shadow: 0 10px 25px rgba(37,99,235,0.4), 0 2px 10px rgba(37,99,235,0.2);
             display: flex; align-items: center; justify-content: center;
             border: 4px solid white; cursor: pointer; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative; top: -24px; z-index: 1;
         }
-        .nav-fab:active { transform: scale(0.9) translateY(4px); box-shadow: 0 4px 12px rgba(225,29,72,0.3); }
+        .nav-fab:active { transform: scale(0.9) translateY(4px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
         .nav-fab i { font-size: 24px; color: white; transition: transform 0.3s; }
         .nav-fab-wrapper:hover .nav-fab i { transform: rotate(15deg) scale(1.1); }
         .nav-fab-text { font-size: 10px; font-weight: 900; color: var(--text-muted); line-height: 1; position: relative; top: -18px; z-index: 1; transition: color 0.2s;}
-        .nav-fab-wrapper.active .nav-fab { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); box-shadow: 0 10px 25px rgba(124,58,237,0.4); }
+        .nav-fab-wrapper.active .nav-fab { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); box-shadow: 0 10px 25px rgba(30,58,138,0.4); }
         .nav-fab-wrapper.active .nav-fab-text { color: var(--primary); }
 
         /* ── PROFILE PAGE ── */
@@ -256,29 +266,28 @@
             padding: 16px 20px; margin-bottom: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .profile-field-card:focus-within { border-color: var(--primary-light); box-shadow: 0 10px 25px rgba(99,102,241,0.15); transform: translateY(-2px); }
+        .profile-field-card:focus-within { border-color: var(--primary-light); box-shadow: 0 10px 25px rgba(96,165,250,0.15); transform: translateY(-2px); border-width: 2px; }
         .profile-field-label { font-size: 11px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; }
-        .profile-field-input { width: 100%; border: none; outline: none; font-family: var(--font); font-size: 15px; font-weight: 700; color: var(--text); background: transparent; padding: 0; resize: none; }
+        .profile-field-input { width: 100%; border: none; outline: none; font-family: var(--font); font-size: 15px; font-weight: 800; color: var(--text); background: transparent; padding: 0; resize: none; }
         .profile-save-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
             color: white; font-weight: 900; font-size: 15px;
-            border: none; border-radius: 20px; padding: 18px; width: 100%; cursor: pointer;
-            box-shadow: 0 10px 25px rgba(16,185,129,0.4); transition: all 0.2s; letter-spacing: 0.03em;
+            border: 2px solid #60a5fa; border-radius: 20px; padding: 18px; width: 100%; cursor: pointer;
+            box-shadow: 0 10px 25px rgba(37,99,235,0.4); transition: all 0.2s; letter-spacing: 0.03em;
         }
-        .profile-save-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(16,185,129,0.5); }
-        .profile-save-btn:active { transform: translateY(2px); box-shadow: 0 5px 15px rgba(16,185,129,0.3); }
+        .profile-save-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(37,99,235,0.5); }
+        .profile-save-btn:active { transform: translateY(2px); box-shadow: 0 5px 15px rgba(37,99,235,0.3); }
 
         /* ── LOWONGAN TUTOR ── */
-        .lowongan-card { background: white; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); overflow: hidden; border: 1px solid #e2e8f0; transition: all 0.3s; }
+        .lowongan-card { background: white; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); overflow: hidden; border: 2px solid #e2e8f0; transition: all 0.3s; }
         .lowongan-card:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.08); transform: translateY(-3px); }
         .lowongan-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 900; letter-spacing: 0.04em; }
-        .badge-open { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; box-shadow: 0 2px 8px rgba(21,128,61,0.15);}
-        .badge-closed { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; box-shadow: 0 2px 8px rgba(185,28,28,0.15);}
-        .badge-soon { background: #fef9c3; color: #92400e; border: 1px solid #fde047; box-shadow: 0 2px 8px rgba(146,64,14,0.15);}
+        .badge-open { background: #dcfce7; color: #15803d; border: 2px solid #bbf7d0; box-shadow: 0 2px 8px rgba(21,128,61,0.15);}
+        .badge-closed { background: #fee2e2; color: #b91c1c; border: 2px solid #fecaca; box-shadow: 0 2px 8px rgba(185,28,28,0.15);}
+        .badge-soon { background: #fef9c3; color: #92400e; border: 2px solid #fde047; box-shadow: 0 2px 8px rgba(146,64,14,0.15);}
         
-        .grad-text { background: linear-gradient(135deg, #4f46e5, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glass-panel { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); }
-
+        .grad-text { background: linear-gradient(135deg, #1e3a8a, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
     </style>
 </head>
 <body>
@@ -295,7 +304,7 @@
     <!-- AI Modal -->
     <div id="aiModal" class="modal-backdrop hide">
         <div class="modal-card max-w-lg flex flex-col max-h-[90vh]">
-            <div style="background:linear-gradient(135deg,#7c3aed,#f43f5e)" class="p-6 flex justify-between items-center relative overflow-hidden">
+            <div style="background:linear-gradient(135deg,#1e40af,#3b82f6)" class="p-6 flex justify-between items-center relative overflow-hidden border-b-[3px] border-blue-300">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-xl translate-x-10 -translate-y-10"></div>
                 <h3 class="text-white font-black text-lg flex items-center gap-3 relative z-10" id="aiModalTitle">
                     <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/30 shadow-inner">
@@ -303,30 +312,30 @@
                     </div> 
                     Hasil AI
                 </h3>
-                <button onclick="closeAiModal()" class="text-white/80 hover:text-white w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition relative z-10">
+                <button onclick="closeAiModal()" class="text-white/80 hover:text-white w-10 h-10 rounded-full bg-white/10 hover:bg-white/30 flex items-center justify-center transition relative z-10 border border-transparent hover:border-white/30">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            <div class="p-7 overflow-y-auto text-slate-700 text-sm whitespace-pre-wrap leading-relaxed flex-1 font-medium bg-slate-50/50" id="aiModalContent"></div>
-            <div class="p-5 border-t border-slate-100 bg-white text-right">
-                <button onclick="closeAiModal()" class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-black px-8 py-3 rounded-2xl hover:opacity-90 transition shadow-lg shadow-indigo-500/30">Tutup</button>
+            <div class="p-7 overflow-y-auto text-slate-800 text-sm whitespace-pre-wrap leading-relaxed flex-1 font-bold bg-slate-50" id="aiModalContent"></div>
+            <div class="p-5 border-t-2 border-slate-200 bg-white text-right">
+                <button onclick="closeAiModal()" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-black px-8 py-3.5 rounded-2xl hover:opacity-90 transition shadow-lg shadow-blue-500/30 border-2 border-blue-400">Tutup</button>
             </div>
         </div>
     </div>
 
     <!-- Confirm Modal -->
     <div id="confirmModal" class="modal-backdrop hide">
-        <div class="modal-card max-w-sm">
+        <div class="modal-card max-w-sm border-2 border-red-200">
             <div class="p-8 text-center relative overflow-hidden">
                 <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-red-50 rounded-b-[50%] -z-10"></div>
-                <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl border border-red-100 relative z-10 text-red-500">
+                <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl border-2 border-red-200 relative z-10 text-red-600">
                     <i class="fa-solid fa-triangle-exclamation text-4xl"></i>
                 </div>
-                <h3 class="text-slate-800 font-black text-2xl mb-2" id="confirmModalTitle">Konfirmasi</h3>
-                <p class="text-slate-500 text-sm mb-8 font-medium" id="confirmModalText">Apakah Anda yakin?</p>
+                <h3 class="text-slate-900 font-black text-2xl mb-2" id="confirmModalTitle">Konfirmasi</h3>
+                <p class="text-slate-600 text-sm mb-8 font-bold" id="confirmModalText">Apakah Anda yakin?</p>
                 <div class="flex gap-4">
-                    <button onclick="closeConfirmModal()" class="flex-1 bg-slate-100 text-slate-700 font-bold px-4 py-3.5 rounded-2xl hover:bg-slate-200 transition">Batal</button>
-                    <button id="confirmBtnYes" class="flex-1 bg-gradient-to-r from-red-500 to-rose-600 text-white font-bold px-4 py-3.5 rounded-2xl hover:opacity-90 shadow-lg shadow-red-500/30 transition">Yakin Hapus</button>
+                    <button onclick="closeConfirmModal()" class="flex-1 bg-slate-100 text-slate-800 border-2 border-slate-200 font-black px-4 py-3.5 rounded-2xl hover:bg-slate-200 transition">Batal</button>
+                    <button id="confirmBtnYes" class="flex-1 bg-gradient-to-r from-red-600 to-rose-600 border-2 border-red-400 text-white font-black px-4 py-3.5 rounded-2xl hover:opacity-90 shadow-lg shadow-red-500/30 transition">Yakin Hapus</button>
                 </div>
             </div>
         </div>
@@ -336,18 +345,18 @@
     <div id="promptModal" class="modal-backdrop hide">
         <div class="modal-card max-w-sm">
             <div class="p-8">
-                <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                    <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center">
-                        <i class="fa-solid fa-pen-to-square text-lg"></i>
+                <div class="flex items-center gap-3 mb-6 border-b-2 border-slate-100 pb-4">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-700 border-2 border-blue-200 rounded-xl flex items-center justify-center shadow-sm">
+                        <i class="fa-solid fa-pen-to-square text-xl"></i>
                     </div>
-                    <h3 class="text-slate-800 font-black text-xl" id="promptModalTitle">Input</h3>
+                    <h3 class="text-slate-900 font-black text-xl" id="promptModalTitle">Input</h3>
                 </div>
-                <p class="text-slate-500 text-sm mb-3 font-bold" id="promptModalText">Masukkan nilai:</p>
+                <p class="text-slate-600 text-sm mb-3 font-bold" id="promptModalText">Masukkan nilai:</p>
                 <textarea id="promptModalInput" rows="3"
-                    class="w-full px-4 py-3 border-2 border-slate-200 rounded-2xl focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 mb-8 font-semibold text-slate-700 resize-none transition-all"></textarea>
+                    class="w-full px-4 py-3 border-2 border-slate-300 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 mb-8 font-bold text-slate-800 resize-none transition-all bg-slate-50 focus:bg-white"></textarea>
                 <div class="flex gap-4">
-                    <button onclick="closePromptModal()" class="flex-1 bg-slate-100 text-slate-700 font-bold px-4 py-3.5 rounded-2xl hover:bg-slate-200 transition">Batal</button>
-                    <button id="promptBtnSubmit" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold px-4 py-3.5 rounded-2xl hover:opacity-90 shadow-lg shadow-emerald-500/30 transition">Simpan</button>
+                    <button onclick="closePromptModal()" class="flex-1 bg-slate-100 border-2 border-slate-200 text-slate-800 font-black px-4 py-3.5 rounded-2xl hover:bg-slate-200 transition">Batal</button>
+                    <button id="promptBtnSubmit" class="flex-1 bg-gradient-to-r from-emerald-600 to-emerald-500 border-2 border-emerald-400 text-white font-black px-4 py-3.5 rounded-2xl hover:opacity-90 shadow-lg shadow-emerald-500/30 transition">Simpan</button>
                 </div>
             </div>
         </div>
@@ -356,33 +365,33 @@
     <!-- Lowongan Tutor Modal -->
     <div id="lowonganModal" class="modal-backdrop hide">
         <div class="modal-card max-w-lg flex flex-col max-h-[90vh]">
-            <div class="bg-gradient-to-r from-blue-600 to-cyan-500 p-6 flex justify-between items-center relative overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-700 to-blue-500 p-6 flex justify-between items-center relative overflow-hidden border-b-4 border-blue-400">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-xl translate-x-10 -translate-y-10"></div>
                 <h3 class="text-white font-black text-lg flex items-center gap-3 relative z-10">
-                    <div class="bg-white/20 text-white w-10 h-10 rounded-xl flex items-center justify-center border border-white/30 backdrop-blur-md">
+                    <div class="bg-white/20 text-white w-10 h-10 rounded-xl flex items-center justify-center border border-white/40 backdrop-blur-md shadow-inner">
                         <i class="fa-solid fa-briefcase"></i>
                     </div>
                     <span id="lowonganModalMode">Tambah Lowongan Baru</span>
                 </h3>
-                <button onclick="closeLowonganModal()" class="text-white/80 hover:text-white w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition relative z-10">
+                <button onclick="closeLowonganModal()" class="text-white/90 hover:text-white w-10 h-10 rounded-full bg-white/10 hover:bg-white/30 flex items-center justify-center transition relative z-10 border border-transparent hover:border-white/40">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            <div class="p-7 overflow-y-auto flex-1 bg-slate-50/50">
+            <div class="p-7 overflow-y-auto flex-1 bg-slate-50">
                 <input type="hidden" id="lowonganIdEdit">
                 <div class="space-y-5">
                     <div>
-                        <label class="block text-xs font-black text-slate-500 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-blue-100 text-blue-600"><i class="fa-solid fa-tag"></i></div>Posisi / Mata Pelajaran</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-blue-100 border border-blue-200 text-blue-700"><i class="fa-solid fa-tag"></i></div>Posisi / Mata Pelajaran</label>
                         <input type="text" id="lowonganPosisi" class="form-input" placeholder="Cth: Tutor Matematika SMP">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-black text-slate-500 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-emerald-100 text-emerald-600"><i class="fa-solid fa-map-location-dot"></i></div>Lokasi</label>
+                            <label class="block text-xs font-black text-slate-700 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-emerald-100 border border-emerald-200 text-emerald-700"><i class="fa-solid fa-map-location-dot"></i></div>Lokasi</label>
                             <input type="text" id="lowonganLokasi" class="form-input" placeholder="Cth: Soreang, Bandung">
                         </div>
                         <div>
-                            <label class="block text-xs font-black text-slate-500 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-amber-100 text-amber-600"><i class="fa-solid fa-traffic-light"></i></div>Status</label>
-                            <select id="lowonganStatus" class="form-input cursor-pointer font-bold text-slate-700">
+                            <label class="block text-xs font-black text-slate-700 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-amber-100 border border-amber-200 text-amber-700"><i class="fa-solid fa-traffic-light"></i></div>Status</label>
+                            <select id="lowonganStatus" class="form-input cursor-pointer font-bold text-slate-800">
                                 <option value="open">🟢 Dibuka</option>
                                 <option value="soon">🟡 Segera Dibuka</option>
                                 <option value="closed">🔴 Ditutup</option>
@@ -390,24 +399,24 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-black text-slate-500 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-purple-100 text-purple-600"><i class="fa-solid fa-list-check"></i></div>Persyaratan / Keterangan</label>
+                        <label class="block text-xs font-black text-slate-700 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-purple-100 border border-purple-200 text-purple-700"><i class="fa-solid fa-list-check"></i></div>Persyaratan / Keterangan</label>
                         <textarea id="lowonganKeterangan" rows="3" class="form-input resize-none" placeholder="Cth: Min. D3 semua jurusan, pengalaman mengajar diutamakan..."></textarea>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-black text-slate-500 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-rose-100 text-rose-600"><i class="fa-brands fa-whatsapp"></i></div>Kontak / WA</label>
+                            <label class="block text-xs font-black text-slate-700 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-rose-100 border border-rose-200 text-rose-700"><i class="fa-brands fa-whatsapp"></i></div>Kontak / WA</label>
                             <input type="text" id="lowonganKontak" class="form-input" placeholder="Cth: 0812-xxxx-xxxx">
                         </div>
                         <div>
-                            <label class="block text-xs font-black text-slate-500 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-slate-200 text-slate-600"><i class="fa-solid fa-calendar-xmark"></i></div>Batas Daftar</label>
+                            <label class="block text-xs font-black text-slate-700 uppercase tracking-wide mb-2 flex items-center gap-2"><div class="label-icon-box bg-slate-200 border border-slate-300 text-slate-700"><i class="fa-solid fa-calendar-xmark"></i></div>Batas Daftar</label>
                             <input type="date" id="lowonganDeadline" class="form-input">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="p-5 border-t border-slate-100 bg-white flex gap-4 justify-end">
-                <button onclick="closeLowonganModal()" class="bg-slate-100 text-slate-700 font-bold px-6 py-3.5 rounded-2xl hover:bg-slate-200 transition text-sm">Batal</button>
-                <button onclick="saveLowongan()" class="text-white font-black px-7 py-3.5 rounded-2xl transition text-sm flex items-center gap-2 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5" style="background:linear-gradient(135deg,#2563eb,#06b6d4)">
+            <div class="p-5 border-t-2 border-slate-200 bg-white flex gap-4 justify-end">
+                <button onclick="closeLowonganModal()" class="bg-slate-100 border-2 border-slate-200 text-slate-800 font-black px-6 py-3.5 rounded-2xl hover:bg-slate-200 transition text-sm">Batal</button>
+                <button onclick="saveLowongan()" class="text-white font-black px-7 py-3.5 rounded-2xl transition text-sm flex items-center gap-2 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 border-2 border-blue-400" style="background:linear-gradient(135deg,#1e40af,#3b82f6)">
                     <i class="fa-solid fa-save text-lg"></i> Simpan Lowongan
                 </button>
             </div>
@@ -418,59 +427,57 @@
     <div id="loadingOverlay" class="hide">
         <div class="loading-box">
             <div class="spinner"></div>
-            <p class="font-bold text-slate-800 tracking-wide mt-2" id="loadingText">Memproses Data...</p>
+            <p class="font-black text-slate-800 tracking-wide mt-2" id="loadingText">Memproses Data...</p>
         </div>
     </div>
 
-    <!-- ===== LOGIN ===== -->
-    <div id="pageLogin" class="absolute inset-0 w-full h-full flex items-center justify-center p-5 z-50 overflow-auto">
-        <!-- Background orbs -->
-        <div class="login-orb w-96 h-96 bg-blue-500/20" style="top:-10%;left:-10%"></div>
-        <div class="login-orb w-80 h-80 bg-pink-500/20" style="bottom:5%;right:-10%"></div>
-        <div class="login-orb w-64 h-64 bg-indigo-600/30" style="top:40%;left:50%"></div>
+    <!-- ===== LOGIN (BIRU MAYORITAS KONTRAS BORDER TINGGI) ===== -->
+    <div id="pageLogin" class="absolute inset-0 w-full h-full flex items-center justify-center p-5 z-50 overflow-hidden">
+        <div class="login-orb w-96 h-96 bg-blue-400/20" style="top:-10%;left:-10%"></div>
+        <div class="login-orb w-80 h-80 bg-blue-300/20" style="bottom:5%;right:-10%"></div>
 
         <div class="login-card rounded-[2.5rem] p-10 w-full max-w-md relative z-10">
             <!-- Logo/Brand -->
             <div class="text-center mb-10">
                 <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl mb-6 shadow-2xl"
-                    style="background:linear-gradient(135deg,rgba(99,102,241,0.4),rgba(236,72,153,0.4));border:1px solid rgba(255,255,255,0.3)">
-                    <i class="fa-solid fa-graduation-cap text-5xl" style="color:#ffffff; drop-shadow: 0 4px 6px rgba(0,0,0,0.3);"></i>
+                    style="background:linear-gradient(135deg,#3b82f6,#1e3a8a);border:3px solid #bfdbfe;">
+                    <i class="fa-solid fa-graduation-cap text-5xl" style="color:#ffffff; drop-shadow: 0 4px 6px rgba(0,0,0,0.5);"></i>
                 </div>
-                <h1 class="font-black text-white text-3xl tracking-tight mb-2" style="font-family:'DM Serif Display',serif">LBB SAINSPIQ</h1>
-                <div class="inline-block bg-white/10 px-4 py-1.5 rounded-full backdrop-blur-md border border-white/20">
-                    <p class="text-xs font-bold tracking-widest text-indigo-200 uppercase">Jurnal Digital</p>
+                <h1 class="font-black text-white text-3xl tracking-tight mb-2" style="font-family:'DM Serif Display',serif; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">LBB SAINSPIQ</h1>
+                <div class="inline-block bg-white/20 px-5 py-2 rounded-full backdrop-blur-md border-2 border-white/30">
+                    <p class="text-xs font-black tracking-widest text-white uppercase">Jurnal Digital</p>
                 </div>
             </div>
 
-            <form onsubmit="handleLogin(event)" class="space-y-5">
+            <form onsubmit="handleLogin(event)" class="space-y-6">
                 <div>
-                    <label class="login-label block mb-2 flex items-center gap-2"><i class="fa-solid fa-at opacity-60"></i> Username</label>
+                    <label class="login-label block mb-2 flex items-center gap-2"><i class="fa-solid fa-at opacity-80"></i> USERNAME</label>
                     <div class="relative">
-                        <span class="absolute left-5 top-1/2 -translate-y-1/2" style="color:rgba(255,255,255,0.5)">
-                            <i class="fa-solid fa-user text-base"></i>
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2" style="color:#2563eb">
+                            <i class="fa-solid fa-user text-lg"></i>
                         </span>
                         <input type="text" id="loginUsername"
-                            class="login-input w-full pl-12 pr-5 py-4 rounded-2xl text-sm font-bold tracking-wide" required
+                            class="login-input w-full pl-12 pr-5 py-4 rounded-2xl text-sm tracking-wide" required
                             placeholder="Masukkan username">
                     </div>
                 </div>
                 <div>
-                    <label class="login-label block mb-2 flex items-center gap-2"><i class="fa-solid fa-key opacity-60"></i> Password</label>
+                    <label class="login-label block mb-2 flex items-center gap-2"><i class="fa-solid fa-key opacity-80"></i> PASSWORD</label>
                     <div class="relative">
-                        <span class="absolute left-5 top-1/2 -translate-y-1/2" style="color:rgba(255,255,255,0.5)">
-                            <i class="fa-solid fa-lock text-base"></i>
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2" style="color:#2563eb">
+                            <i class="fa-solid fa-lock text-lg"></i>
                         </span>
                         <input type="password" id="loginPassword"
-                            class="login-input w-full pl-12 pr-5 py-4 rounded-2xl text-sm font-bold tracking-wide" required
+                            class="login-input w-full pl-12 pr-5 py-4 rounded-2xl text-sm tracking-wide" required
                             placeholder="Masukkan password">
                     </div>
                 </div>
-                <button type="submit" class="login-btn w-full py-4 rounded-2xl text-sm mt-4 uppercase tracking-widest">
-                    MASUK SEKARANG <i class="fa-solid fa-arrow-right ml-2"></i>
+                <button type="submit" class="login-btn w-full py-4 rounded-2xl text-base mt-6 uppercase tracking-widest flex items-center justify-center gap-3">
+                    MASUK SEKARANG <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </form>
 
-            <p class="text-center mt-8 text-xs font-semibold" style="color:rgba(255,255,255,0.3)">
+            <p class="text-center mt-8 text-xs font-bold" style="color:rgba(255,255,255,0.6)">
                 © 2024 LBB SAINSPIQ · All rights reserved
             </p>
         </div>
@@ -479,80 +486,80 @@
     <!-- ===== MAIN LAYOUT ===== -->
     <div id="mainLayout" class="hide absolute inset-0 w-full h-full flex flex-col overflow-hidden" style="background:#f1f5f9">
 
-        <!-- Dynamic Header Shape -->
-        <div class="app-header flex-none px-6 pt-5 flex justify-between items-start z-40">
+        <!-- HEADER TETAP (FIXED) DI BELAKANG -->
+        <div class="app-header flex-none px-6 pt-5 pb-24 flex justify-between items-start z-0 relative">
             <div class="header-orb-1"></div>
             <div class="header-orb-2"></div>
             
-            <div class="font-black text-xl text-white flex items-center gap-3 tracking-tight relative z-10 drop-shadow-md">
-                <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center border border-white/30 shadow-lg">
+            <div class="font-black text-xl text-white flex items-center gap-3 tracking-tight relative z-10 drop-shadow-md mt-1">
+                <div class="w-10 h-10 rounded-2xl bg-white text-blue-700 flex items-center justify-center border-2 border-blue-300 shadow-lg">
                     <i class="fa-solid fa-graduation-cap text-lg"></i>
                 </div>
                 SAINSPIQ
             </div>
             
-            <div class="flex items-center gap-3 relative z-10">
-                <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-white/10 hover:bg-white/20 border border-white/20 text-white p-3 rounded-full transition shadow-lg backdrop-blur-md">
+            <div class="flex items-center gap-3 relative z-10 mt-1">
+                <button id="btnNotifBell" onclick="navigate('dashboard')" class="hide relative bg-white/20 hover:bg-white/30 border-2 border-white/30 text-white p-3 rounded-xl transition shadow-lg backdrop-blur-md">
                     <i class="fa-solid fa-bell text-sm"></i>
-                    <span id="notifBadge" class="hide absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md border-2 border-transparent pulse-red">0</span>
+                    <span id="notifBadge" class="hide absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-black w-6 h-6 rounded-full flex items-center justify-center shadow-md border-2 border-white pulse-red">0</span>
                 </button>
                 <!-- Desktop User -->
-                <div class="text-xs bg-white/10 border border-white/20 text-white px-5 py-3 rounded-full font-bold hidden sm:flex items-center gap-2 shadow-lg backdrop-blur-md">
-                    <i class="fa-solid fa-circle-user text-indigo-200 text-lg"></i>
-                    Halo, <span id="desktopUserName" class="font-black"></span>
+                <div class="text-xs bg-white/20 border-2 border-white/30 text-white px-5 py-3 rounded-xl font-black hidden sm:flex items-center gap-2 shadow-lg backdrop-blur-md">
+                    <i class="fa-solid fa-circle-user text-white text-lg"></i>
+                    Halo, <span id="desktopUserName"></span>
                 </div>
                 <!-- Mobile User -->
-                <div class="text-xs bg-white/10 border border-white/20 text-white w-10 h-10 rounded-full font-bold sm:hidden flex items-center justify-center shadow-lg backdrop-blur-md">
+                <div class="text-xs bg-white/20 border-2 border-white/30 text-white w-10 h-10 rounded-xl font-black sm:hidden flex items-center justify-center shadow-lg backdrop-blur-md">
                     <i class="fa-solid fa-user"></i>
                     <span id="mobileUserName" class="hide"></span>
                 </div>
             </div>
         </div>
 
-        <!-- Adjust Top Margin so content overlaps the deep curved header -->
-        <div id="pagesContainer" class="flex-1 overflow-y-auto px-4 md:px-6 relative -mt-8 z-10">
-            <div class="max-w-4xl mx-auto space-y-6 pb-24">
+        <!-- CONTAINER KONTEN (SCROLLABLE, MENARIK KE ATAS HEADER) -->
+        <div id="pagesContainer" class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 relative z-10 -mt-16 w-full">
+            <div class="max-w-4xl mx-auto space-y-6 pb-24 relative">
 
                 <!-- ===== DASHBOARD ===== -->
                 <div id="pageDashboard" class="page-content hide">
 
-                    <!-- Modern Glassmorphism Banner -->
-                    <div class="welcome-banner bg-white border border-white p-6 md:p-8 mb-2 flex items-center gap-6 relative rounded-[2rem] shadow-2xl overflow-hidden" style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6)); backdrop-filter: blur(20px);">
+                    <!-- Banner Memotong Header -->
+                    <div class="welcome-banner bg-white border-2 border-blue-100 p-6 md:p-8 mb-4 flex items-center gap-6 relative rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(37,99,235,0.2)] overflow-hidden">
                         <!-- Abstract Shapes -->
-                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-fuchsia-300 to-purple-300 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
-                        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-blue-300 to-cyan-300 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full blur-3xl opacity-80 pointer-events-none"></div>
+                        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-cyan-100 to-blue-100 rounded-full blur-3xl opacity-80 pointer-events-none"></div>
                         
-                        <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-4 right-4 text-indigo-400 hover:text-indigo-600 bg-white/50 hover:bg-white border border-white rounded-full p-2.5 w-9 h-9 flex items-center justify-center z-20 transition shadow-sm backdrop-blur-md">
-                            <i class="fa-solid fa-pencil text-xs"></i>
+                        <button id="btnEditBanner" onclick="editCustomBanner()" class="hide absolute top-4 right-4 text-blue-500 hover:text-white bg-blue-50 hover:bg-blue-600 border border-blue-200 rounded-xl p-2 w-10 h-10 flex items-center justify-center z-20 transition shadow-sm backdrop-blur-md">
+                            <i class="fa-solid fa-pencil text-sm"></i>
                         </button>
                         
-                        <div class="hidden sm:flex w-20 h-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl flex-shrink-0 z-10 shadow-xl shadow-purple-500/30 items-center justify-center transform rotate-3 hover:rotate-0 transition duration-300">
+                        <div class="hidden sm:flex w-20 h-20 bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 rounded-3xl flex-shrink-0 z-10 shadow-xl shadow-blue-500/30 items-center justify-center transform rotate-3 hover:rotate-0 transition duration-300 border-2 border-white">
                             <i class="fa-solid fa-hand-sparkles text-4xl text-white"></i>
                         </div>
                         
                         <div class="z-10 pr-6 relative">
                             <h3 class="font-black text-2xl md:text-3xl mb-2 tracking-tight grad-text pb-1">Halo Tutor Hebat! 👋</h3>
-                            <p id="bannerText" class="text-slate-600 font-bold text-sm leading-relaxed">"Amanah yang kamu jalankan dengan penuh keikhlasan hari ini akan menjadi kebaikan dan amal jariyah di masa mendatang. Tetap semangat mencerdaskan generasi penerus bangsa!"</p>
+                            <p id="bannerText" class="text-slate-700 font-bold text-sm leading-relaxed">"Amanah yang kamu jalankan dengan penuh keikhlasan hari ini akan menjadi kebaikan dan amal jariyah di masa mendatang. Tetap semangat mencerdaskan generasi penerus bangsa!"</p>
                         </div>
                     </div>
 
                     <!-- Lowongan Tutor -->
                     <div class="lowongan-card mb-6" id="lowonganSection">
-                        <div class="px-6 py-5 flex items-center justify-between bg-white border-b border-slate-100">
+                        <div class="px-6 py-5 flex items-center justify-between bg-white border-b-2 border-slate-100">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                                <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200 border-2 border-blue-100">
                                     <i class="fa-solid fa-bullhorn text-xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-slate-800 font-black text-base tracking-tight">Lowongan Mengajar</h3>
+                                    <h3 class="text-slate-900 font-black text-base tracking-tight">Lowongan Mengajar</h3>
                                     <p class="text-slate-500 text-xs mt-1 font-bold">Peluang kelas baru untukmu</p>
                                 </div>
                             </div>
-                            <button id="btnTambahLowongan" onclick="openLowonganModal()" class="hide bg-slate-50 hover:bg-blue-50 border border-slate-200 text-blue-600 font-black text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-sm">
-                                <i class="fa-solid fa-plus-circle"></i> Tambah
+                            <button id="btnTambahLowongan" onclick="openLowonganModal()" class="hide bg-slate-50 hover:bg-blue-50 border-2 border-slate-200 text-blue-700 font-black text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-sm">
+                                <i class="fa-solid fa-plus-circle text-sm"></i> Tambah
                             </button>
                         </div>
-                        <div id="lowonganList" class="divide-y divide-slate-100 bg-slate-50/30">
+                        <div id="lowonganList" class="divide-y divide-slate-100 bg-slate-50/50">
                             <!-- Injected HTML will go here -->
                         </div>
                     </div>
@@ -564,31 +571,31 @@
 
                     <!-- Grafik Progress Pertemuan (Admin Only) -->
                     <div id="grafikProgressSection" class="hide mb-6">
-                        <div class="bg-white rounded-3xl border border-slate-200 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden relative">
-                            <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -translate-y-32 translate-x-20 pointer-events-none"></div>
-                            <div class="px-6 py-5 flex flex-col md:flex-row md:items-center justify-between bg-white/80 backdrop-blur-md border-b border-slate-100 relative z-10 gap-4">
+                        <div class="bg-white rounded-3xl border-2 border-slate-200 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden relative">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -translate-y-32 translate-x-20 pointer-events-none"></div>
+                            <div class="px-6 py-5 flex flex-col md:flex-row md:items-center justify-between bg-white/80 backdrop-blur-md border-b-2 border-slate-100 relative z-10 gap-4">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200 border-2 border-blue-100">
                                         <i class="fa-solid fa-chart-pie text-xl"></i>
                                     </div>
                                     <div>
-                                        <h3 class="text-slate-800 font-black text-base tracking-tight">Monitor Progress Pertemuan</h3>
+                                        <h3 class="text-slate-900 font-black text-base tracking-tight">Monitor Progress Pertemuan</h3>
                                         <p class="text-slate-500 text-xs mt-1 font-bold">Pantau ketercapaian paket sesi</p>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <select id="grafikFilterGuru" onchange="renderGrafikProgress()" class="text-sm bg-slate-100 border-2 border-slate-200 text-slate-700 rounded-xl px-4 py-2.5 font-bold outline-none focus:border-indigo-400 shadow-sm cursor-pointer transition-all">
+                                    <select id="grafikFilterGuru" onchange="renderGrafikProgress()" class="text-sm bg-slate-50 border-2 border-slate-200 text-slate-800 rounded-xl px-4 py-2.5 font-black outline-none focus:border-blue-500 shadow-sm cursor-pointer transition-all">
                                         <option value="ALL">Semua Tutor</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="p-6 relative z-10 bg-slate-50/30">
+                            <div class="p-6 relative z-10 bg-slate-50">
                                 <div id="grafikProgressContainer" class="space-y-4"></div>
                                 <div id="grafikEmptyMsg" class="hide text-center py-10">
-                                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-300">
+                                    <div class="w-16 h-16 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3 text-slate-300 shadow-sm">
                                         <i class="fa-solid fa-ghost text-2xl"></i>
                                     </div>
-                                    <p class="text-slate-400 text-sm font-bold">Belum ada data sesi selesai.</p>
+                                    <p class="text-slate-500 text-sm font-black">Belum ada data sesi selesai.</p>
                                 </div>
                             </div>
                         </div>
@@ -597,19 +604,19 @@
                     <!-- Missing Sesi -->
                     <div id="missingSesiCard" class="hide mb-6 relative">
                         <div class="absolute -inset-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-3xl blur opacity-30 animate-pulse"></div>
-                        <div class="bg-white rounded-[1.5rem] overflow-hidden border border-red-100 shadow-xl relative z-10">
-                            <div class="px-6 py-5 flex items-center justify-between bg-gradient-to-r from-red-50 to-orange-50 border-b border-red-100">
+                        <div class="bg-white rounded-[1.5rem] overflow-hidden border-2 border-red-200 shadow-xl relative z-10">
+                            <div class="px-6 py-5 flex items-center justify-between bg-gradient-to-r from-red-50 to-orange-50 border-b-2 border-red-100">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-white rounded-2xl border-2 border-red-200 shadow-sm text-red-500 flex items-center justify-center relative">
+                                    <div class="w-12 h-12 bg-white rounded-2xl border-2 border-red-300 shadow-sm text-red-600 flex items-center justify-center relative">
                                         <i class="fa-solid fa-bell text-xl"></i>
-                                        <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 border-2 border-white rounded-full animate-ping"></span>
+                                        <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full animate-ping"></span>
                                     </div>
                                     <div>
-                                        <h3 class="text-red-700 font-black text-base">Sesi Belum Diinput Hari Ini</h3>
-                                        <p class="text-red-500 text-xs mt-1 font-bold">Notifikasi otomatis hilang setelah selesai</p>
+                                        <h3 class="text-red-800 font-black text-base">Sesi Belum Diinput Hari Ini</h3>
+                                        <p class="text-red-600 text-xs mt-1 font-bold">Notifikasi otomatis hilang setelah selesai</p>
                                     </div>
                                 </div>
-                                <span id="missingSesiCount" class="bg-gradient-to-br from-red-500 to-orange-500 text-white font-black text-xl w-10 h-10 flex items-center justify-center rounded-2xl shadow-lg shadow-red-200">0</span>
+                                <span id="missingSesiCount" class="bg-gradient-to-br from-red-600 to-orange-500 border-2 border-red-300 text-white font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-lg shadow-red-200">0</span>
                             </div>
                             <div class="overflow-x-auto bg-white p-2">
                                 <table class="data-table">
@@ -629,26 +636,26 @@
                     </div>
 
                     <!-- AI Asisten -->
-                    <div class="bg-white rounded-3xl border border-indigo-100 shadow-xl p-8 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition duration-500 pointer-events-none"></div>
+                    <div class="bg-white rounded-3xl border-2 border-blue-200 shadow-xl p-8 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition duration-500 pointer-events-none"></div>
                         <div class="absolute -bottom-10 -right-10 opacity-[0.04] transform group-hover:scale-110 transition duration-500">
-                            <i class="fa-solid fa-robot text-[150px] text-indigo-900"></i>
+                            <i class="fa-solid fa-robot text-[150px] text-blue-900"></i>
                         </div>
                         <div class="relative z-10">
-                            <h3 class="font-black text-slate-800 text-xl mb-2 flex items-center gap-3">
-                                <div class="bg-gradient-to-br from-amber-400 to-orange-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-200 transform -rotate-6"><i class="fa-solid fa-lightbulb text-2xl"></i></div>
+                            <h3 class="font-black text-slate-900 text-xl mb-2 flex items-center gap-3">
+                                <div class="bg-gradient-to-br from-amber-400 to-orange-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-200 transform -rotate-6 border-2 border-amber-200"><i class="fa-solid fa-lightbulb text-2xl"></i></div>
                                 <span class="grad-text">AI Asisten Mengajar</span>
                             </h3>
-                            <p class="text-sm text-slate-500 mb-6 font-bold max-w-lg">Buntu ide mengajar? Beritahu AI topik yang akan dibahas dan dapatkan 3 ide aktivitas interaktif yang seru!</p>
+                            <p class="text-sm text-slate-600 mb-6 font-bold max-w-lg">Buntu ide mengajar? Beritahu AI topik yang akan dibahas dan dapatkan 3 ide aktivitas interaktif yang seru!</p>
                             <div class="flex flex-col sm:flex-row gap-4">
                                 <div class="relative flex-1">
-                                    <div class="absolute left-4 top-1/2 -translate-y-1/2 text-indigo-400"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                    <div class="absolute left-5 top-1/2 -translate-y-1/2 text-blue-500"><i class="fa-solid fa-magnifying-glass text-lg"></i></div>
                                     <input type="text" id="aiTopicInput"
-                                        class="w-full pl-12 pr-4 py-4 border-2 border-indigo-100 rounded-2xl focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-50 font-bold text-slate-700 bg-white shadow-inner transition-all"
-                                        placeholder="Cth: Belajar pecahan matematika kelas 4 SD">
+                                        class="w-full pl-14 pr-5 py-4 border-2 border-blue-200 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 font-bold text-slate-800 bg-slate-50 shadow-inner transition-all focus:bg-white"
+                                        placeholder="Cth: Belajar pecahan matematika SD">
                                 </div>
                                 <button onclick="getTeachingIdeasWithAI()" id="btnAIIdeas"
-                                    class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black px-8 py-4 rounded-2xl flex items-center justify-center gap-3 whitespace-nowrap shadow-xl shadow-indigo-200 hover:-translate-y-1 hover:shadow-indigo-300 transition-all duration-300">
+                                    class="bg-gradient-to-r from-blue-600 to-indigo-600 border-2 border-blue-400 text-white font-black px-8 py-4 rounded-2xl flex items-center justify-center gap-3 whitespace-nowrap shadow-xl shadow-blue-300 hover:-translate-y-1 hover:shadow-blue-400 transition-all duration-300">
                                     <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
                                     <span>Cari Ide Seru</span>
                                 </button>
@@ -659,56 +666,56 @@
 
                 <!-- ===== DATA SISWA ===== -->
                 <div id="pageDataSiswa" class="page-content hide">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 text-white flex items-center justify-center shadow-lg shadow-emerald-200"><i class="fa-solid fa-users text-xl"></i></div>
-                        <h2 class="text-2xl font-black text-slate-800 tracking-tight">Kelola Data Siswa</h2>
+                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-lg shadow-emerald-200 border-2 border-emerald-300"><i class="fa-solid fa-users text-xl"></i></div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Kelola Data Siswa</h2>
                     </div>
                     
-                    <form id="formSiswa" onsubmit="handleSaveSiswa(event)" class="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border border-slate-100 mb-8 relative overflow-hidden">
+                    <form id="formSiswa" onsubmit="handleSaveSiswa(event)" class="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-slate-200 mb-8 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-emerald-50 rounded-full blur-3xl -translate-y-10 translate-x-10 pointer-events-none"></div>
-                        <h3 class="font-black text-slate-800 mb-6 flex items-center gap-3 text-base border-b border-slate-100 pb-4 relative z-10">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                                <i class="fa-solid fa-user-plus"></i>
+                        <h3 class="font-black text-slate-900 mb-6 flex items-center gap-3 text-base border-b-2 border-slate-100 pb-4 relative z-10">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-100 border border-emerald-200 text-emerald-700 flex items-center justify-center">
+                                <i class="fa-solid fa-user-plus text-lg"></i>
                             </div>
                             Form Tambah / Edit Siswa
                         </h3>
                         <input type="hidden" id="siswaIdInput">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5 relative z-10">
                             <div>
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-blue-100 text-blue-600"><i class="fa-solid fa-id-badge"></i></div> Nama Siswa
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-blue-100 border border-blue-200 text-blue-700"><i class="fa-solid fa-id-badge"></i></div> Nama Siswa
                                 </label>
                                 <input type="text" id="siswaNama" class="form-input" required>
                             </div>
                             <div>
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-amber-100 text-amber-600"><i class="fa-solid fa-book-open"></i></div> Program Les / Kelas
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-amber-100 border border-amber-200 text-amber-700"><i class="fa-solid fa-book-open"></i></div> Program Les / Kelas
                                 </label>
                                 <input type="text" id="siswaProgram" class="form-input" required>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6 relative z-10">
                             <div class="md:col-span-2">
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-rose-100 text-rose-600"><i class="fa-solid fa-map-location-dot"></i></div> Alamat Rumah Lengkap
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-rose-100 border border-rose-200 text-rose-700"><i class="fa-solid fa-map-location-dot"></i></div> Alamat Rumah Lengkap
                                 </label>
                                 <textarea id="siswaAlamat" rows="2" class="form-input resize-none" placeholder="Masukkan alamat lengkap siswa..." required></textarea>
                             </div>
                             <div>
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-indigo-100 text-indigo-600"><i class="fa-solid fa-layer-group"></i></div> Jumlah Paket Sesi
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-indigo-100 border border-indigo-200 text-indigo-700"><i class="fa-solid fa-layer-group"></i></div> Jumlah Paket Sesi
                                 </label>
-                                <input type="number" id="siswaSisaSesi" min="0" value="8" class="form-input font-black text-indigo-600 text-lg" required>
-                                <p class="text-[10px] text-slate-400 mt-2 font-bold"><i class="fa-solid fa-info-circle"></i> Isi total sesi paket baru</p>
+                                <input type="number" id="siswaSisaSesi" min="0" value="8" class="form-input font-black text-indigo-700 text-lg bg-indigo-50 border-indigo-200" required>
+                                <p class="text-[10px] text-slate-500 mt-2 font-bold"><i class="fa-solid fa-info-circle"></i> Isi total sesi paket baru</p>
                             </div>
                         </div>
-                        <div class="mb-6 bg-slate-50/80 p-5 rounded-2xl border-2 border-slate-100 relative z-10">
-                            <label class="block text-slate-800 font-black mb-4 text-sm flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center"><i class="fa-regular fa-calendar-days"></i></div>
+                        <div class="mb-6 bg-slate-50 p-5 rounded-2xl border-2 border-slate-200 relative z-10">
+                            <label class="block text-slate-900 font-black mb-4 text-sm flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-teal-100 border border-teal-200 text-teal-700 flex items-center justify-center"><i class="fa-regular fa-calendar-days"></i></div>
                                 Atur Jadwal Les Rutin
                             </label>
                             <div class="mb-5">
-                                <p class="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-3">Pilih Hari Aktif</p>
+                                <p class="text-[10px] text-slate-600 font-black uppercase tracking-widest mb-3 pl-1">Pilih Hari Aktif</p>
                                 <div class="hari-grid" id="jadwalHariGrid">
                                     <button type="button" data-hari="Senin" onclick="toggleHari(this)" class="hari-btn">Sen</button>
                                     <button type="button" data-hari="Selasa" onclick="toggleHari(this)" class="hari-btn">Sel</button>
@@ -716,35 +723,35 @@
                                     <button type="button" data-hari="Kamis" onclick="toggleHari(this)" class="hari-btn">Kam</button>
                                     <button type="button" data-hari="Jumat" onclick="toggleHari(this)" class="hari-btn">Jum</button>
                                     <button type="button" data-hari="Sabtu" onclick="toggleHari(this)" class="hari-btn">Sab</button>
-                                    <button type="button" data-hari="Minggu" onclick="toggleHari(this)" class="hari-btn text-rose-500">Min</button>
+                                    <button type="button" data-hari="Minggu" onclick="toggleHari(this)" class="hari-btn text-rose-600 border-rose-200">Min</button>
                                 </div>
                             </div>
                             <div>
-                                <p class="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-3">Atau Tanggal Tetap Per Bulan <span class="normal-case font-bold text-slate-400">(cth: 1, 8, 15, 22)</span></p>
+                                <p class="text-[10px] text-slate-600 font-black uppercase tracking-widest mb-3 pl-1">Atau Tgl Tetap Per Bulan <span class="normal-case font-bold text-slate-500">(cth: 1, 8, 15)</span></p>
                                 <div class="relative">
-                                    <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"><i class="fa-solid fa-calendar-check"></i></div>
-                                    <input type="text" id="siswaTanggalTetap" class="form-input pl-11 text-sm font-bold" placeholder="Pisahkan dengan koma">
+                                    <div class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-500"><i class="fa-solid fa-calendar-check text-lg"></i></div>
+                                    <input type="text" id="siswaTanggalTetap" class="form-input pl-12 text-sm font-bold border-blue-200" placeholder="Pisahkan dengan koma">
                                 </div>
                             </div>
-                            <p class="text-xs text-indigo-600 font-bold mt-4 flex items-start gap-2 bg-indigo-50 p-3 rounded-xl border border-indigo-100">
-                                <i class="fa-solid fa-circle-info mt-0.5"></i> <span>Jadwal ini memicu notifikasi jika sesi belum diinput setelah jam 20.00 malam.</span>
+                            <p class="text-xs text-blue-700 font-bold mt-4 flex items-start gap-2 bg-blue-50 p-3.5 rounded-xl border border-blue-200">
+                                <i class="fa-solid fa-circle-info mt-0.5 text-blue-500"></i> <span>Jadwal ini memicu notifikasi wajib isi jika sesi belum diinput setelah jam 20.00 malam.</span>
                             </p>
                         </div>
-                        <div class="flex gap-4 relative z-10 pt-2">
-                            <button type="button" onclick="resetFormSiswa()" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 font-black px-6 py-4 rounded-2xl hover:bg-slate-50 transition text-sm">Reset</button>
-                            <button type="submit" class="flex-[2] bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black px-6 py-4 rounded-2xl hover:opacity-90 transition shadow-lg shadow-emerald-500/30 text-sm flex items-center justify-center gap-2">
+                        <div class="flex gap-4 relative z-10 pt-4">
+                            <button type="button" onclick="resetFormSiswa()" class="flex-1 bg-white border-2 border-slate-300 text-slate-700 font-black px-6 py-4 rounded-2xl hover:bg-slate-100 transition text-sm">Reset</button>
+                            <button type="submit" class="flex-[2] bg-gradient-to-r from-emerald-600 to-teal-600 border-2 border-emerald-400 text-white font-black px-6 py-4 rounded-2xl hover:opacity-90 transition shadow-lg shadow-emerald-500/30 text-sm flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-floppy-disk text-lg"></i> Simpan Data Siswa
                             </button>
                         </div>
                     </form>
                     
-                    <div class="bg-white rounded-3xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden">
-                        <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex items-center gap-3">
-                            <i class="fa-solid fa-list-ul text-slate-400"></i>
-                            <h3 class="font-black text-slate-700 text-sm tracking-wide uppercase">Daftar Siswa Aktif</h3>
+                    <div class="bg-white rounded-[2rem] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] border-2 border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 px-6 py-5 border-b-2 border-slate-200 flex items-center gap-3">
+                            <div class="w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center"><i class="fa-solid fa-list-ul text-slate-500"></i></div>
+                            <h3 class="font-black text-slate-800 text-sm tracking-wide uppercase">Daftar Siswa Aktif</h3>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="data-table">
+                            <table class="data-table min-w-[600px]">
                                 <thead>
                                     <tr>
                                         <th>Nama Siswa</th>
@@ -762,63 +769,63 @@
 
                 <!-- ===== DATA GURU ===== -->
                 <div id="pageDataGuru" class="page-content hide">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-lg shadow-indigo-200"><i class="fa-solid fa-chalkboard-user text-xl"></i></div>
-                        <h2 class="text-2xl font-black text-slate-800 tracking-tight">Kelola Data Tutor</h2>
+                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-200 border-2 border-blue-400"><i class="fa-solid fa-chalkboard-user text-xl"></i></div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Kelola Data Tutor</h2>
                     </div>
 
-                    <form id="formGuru" onsubmit="handleSaveGuru(event)" class="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border border-slate-100 mb-8 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 rounded-full blur-3xl -translate-y-10 translate-x-10 pointer-events-none"></div>
-                        <h3 class="font-black text-slate-800 mb-6 flex items-center gap-3 text-base border-b border-slate-100 pb-4 relative z-10">
-                            <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                                <i class="fa-solid fa-user-tie"></i>
+                    <form id="formGuru" onsubmit="handleSaveGuru(event)" class="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-slate-200 mb-8 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-blue-50 rounded-full blur-3xl -translate-y-10 translate-x-10 pointer-events-none"></div>
+                        <h3 class="font-black text-slate-900 mb-6 flex items-center gap-3 text-base border-b-2 border-slate-100 pb-4 relative z-10">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 border border-blue-200 text-blue-700 flex items-center justify-center">
+                                <i class="fa-solid fa-user-tie text-lg"></i>
                             </div>
                             Form Tambah / Edit Tutor
                         </h3>
                         <input type="hidden" id="guruUsernameOld">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5 relative z-10">
                             <div>
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-blue-100 text-blue-600"><i class="fa-solid fa-id-card"></i></div> Nama Lengkap
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-blue-100 border border-blue-200 text-blue-700"><i class="fa-solid fa-id-card"></i></div> Nama Lengkap
                                 </label>
                                 <input type="text" id="guruNama" class="form-input" required>
                             </div>
                             <div>
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-purple-100 text-purple-600"><i class="fa-solid fa-at"></i></div> Username Login
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-purple-100 border border-purple-200 text-purple-700"><i class="fa-solid fa-at"></i></div> Username Login
                                 </label>
-                                <input type="text" id="guruUsername" class="form-input font-mono font-bold text-indigo-600" required>
+                                <input type="text" id="guruUsername" class="form-input font-mono font-black text-blue-700 bg-blue-50 border-blue-200" required>
                             </div>
                             <div>
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-rose-100 text-rose-600"><i class="fa-solid fa-key"></i></div> Password
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-rose-100 border border-rose-200 text-rose-700"><i class="fa-solid fa-key"></i></div> Password
                                 </label>
-                                <input type="text" id="guruPassword" class="form-input font-bold" required>
+                                <input type="text" id="guruPassword" class="form-input font-black bg-rose-50 border-rose-200 text-rose-700" required>
                             </div>
                         </div>
                         <div class="mb-6 relative z-10">
-                            <label class="block text-slate-600 font-black mb-3 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                <div class="label-icon-box bg-emerald-100 text-emerald-600"><i class="fa-solid fa-users"></i></div> Tugaskan Siswa
+                            <label class="block text-slate-700 font-black mb-3 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                <div class="label-icon-box bg-emerald-100 border border-emerald-200 text-emerald-700"><i class="fa-solid fa-users"></i></div> Tugaskan Siswa
                             </label>
-                            <div id="guruAssignSiswaContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 border-2 border-slate-100 p-5 rounded-2xl bg-slate-50/50 max-h-64 overflow-y-auto">
-                                <span class="text-sm text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Memuat data siswa...</span>
+                            <div id="guruAssignSiswaContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 border-2 border-slate-200 p-5 rounded-2xl bg-slate-50 max-h-64 overflow-y-auto">
+                                <span class="text-sm text-slate-500 font-bold"><i class="fa-solid fa-spinner fa-spin mr-2 text-blue-500"></i> Memuat data siswa...</span>
                             </div>
                         </div>
-                        <div class="flex gap-4 relative z-10 pt-2 border-t border-slate-100">
-                            <button type="button" onclick="resetFormGuru()" class="flex-1 bg-white border-2 border-slate-200 text-slate-600 font-black px-6 py-4 rounded-2xl hover:bg-slate-50 transition text-sm">Reset</button>
-                            <button type="submit" class="flex-[2] bg-gradient-to-r from-indigo-500 to-blue-600 text-white font-black px-6 py-4 rounded-2xl hover:opacity-90 transition shadow-lg shadow-indigo-500/30 text-sm flex items-center justify-center gap-2">
+                        <div class="flex gap-4 relative z-10 pt-4 border-t-2 border-slate-100">
+                            <button type="button" onclick="resetFormGuru()" class="flex-1 bg-white border-2 border-slate-300 text-slate-700 font-black px-6 py-4 rounded-2xl hover:bg-slate-100 transition text-sm">Reset</button>
+                            <button type="submit" class="flex-[2] bg-gradient-to-r from-blue-700 to-blue-500 border-2 border-blue-400 text-white font-black px-6 py-4 rounded-2xl hover:opacity-90 transition shadow-lg shadow-blue-500/30 text-sm flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-floppy-disk text-lg"></i> Simpan Data Tutor
                             </button>
                         </div>
                     </form>
 
-                    <div class="bg-white rounded-3xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden">
-                        <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex items-center gap-3">
-                            <i class="fa-solid fa-list-ul text-slate-400"></i>
-                            <h3 class="font-black text-slate-700 text-sm tracking-wide uppercase">Daftar Tutor Aktif</h3>
+                    <div class="bg-white rounded-[2rem] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] border-2 border-slate-200 overflow-hidden">
+                        <div class="bg-slate-50 px-6 py-5 border-b-2 border-slate-200 flex items-center gap-3">
+                            <div class="w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center"><i class="fa-solid fa-list-ul text-slate-500"></i></div>
+                            <h3 class="font-black text-slate-800 text-sm tracking-wide uppercase">Daftar Tutor Aktif</h3>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="data-table">
+                            <table class="data-table min-w-[600px]">
                                 <thead>
                                     <tr>
                                         <th>Nama Tutor</th>
@@ -835,37 +842,37 @@
 
                 <!-- ===== INPUT SESI ===== -->
                 <div id="pageInputSesi" class="page-content hide">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center shadow-lg shadow-blue-200"><i class="fa-solid fa-clipboard-check text-xl"></i></div>
-                        <h2 class="text-2xl font-black text-slate-800 tracking-tight">Input Jurnal Sesi</h2>
+                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-lg shadow-amber-200 border-2 border-amber-300"><i class="fa-solid fa-pen-clip text-xl"></i></div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Input Jurnal Sesi</h2>
                     </div>
 
-                    <form id="formSesi" onsubmit="handleSaveSesi(event)" class="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border border-slate-100 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-40 h-40 bg-blue-50 rounded-full blur-3xl -translate-y-10 translate-x-10 pointer-events-none"></div>
+                    <form id="formSesi" onsubmit="handleSaveSesi(event)" class="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-slate-200 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-amber-50 rounded-full blur-3xl -translate-y-10 translate-x-10 pointer-events-none"></div>
                         <input type="hidden" id="sesiId">
                         
-                        <div class="bg-blue-50/50 p-5 rounded-2xl border border-blue-100 mb-6 relative z-10">
-                            <label class="block text-blue-800 font-black mb-3 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-md bg-blue-600 text-white flex items-center justify-center"><i class="fa-solid fa-user-graduate text-xs"></i></div> Pilih Siswa Didik
+                        <div class="bg-blue-50 p-5 rounded-2xl border-2 border-blue-200 mb-6 relative z-10 shadow-sm">
+                            <label class="block text-blue-900 font-black mb-3 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-sm"><i class="fa-solid fa-user-graduate text-sm"></i></div> Pilih Siswa Didik
                             </label>
-                            <select id="sesiSiswa" onchange="checkSisaSesi()" class="form-input font-bold text-blue-900 border-blue-200 bg-white shadow-sm cursor-pointer" required>
+                            <select id="sesiSiswa" onchange="checkSisaSesi()" class="form-input font-black text-blue-900 border-2 border-blue-300 bg-white shadow-sm cursor-pointer py-4" required>
                                 <option value="">-- Pilih Siswa --</option>
                             </select>
-                            <p id="warningSisaSesi" class="text-sm text-rose-500 font-black mt-3 hide flex items-center gap-2 bg-rose-50 p-3 rounded-xl border border-rose-100"><i class='fa-solid fa-triangle-exclamation text-lg'></i> Paket sesi siswa ini sudah habis. Harap lapor Admin.</p>
+                            <p id="warningSisaSesi" class="text-sm text-rose-600 font-black mt-3 hide flex items-center gap-3 bg-white p-4 rounded-xl border-2 border-rose-200 shadow-sm"><i class='fa-solid fa-triangle-exclamation text-2xl text-rose-500'></i> Paket sesi siswa ini sudah habis. Harap lapor Admin.</p>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 relative z-10">
                             <div>
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-purple-100 text-purple-600"><i class="fa-regular fa-calendar-check"></i></div> Tanggal Sesi
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-purple-100 border border-purple-200 text-purple-700"><i class="fa-regular fa-calendar-check"></i></div> Tanggal Sesi
                                 </label>
-                                <input type="date" id="sesiTanggal" class="form-input font-bold" required>
+                                <input type="date" id="sesiTanggal" class="form-input font-black border-slate-300" required>
                             </div>
                             <div>
-                                <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                    <div class="label-icon-box bg-amber-100 text-amber-600"><i class="fa-solid fa-flag-checkered"></i></div> Status Kehadiran
+                                <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                    <div class="label-icon-box bg-emerald-100 border border-emerald-200 text-emerald-700"><i class="fa-solid fa-flag-checkered"></i></div> Status Kehadiran
                                 </label>
-                                <select id="sesiStatus" class="form-input font-bold cursor-pointer" required>
+                                <select id="sesiStatus" class="form-input font-black border-slate-300 cursor-pointer" required>
                                     <option value="Selesai">🟢 Hadir / Selesai</option>
                                     <option value="Batal">🔴 Batal (Dari Siswa)</option>
                                     <option value="Reschedule">🟡 Reschedule</option>
@@ -875,29 +882,29 @@
                         </div>
 
                         <div class="mb-8 relative z-10">
-                            <label class="block text-slate-600 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
-                                <div class="label-icon-box bg-emerald-100 text-emerald-600"><i class="fa-solid fa-pen-nib"></i></div> Jurnal / Materi yang Diajarkan
+                            <label class="block text-slate-700 font-black mb-2 text-[11px] uppercase tracking-wider flex items-center gap-2">
+                                <div class="label-icon-box bg-blue-100 border border-blue-200 text-blue-700"><i class="fa-solid fa-pen-nib"></i></div> Jurnal / Materi yang Diajarkan
                             </label>
                             <div class="relative group">
                                 <textarea id="sesiJurnal" rows="6"
-                                    class="form-input resize-none leading-relaxed font-medium transition-all group-hover:border-indigo-300"
+                                    class="form-input resize-none leading-relaxed font-bold border-2 border-slate-300 transition-all group-hover:border-blue-400 focus:bg-white bg-slate-50"
                                     placeholder="Catat materi yang dibahas, pemahaman siswa, evaluasi singkat, atau tugas yang diberikan..." required></textarea>
                                 <div class="absolute bottom-4 right-4">
                                     <button type="button" id="btnAIEnhance" onclick="enhanceJurnalWithAI()"
-                                        style="background:linear-gradient(135deg,#6366f1,#a855f7)"
-                                        class="text-xs text-white font-black px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-500/30 flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-indigo-500/50 transition-all">
-                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)"
+                                        class="text-xs text-white font-black px-5 py-3 rounded-xl shadow-lg shadow-blue-500/30 flex items-center gap-2 hover:-translate-y-1 hover:shadow-blue-500/50 transition-all border-2 border-blue-400">
+                                        <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
                                         <span id="textAIEnhance">Rapikan AI</span>
                                     </button>
                                 </div>
                             </div>
-                            <p class="text-xs text-slate-400 mt-3 font-bold flex items-center gap-1.5"><i class="fa-solid fa-lightbulb text-amber-400 text-sm"></i> Tulis poin-poin kasar, lalu klik tombol AI agar kalimatnya jadi rapi dan profesional untuk dibaca orang tua.</p>
+                            <p class="text-[11px] text-slate-500 mt-3 font-bold flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200"><i class="fa-solid fa-lightbulb text-amber-500 text-lg"></i> Tulis poin-poin kasar, lalu klik tombol AI agar kalimatnya rapi & profesional.</p>
                         </div>
 
-                        <div class="flex gap-4 pt-6 border-t border-slate-100 relative z-10">
-                            <button type="button" onclick="resetFormSesi()" class="flex-1 bg-slate-100 text-slate-600 font-black px-6 py-4 rounded-2xl hover:bg-slate-200 transition text-sm">Batal / Reset</button>
-                            <button type="submit" class="flex-[2] bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black px-6 py-4 rounded-2xl hover:opacity-90 transition shadow-xl shadow-blue-500/30 flex justify-center items-center gap-3 text-sm">
-                                <i class="fa-solid fa-paper-plane text-lg"></i> Simpan Sesi Les
+                        <div class="flex gap-4 pt-6 border-t-2 border-slate-100 relative z-10">
+                            <button type="button" onclick="resetFormSesi()" class="flex-1 bg-slate-100 border-2 border-slate-200 text-slate-800 font-black px-6 py-4 rounded-2xl hover:bg-slate-200 transition text-sm">Batal / Reset</button>
+                            <button type="submit" class="flex-[2] bg-gradient-to-r from-blue-700 to-blue-500 border-2 border-blue-400 text-white font-black px-6 py-4 rounded-2xl hover:opacity-90 transition shadow-xl shadow-blue-500/30 flex justify-center items-center gap-3 text-sm">
+                                <i class="fa-solid fa-paper-plane text-xl"></i> Simpan Sesi Les
                             </button>
                         </div>
                     </form>
@@ -905,85 +912,85 @@
 
                 <!-- ===== REKAP ===== -->
                 <div id="pageRekap" class="page-content hide">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-purple-200"><i class="fa-solid fa-chart-bar text-xl"></i></div>
-                        <h2 class="text-2xl font-black text-slate-800 tracking-tight">Rekap & Laporan</h2>
+                    <div class="flex items-center gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 inline-flex">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-purple-200 border-2 border-purple-300"><i class="fa-solid fa-chart-pie text-xl"></i></div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Rekap & Laporan</h2>
                     </div>
 
                     <!-- Banner Aturan / Peringatan Admin -->
-                    <div id="rekapAdminBanner" class="mb-6 relative rounded-[1.5rem] border-2 border-rose-200 bg-white shadow-lg overflow-hidden group hover:border-rose-300 transition">
-                        <div class="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-rose-400 to-red-500"></div>
+                    <div id="rekapAdminBanner" class="mb-6 relative rounded-[1.5rem] border-2 border-rose-300 bg-white shadow-lg overflow-hidden group hover:border-rose-400 transition">
+                        <div class="absolute left-0 top-0 bottom-0 w-2.5 bg-gradient-to-b from-rose-500 to-red-600"></div>
                         <div class="px-6 py-5 flex items-start gap-4">
-                            <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
                                 <i class="fa-solid fa-bullhorn text-xl"></i>
                             </div>
                             <div class="flex-1 min-w-0 pt-0.5">
-                                <p class="text-xs font-black text-rose-600 uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> Pengumuman Penting</p>
-                                <p id="rekapBannerText" class="text-sm text-slate-700 font-bold leading-relaxed">Harap isi rekap sesi dengan lengkap dan jujur. Data yang tidak akurat dapat mempengaruhi laporan ke orang tua siswa.</p>
+                                <p class="text-xs font-black text-rose-700 uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> Pengumuman Penting</p>
+                                <p id="rekapBannerText" class="text-sm text-slate-800 font-bold leading-relaxed">Harap isi rekap sesi dengan lengkap dan jujur. Data yang tidak akurat dapat mempengaruhi laporan ke orang tua siswa.</p>
                             </div>
-                            <button id="btnEditRekapBanner" onclick="editRekapBanner()" class="hide flex-shrink-0 text-slate-400 hover:text-blue-600 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-xl p-2.5 transition shadow-sm" title="Edit Banner">
+                            <button id="btnEditRekapBanner" onclick="editRekapBanner()" class="hide flex-shrink-0 text-slate-400 hover:text-blue-600 bg-slate-50 border border-slate-200 hover:bg-blue-50 hover:border-blue-200 rounded-xl p-3 transition shadow-sm" title="Edit Banner">
                                 <i class="fa-solid fa-pencil"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div id="rekapMotivasiCard" class="hide mb-6 p-7 text-white flex items-center justify-between shadow-2xl relative overflow-hidden rounded-[2rem] transform hover:-translate-y-1 transition"
-                        style="background:linear-gradient(135deg,#f43f5e 0%, #fb923c 100%);">
+                    <div id="rekapMotivasiCard" class="hide mb-6 p-7 text-white flex items-center justify-between shadow-2xl relative overflow-hidden rounded-[2rem] transform hover:-translate-y-1 transition border-2 border-rose-400"
+                        style="background:linear-gradient(135deg,#e11d48 0%, #f59e0b 100%);">
                         <div class="absolute top-0 right-0 w-64 h-64 bg-white/20 rounded-full blur-3xl pointer-events-none"></div>
-                        <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-rose-600/30 rounded-full blur-2xl pointer-events-none"></div>
+                        <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-rose-800/30 rounded-full blur-2xl pointer-events-none"></div>
                         <div class="relative z-10">
-                            <h3 class="font-black text-2xl mb-1.5 drop-shadow-md flex items-center gap-2"><i class="fa-solid fa-fire-flame-curved text-yellow-300"></i> Ayo Semangat!</h3>
-                            <p class="text-white/95 text-sm font-bold drop-shadow-md" id="rekapMotivasiText">Tugas kamu tinggal X pertemuan lagi.</p>
+                            <h3 class="font-black text-2xl mb-1.5 drop-shadow-md flex items-center gap-2"><i class="fa-solid fa-fire-flame-curved text-yellow-300 text-3xl"></i> Ayo Semangat!</h3>
+                            <p class="text-white/95 text-sm font-black tracking-wide drop-shadow-md" id="rekapMotivasiText">Tugas kamu tinggal X pertemuan lagi.</p>
                         </div>
-                        <div class="bg-white/20 backdrop-blur-md rounded-2xl w-20 h-20 flex items-center justify-center border-2 border-white/40 flex-shrink-0 relative z-10 shadow-lg transform rotate-3">
-                            <span class="text-4xl font-black text-white drop-shadow-md" id="rekapMotivasiAngka">0</span>
+                        <div class="bg-white/20 backdrop-blur-md rounded-2xl w-24 h-24 flex items-center justify-center border-2 border-white/40 flex-shrink-0 relative z-10 shadow-xl transform rotate-3">
+                            <span class="text-5xl font-black text-white drop-shadow-lg" id="rekapMotivasiAngka">0</span>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border border-slate-100 mb-6 relative overflow-hidden">
-                        <h3 class="font-black text-slate-800 mb-6 flex items-center gap-3 text-base border-b border-slate-100 pb-4">
-                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
-                                <i class="fa-solid fa-filter"></i>
+                    <div class="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-slate-200 mb-6 relative overflow-hidden">
+                        <h3 class="font-black text-slate-900 mb-6 flex items-center gap-3 text-base border-b-2 border-slate-100 pb-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 border border-blue-200 text-blue-700 flex items-center justify-center shadow-sm">
+                                <i class="fa-solid fa-filter text-xl"></i>
                             </div>
                             Filter Cetak Laporan
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-end">
                             <div>
-                                <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-user-graduate text-blue-400"></i> Pilih Siswa</label>
-                                <select id="filterSiswa" class="form-input font-bold cursor-pointer"></select>
+                                <label class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-2"><div class="label-icon-box bg-blue-100 text-blue-600"><i class="fa-solid fa-user-graduate"></i></div> Pilih Siswa</label>
+                                <select id="filterSiswa" class="form-input font-bold cursor-pointer border-slate-300"></select>
                             </div>
                             <div>
-                                <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-calendar-day text-emerald-400"></i> Tanggal Mulai</label>
-                                <input type="date" id="filterStart" class="form-input font-bold">
+                                <label class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-2"><div class="label-icon-box bg-emerald-100 text-emerald-600"><i class="fa-solid fa-calendar-day"></i></div> Tanggal Mulai</label>
+                                <input type="date" id="filterStart" class="form-input font-bold border-slate-300">
                             </div>
                             <div>
-                                <label class="block text-xs font-black text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-calendar-check text-rose-400"></i> Tanggal Akhir</label>
-                                <input type="date" id="filterEnd" class="form-input font-bold">
+                                <label class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-2"><div class="label-icon-box bg-rose-100 text-rose-600"><i class="fa-solid fa-calendar-check"></i></div> Tanggal Akhir</label>
+                                <input type="date" id="filterEnd" class="form-input font-bold border-slate-300">
                             </div>
                         </div>
-                        <button onclick="generateReport()" class="mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black px-8 py-3.5 rounded-2xl hover:opacity-90 transition shadow-lg shadow-blue-500/30 text-sm w-full md:w-auto flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-magnifying-glass"></i> Tampilkan Laporan
+                        <button onclick="generateReport()" class="mt-8 bg-gradient-to-r from-blue-700 to-blue-500 border-2 border-blue-400 text-white font-black px-8 py-4 rounded-2xl hover:opacity-90 transition shadow-lg shadow-blue-500/30 text-sm w-full md:w-auto flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-magnifying-glass text-lg"></i> Tampilkan Laporan
                         </button>
                     </div>
 
                     <div id="reportContainer" class="hide">
-                        <div class="bg-gradient-to-br from-indigo-50 to-blue-50 border-2 border-indigo-100 rounded-[2rem] p-8 text-center mb-6 shadow-lg relative overflow-hidden">
-                            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiAvPgo8Y2lyY2xlIGN4PSIyIiBjeT0iMiIgcj0iMSIgZmlsbD0iI2U1ZTdmYiIgLz4KPC9zdmc+')] opacity-50"></div>
+                        <div class="bg-gradient-to-br from-indigo-50 to-blue-50 border-2 border-indigo-200 rounded-[2rem] p-8 text-center mb-6 shadow-xl relative overflow-hidden">
+                            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiAvPgo8Y2lyY2xlIGN4PSIyIiBjeT0iMiIgcj0iMSIgZmlsbD0iI2U1ZTdmYiIgLz4KPC9zdmc+')] opacity-60"></div>
                             
-                            <div class="w-16 h-16 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-300 relative z-10 transform rotate-3">
-                                <i class="fa-solid fa-file-circle-check text-3xl text-white"></i>
+                            <div class="w-20 h-20 rounded-[1.5rem] bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center mx-auto mb-5 shadow-xl shadow-indigo-300 relative z-10 transform rotate-3 border-2 border-blue-300">
+                                <i class="fa-solid fa-file-circle-check text-4xl text-white"></i>
                             </div>
-                            <h3 class="font-black text-indigo-900 text-xl mb-2 relative z-10">Laporan Berhasil Disusun! 🎉</h3>
-                            <p class="text-indigo-700 text-sm mb-6 font-bold relative z-10 bg-white/50 inline-block px-4 py-1.5 rounded-full border border-indigo-200">Total kehadiran: <strong class="text-indigo-900 text-lg mx-1" id="reportVisualTotalHadir">0</strong> sesi.</p>
+                            <h3 class="font-black text-indigo-950 text-2xl mb-3 relative z-10">Laporan Berhasil Disusun! 🎉</h3>
+                            <p class="text-indigo-800 text-sm mb-8 font-black relative z-10 bg-white inline-block px-5 py-2.5 rounded-full border-2 border-indigo-100 shadow-sm tracking-wide">Total kehadiran: <strong class="text-indigo-600 text-xl mx-1" id="reportVisualTotalHadir">0</strong> sesi.</p>
                             
                             <div class="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
                                 <button type="button" id="btnAINarrative" onclick="generateReportNarrativeWithAI()"
-                                    class="bg-white text-indigo-700 border-2 border-indigo-200 font-black px-6 py-3.5 rounded-2xl shadow-sm hover:bg-indigo-50 hover:border-indigo-300 transition flex items-center justify-center gap-2 text-sm">
-                                    <i class="fa-solid fa-wand-magic-sparkles text-purple-500 text-lg"></i>
-                                    <span id="textAINarrative">Buat Evaluasi AI Otoromatis</span>
+                                    class="bg-white text-indigo-800 border-2 border-indigo-300 font-black px-8 py-4 rounded-2xl shadow-md hover:bg-indigo-50 hover:border-indigo-400 transition flex items-center justify-center gap-3 text-sm">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-purple-600 text-xl"></i>
+                                    <span id="textAINarrative">Buat Evaluasi AI Otomatis</span>
                                 </button>
-                                <button onclick="exportToPDF()" class="bg-gradient-to-r from-rose-500 to-red-600 text-white font-black px-6 py-3.5 rounded-2xl shadow-lg shadow-rose-500/30 hover:opacity-90 transition flex items-center justify-center gap-2 text-sm">
-                                    <i class="fa-solid fa-file-pdf text-xl"></i> Download PDF
+                                <button onclick="exportToPDF()" class="bg-gradient-to-r from-rose-600 to-red-600 border-2 border-rose-400 text-white font-black px-8 py-4 rounded-2xl shadow-xl shadow-rose-500/40 hover:opacity-90 transition flex items-center justify-center gap-3 text-sm">
+                                    <i class="fa-solid fa-file-pdf text-2xl"></i> Download PDF
                                 </button>
                             </div>
                         </div>
@@ -1029,13 +1036,13 @@
 
                     <!-- Riwayat -->
                     <div class="mt-8">
-                        <h3 class="text-lg font-black text-slate-800 mb-5 flex items-center gap-3 tracking-tight">
-                            <div class="w-10 h-10 rounded-xl bg-slate-200 text-slate-600 flex items-center justify-center"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
+                            <div class="w-12 h-12 rounded-xl bg-slate-200 border border-slate-300 text-slate-700 flex items-center justify-center shadow-sm"><i class="fa-solid fa-clock-rotate-left text-lg"></i></div>
                             Riwayat Jurnal Keseluruhan
                         </h3>
-                        <div class="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden">
+                        <div class="bg-white rounded-[2rem] shadow-xl border-2 border-slate-200 overflow-hidden">
                             <div class="overflow-x-auto p-2">
-                                <table class="data-table">
+                                <table class="data-table min-w-[700px]">
                                     <thead>
                                         <tr>
                                             <th>Tanggal</th>
@@ -1056,61 +1063,61 @@
                 <!-- ===== PROFIL GURU ===== -->
                 <div id="pageProfil" class="page-content hide">
                     <!-- Modern 3D Profile Header -->
-                    <div class="profile-header mb-8 flex flex-col items-center text-center relative z-10 rounded-[2.5rem] shadow-2xl py-10 overflow-hidden"
-                        style="background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%);">
+                    <div class="profile-header mb-8 flex flex-col items-center text-center relative z-10 rounded-[2.5rem] shadow-2xl py-12 overflow-hidden border-2 border-blue-400"
+                        style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);">
                         <!-- BG Shapes -->
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-                        <div class="absolute bottom-0 left-0 w-48 h-48 bg-cyan-400/20 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none"></div>
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-400/30 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+                        <div class="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/30 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none"></div>
                         
-                        <div class="profile-avatar mb-4 relative z-10 border-4 border-white/20 shadow-2xl bg-gradient-to-br from-purple-400 to-indigo-500 text-white w-24 h-24 text-4xl transform hover:rotate-6 transition duration-300" id="profileAvatar">?</div>
+                        <div class="profile-avatar mb-5 relative z-10 border-4 border-white shadow-2xl bg-gradient-to-br from-indigo-100 to-blue-200 text-blue-800 w-28 h-28 text-5xl font-black flex items-center justify-center rounded-full transform hover:scale-105 transition duration-300" id="profileAvatar">?</div>
                         
-                        <h2 class="font-black text-2xl tracking-tight text-white relative z-10 drop-shadow-md" id="profileNameDisplay">–</h2>
-                        <div class="flex items-center gap-2 mt-1.5 relative z-10">
-                            <i class="fa-solid fa-circle-check text-emerald-400"></i>
-                            <p class="text-indigo-200 text-sm font-black uppercase tracking-wider" id="profileRoleDisplay">Tutor</p>
+                        <h2 class="font-black text-3xl tracking-tight text-white relative z-10 drop-shadow-lg" id="profileNameDisplay">–</h2>
+                        <div class="flex items-center gap-2 mt-2 relative z-10 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/30">
+                            <i class="fa-solid fa-circle-check text-white"></i>
+                            <p class="text-white text-xs font-black uppercase tracking-widest" id="profileRoleDisplay">Tutor</p>
                         </div>
-                        <div class="mt-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full px-5 py-2 text-xs font-black relative z-10 shadow-lg tracking-widest" id="profileUsernameDisplay">@username</div>
+                        <div class="mt-5 bg-white text-blue-800 border-2 border-blue-200 rounded-full px-6 py-2.5 text-sm font-black relative z-10 shadow-xl tracking-widest" id="profileUsernameDisplay">@username</div>
                     </div>
 
                     <!-- Edit Form with Icons -->
-                    <div class="space-y-1 pb-4 bg-white p-6 rounded-[2rem] shadow-xl border border-slate-100 relative">
-                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-user-pen"></i></div>
-                            <p class="text-sm font-black text-slate-700 uppercase tracking-widest">Informasi Profil</p>
+                    <div class="space-y-1 pb-4 bg-white p-6 md:p-8 rounded-[2rem] shadow-xl border-2 border-slate-200 relative">
+                        <div class="flex items-center gap-4 mb-8 border-b-2 border-slate-100 pb-5">
+                            <div class="w-12 h-12 bg-blue-100 border border-blue-200 text-blue-700 rounded-xl flex items-center justify-center shadow-sm"><i class="fa-solid fa-user-pen text-xl"></i></div>
+                            <p class="text-base font-black text-slate-800 uppercase tracking-widest">Informasi Profil</p>
                         </div>
 
                         <div class="profile-field-card group">
-                            <div class="profile-field-label"><div class="label-icon-box bg-blue-50 text-blue-500"><i class="fa-solid fa-user"></i></div>Nama Lengkap</div>
+                            <div class="profile-field-label"><div class="label-icon-box bg-blue-100 border border-blue-200 text-blue-700"><i class="fa-solid fa-user"></i></div>Nama Lengkap</div>
                             <input type="text" id="profilNama" class="profile-field-input" placeholder="Nama lengkap Anda">
                         </div>
 
                         <div class="profile-field-card group">
-                            <div class="profile-field-label"><div class="label-icon-box bg-emerald-50 text-emerald-500"><i class="fa-solid fa-phone"></i></div>Nomor HP / WA</div>
+                            <div class="profile-field-label"><div class="label-icon-box bg-emerald-100 border border-emerald-200 text-emerald-700"><i class="fa-solid fa-phone"></i></div>Nomor HP / WA</div>
                             <input type="tel" id="profilNoHp" class="profile-field-input" placeholder="Cth: 08123456789">
                         </div>
 
                         <div class="profile-field-card group">
-                            <div class="profile-field-label"><div class="label-icon-box bg-rose-50 text-rose-500"><i class="fa-solid fa-location-dot"></i></div>Alamat Tinggal</div>
+                            <div class="profile-field-label"><div class="label-icon-box bg-rose-100 border border-rose-200 text-rose-700"><i class="fa-solid fa-location-dot"></i></div>Alamat Tinggal</div>
                             <textarea id="profilAlamat" rows="2" class="profile-field-input" placeholder="Alamat lengkap tempat tinggal Anda"></textarea>
                         </div>
 
                         <div class="profile-field-card group">
-                            <div class="profile-field-label"><div class="label-icon-box bg-amber-50 text-amber-500"><i class="fa-solid fa-book"></i></div>Mata Pelajaran Dikuasai</div>
+                            <div class="profile-field-label"><div class="label-icon-box bg-amber-100 border border-amber-200 text-amber-700"><i class="fa-solid fa-book"></i></div>Mata Pelajaran Dikuasai</div>
                             <input type="text" id="profilMapel" class="profile-field-input" placeholder="Cth: Matematika, Fisika, Kimia">
                         </div>
 
                         <div class="profile-field-card group">
-                            <div class="profile-field-label"><div class="label-icon-box bg-purple-50 text-purple-500"><i class="fa-solid fa-map-location-dot"></i></div>Daerah Dijangkau</div>
+                            <div class="profile-field-label"><div class="label-icon-box bg-purple-100 border border-purple-200 text-purple-700"><i class="fa-solid fa-map-location-dot"></i></div>Daerah Dijangkau</div>
                             <input type="text" id="profilDaerah" class="profile-field-input" placeholder="Cth: Soreang, Margahayu, Kopo">
                         </div>
 
                         <div class="profile-field-card group">
-                            <div class="profile-field-label"><div class="label-icon-box bg-slate-100 text-slate-500"><i class="fa-solid fa-quote-left"></i></div>Bio Singkat <span class="text-slate-400 normal-case ml-2 font-semibold tracking-normal">(opsional)</span></div>
+                            <div class="profile-field-label"><div class="label-icon-box bg-slate-200 border border-slate-300 text-slate-700"><i class="fa-solid fa-quote-left"></i></div>Bio Singkat <span class="text-slate-500 normal-case ml-2 font-bold tracking-normal">(opsional)</span></div>
                             <textarea id="profilBio" rows="3" class="profile-field-input" placeholder="Ceritakan sedikit tentang pengalaman atau keahlian mengajar Anda..."></textarea>
                         </div>
 
-                        <button onclick="saveProfil()" class="profile-save-btn mt-6 flex items-center justify-center gap-3">
-                            <i class="fa-solid fa-cloud-arrow-up text-xl"></i> Simpan Perubahan Profil
+                        <button onclick="saveProfil()" class="profile-save-btn mt-8 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-700 to-blue-500 border-2 border-blue-400">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl"></i> Simpan Perubahan Profil
                         </button>
                     </div>
                 </div>
@@ -1119,7 +1126,7 @@
         </div>
 
         <!-- Modern Floating Bottom Nav -->
-        <div class="flex-none w-full bg-white/80 backdrop-blur-xl border-t border-slate-200/50 flex justify-around items-end z-50 px-2 pb-safe absolute bottom-0 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]" style="min-height:76px;padding-top:0;overflow:visible; border-top-left-radius:1.5rem; border-top-right-radius:1.5rem;" id="mobileNav"></div>
+        <div class="flex-none w-full bg-white/90 backdrop-blur-xl border-t-2 border-slate-200/80 flex justify-around items-end z-50 px-2 pb-safe absolute bottom-0 shadow-[0_-15px_40px_rgba(0,0,0,0.1)]" style="min-height:80px;padding-top:0;overflow:visible; border-top-left-radius:2rem; border-top-right-radius:2rem;" id="mobileNav"></div>
     </div>
 </div>
 
@@ -1192,7 +1199,7 @@ async function generateReportNarrativeWithAI() {
         return c.length === 4 ? `- Tanggal: ${c[0].innerText}, Materi: ${c[3].innerText}` : null;
     }).filter(Boolean);
     const namaSiswa = document.getElementById('reportSiswaName').innerText;
-    icon.className = "fa-solid fa-spinner fa-spin text-purple-500 text-lg";
+    icon.className = "fa-solid fa-spinner fa-spin text-purple-600 text-xl";
     txt.innerText = "Menulis...";
     btn.disabled = true;
     try {
@@ -1204,8 +1211,8 @@ async function generateReportNarrativeWithAI() {
         document.getElementById('aiModal').classList.remove('hide');
     } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
     finally {
-        icon.className = "fa-solid fa-wand-magic-sparkles text-purple-500 text-lg";
-        txt.innerText = "Buat Evaluasi AI Otoromatis";
+        icon.className = "fa-solid fa-wand-magic-sparkles text-purple-600 text-xl";
+        txt.innerText = "Buat Evaluasi AI Otomatis";
         btn.disabled = false;
     }
 }
@@ -1274,7 +1281,7 @@ function formatJadwal(siswa) {
     let parts = [];
     if (siswa.jadwal_hari?.trim()) parts.push(siswa.jadwal_hari.split(',').map(h=>h.trim().substring(0,3)).join(', '));
     if (siswa.jadwal_tanggal?.trim()) parts.push('Tgl ' + siswa.jadwal_tanggal);
-    return parts.length > 0 ? parts.join(' | ') : '<span class="text-slate-400 italic text-xs font-bold">Belum diatur</span>';
+    return parts.length > 0 ? parts.join(' | ') : '<span class="text-slate-400 italic text-[11px] font-bold">Belum diatur</span>';
 }
 
 function toggleHari(btn) { btn.classList.toggle('active'); }
@@ -1613,7 +1620,7 @@ async function checkMissingSesi() {
             <td class="p-4 text-sm whitespace-nowrap"><span class="bg-orange-100 text-orange-700 text-xs font-black px-3 py-1.5 rounded-xl border border-orange-200">${jadwalHariIni.join(', ')}</span></td>
             <td class="p-4 text-sm text-slate-600 font-bold whitespace-nowrap">${tutorNames}</td>
             <td class="p-4 text-sm whitespace-nowrap">
-                <button onclick="quickInputSesi('${s.id_siswa}')" class="bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-black px-4 py-2 rounded-xl hover:opacity-90 transition flex items-center gap-1.5 shadow-md shadow-red-200">
+                <button onclick="quickInputSesi('${s.id_siswa}')" class="bg-gradient-to-r from-red-600 to-red-500 border-2 border-red-400 text-white text-xs font-black px-4 py-2 rounded-xl hover:opacity-90 transition flex items-center gap-1.5 shadow-md shadow-red-200">
                     <i class="fa-solid fa-bolt"></i> Input Cepat
                 </button>
             </td>
@@ -1652,8 +1659,8 @@ function renderLowongan() {
     if (!container) return;
     if (dataLowongan.length === 0) {
         container.innerHTML = `
-            <div class="p-8 text-center text-slate-400 text-sm font-bold">
-                <div class="w-16 h-16 bg-white border border-slate-200 rounded-[1.5rem] flex items-center justify-center mx-auto mb-3 text-slate-300 shadow-sm">
+            <div class="p-8 text-center text-slate-500 text-sm font-bold">
+                <div class="w-16 h-16 bg-white border-2 border-slate-200 rounded-[1.5rem] flex items-center justify-center mx-auto mb-3 text-slate-400 shadow-sm">
                     <i class="fa-solid fa-inbox text-2xl"></i>
                 </div>
                 Belum ada lowongan kelas tersedia.
@@ -1666,34 +1673,34 @@ function renderLowongan() {
     let html = '';
     dataLowongan.forEach((item) => {
         const isAdmin = currentUser.role === 'admin';
-        const deadlineText = item.deadline ? `<span class="text-xs text-rose-500 font-bold flex items-center gap-1.5 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-100"><i class="fa-regular fa-calendar-xmark"></i> S/D: ${item.deadline}</span>` : '';
+        const deadlineText = item.deadline ? `<span class="text-xs text-rose-600 font-bold flex items-center gap-1.5 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200"><i class="fa-regular fa-calendar-xmark"></i> S/D: ${item.deadline}</span>` : '';
         html += `
-        <div class="lowongan-item px-6 py-5 bg-white m-3 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+        <div class="lowongan-item px-6 py-5 bg-white m-3 rounded-2xl border-2 border-slate-100 shadow-sm hover:shadow-md hover:border-blue-200 transition">
             <div class="flex items-start justify-between gap-4">
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-3 flex-wrap mb-2">
-                        <h4 class="font-black text-slate-800 text-base">${item.posisi}</h4>
+                        <h4 class="font-black text-slate-900 text-base">${item.posisi}</h4>
                         <span class="lowongan-badge ${statusClass[item.status] || 'badge-open'}">
                             <i class="fa-solid ${statusIcon[item.status] || 'fa-circle-check'} text-[10px]"></i>
                             ${statusLabel[item.status] || 'Dibuka'}
                         </span>
                     </div>
-                    <div class="flex items-center gap-2 text-xs text-slate-500 mb-3 font-bold">
-                        <div class="w-6 h-6 rounded bg-indigo-50 text-indigo-500 flex items-center justify-center"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div class="flex items-center gap-2 text-xs text-slate-600 mb-3 font-bold">
+                        <div class="w-7 h-7 rounded-lg bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-map-location-dot"></i></div>
                         <span>${item.lokasi || 'Lokasi tidak disebutkan'}</span>
                     </div>
-                    ${item.keterangan ? `<p class="text-sm text-slate-600 font-medium leading-relaxed mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100">${item.keterangan}</p>` : ''}
+                    ${item.keterangan ? `<p class="text-sm text-slate-700 font-bold leading-relaxed mb-4 bg-slate-50 p-4 rounded-xl border border-slate-200">${item.keterangan}</p>` : ''}
                     <div class="flex flex-wrap items-center gap-3 mt-1">
-                        ${item.kontak ? `<span class="text-xs text-emerald-600 font-black flex items-center gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100"><i class="fa-brands fa-whatsapp text-sm"></i> ${item.kontak}</span>` : ''}
+                        ${item.kontak ? `<span class="text-xs text-emerald-700 font-black flex items-center gap-1.5 bg-emerald-50 px-4 py-1.5 rounded-xl border border-emerald-200"><i class="fa-brands fa-whatsapp text-sm"></i> ${item.kontak}</span>` : ''}
                         ${deadlineText}
                     </div>
                 </div>
                 ${isAdmin ? `
                 <div class="flex gap-2 flex-shrink-0">
-                    <button onclick="editLowongan('${item.id_lowongan}')" class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 hover:bg-blue-600 hover:text-white flex items-center justify-center transition shadow-sm">
+                    <button onclick="editLowongan('${item.id_lowongan}')" class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 hover:bg-blue-600 hover:text-white flex items-center justify-center transition shadow-sm">
                         <i class="fa-solid fa-pen text-sm"></i>
                     </button>
-                    <button onclick="deleteLowongan('${item.id_lowongan}')" class="w-10 h-10 rounded-xl bg-red-50 border border-red-100 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition shadow-sm">
+                    <button onclick="deleteLowongan('${item.id_lowongan}')" class="w-10 h-10 rounded-xl bg-red-50 border border-red-200 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition shadow-sm">
                         <i class="fa-solid fa-trash-can text-sm"></i>
                     </button>
                 </div>` : ''}
@@ -1888,9 +1895,9 @@ function navigate(page) {
     // Reset all normal nav buttons
     document.querySelectorAll('[id^="nav-m-"]').forEach(el => {
         el.classList.remove('active'); 
-        el.querySelector('span:not(.nav-fab-text)')?.classList.replace('text-indigo-600', 'text-slate-400');
+        el.querySelector('span:not(.nav-fab-text)')?.classList.replace('text-blue-700', 'text-slate-400');
     });
-    document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => el.classList.remove('bg-indigo-100', 'text-indigo-600', 'shadow-sm'));
+    document.querySelectorAll('[id^="nav-icon-bg-"]').forEach(el => el.classList.remove('bg-blue-100', 'text-blue-700', 'shadow-sm'));
     
     // Reset FAB
     document.querySelectorAll('[id^="nav-fab-btn-"]').forEach(el => {
@@ -1914,9 +1921,9 @@ function navigate(page) {
     
     if (mBtn) {
         mBtn.classList.add('active');
-        if (mText) mText.classList.replace('text-slate-400', 'text-indigo-600');
+        if (mText) mText.classList.replace('text-slate-400', 'text-blue-700');
     }
-    if (mBg) mBg.classList.add('bg-indigo-100', 'text-indigo-600', 'shadow-sm');
+    if (mBg) mBg.classList.add('bg-blue-100', 'text-blue-700', 'shadow-sm');
     
     scrollToTop();
 }
@@ -1941,22 +1948,22 @@ async function loadDashboard() {
             <div class="stat-card p-4 flex flex-col items-center text-center">
                 <div class="w-12 h-12 rounded-[1rem] bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center mb-3 shadow-lg shadow-blue-200 transform rotate-3"><i class="fa-solid fa-layer-group text-xl"></i></div>
                 <p class="text-[10px] md:text-xs text-slate-500 font-black uppercase tracking-wider">${label}</p>
-                <h3 class="text-3xl font-black text-slate-800 mt-1">${total}</h3>
+                <h3 class="text-3xl font-black text-slate-900 mt-1">${total}</h3>
             </div>
             <div class="stat-card p-4 flex flex-col items-center text-center">
                 <div class="w-12 h-12 rounded-[1rem] bg-gradient-to-br from-emerald-400 to-teal-500 text-white flex items-center justify-center mb-3 shadow-lg shadow-emerald-200 transform -rotate-3"><i class="fa-solid fa-calendar-check text-xl"></i></div>
                 <p class="text-[10px] md:text-xs text-slate-500 font-black uppercase tracking-wider">Hadir</p>
-                <h3 class="text-3xl font-black text-slate-800 mt-1">${selesai}</h3>
+                <h3 class="text-3xl font-black text-slate-900 mt-1">${selesai}</h3>
             </div>
             <div class="stat-card p-4 flex flex-col items-center text-center">
                 <div class="w-12 h-12 rounded-[1rem] bg-gradient-to-br from-rose-400 to-red-500 text-white flex items-center justify-center mb-3 shadow-lg shadow-rose-200 transform rotate-3"><i class="fa-solid fa-calendar-xmark text-xl"></i></div>
                 <p class="text-[10px] md:text-xs text-slate-500 font-black uppercase tracking-wider">Batal</p>
-                <h3 class="text-3xl font-black text-slate-800 mt-1">${batal}</h3>
+                <h3 class="text-3xl font-black text-slate-900 mt-1">${batal}</h3>
             </div>
             <div class="stat-card p-4 flex flex-col items-center text-center">
                 <div class="w-12 h-12 rounded-[1rem] bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center mb-3 shadow-lg shadow-amber-200 transform -rotate-3"><i class="fa-solid fa-clock-rotate-left text-xl"></i></div>
                 <p class="text-[10px] md:text-xs text-slate-500 font-black uppercase tracking-wider">Pindah</p>
-                <h3 class="text-3xl font-black text-slate-800 mt-1">${reschedule}</h3>
+                <h3 class="text-3xl font-black text-slate-900 mt-1">${reschedule}</h3>
             </div>`;
 
         // Grafik progress hanya untuk admin
@@ -2044,12 +2051,12 @@ function renderGrafikProgress() {
 
         html += `
         <div class="mb-5 bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
-            <div class="flex items-center justify-between mb-4 border-b border-slate-50 pb-3">
+            <div class="flex items-center justify-between mb-4 border-b-2 border-slate-50 pb-3">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-md" style="background:${color}"><i class="fa-solid fa-chalkboard-user"></i></div>
-                    <span class="font-black text-slate-800 text-sm tracking-wide">${guru.nama_guru}</span>
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-md border-2 border-white" style="background:${color}"><i class="fa-solid fa-chalkboard-user"></i></div>
+                    <span class="font-black text-slate-900 text-sm tracking-wide">${guru.nama_guru}</span>
                 </div>
-                <span class="text-[11px] bg-slate-100 text-slate-500 font-black px-3 py-1.5 rounded-lg border border-slate-200">${totalSesiGuru} sesi aktif</span>
+                <span class="text-[11px] bg-slate-100 border border-slate-200 text-slate-600 font-black px-3 py-1.5 rounded-lg">${totalSesiGuru} sesi aktif</span>
             </div>
             <div class="space-y-4">`;
 
@@ -2057,22 +2064,22 @@ function renderGrafikProgress() {
             const sw = guru.siswaMap[sKey];
             const pct = sw.paket > 0 ? Math.min(100, Math.round((sw.count / sw.paket) * 100)) : 0;
             const paketLabel = sw.paket > 0 ? `${sw.count} / ${sw.paket} sesi` : `${sw.count} sesi`;
-            const urgentClass = pct >= 80 ? 'text-red-500 bg-red-50 border border-red-100' : pct >= 50 ? 'text-amber-600 bg-amber-50 border border-amber-100' : 'text-emerald-600 bg-emerald-50 border border-emerald-100';
+            const urgentClass = pct >= 80 ? 'text-red-600 bg-red-50 border border-red-200' : pct >= 50 ? 'text-amber-700 bg-amber-50 border border-amber-200' : 'text-emerald-700 bg-emerald-50 border border-emerald-200';
 
             html += `
                 <div>
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs font-black text-slate-700 truncate flex-1 flex items-center gap-1.5"><i class="fa-solid fa-user-graduate text-slate-400"></i> ${sw.nama_siswa}</span>
+                        <span class="text-xs font-black text-slate-800 truncate flex-1 flex items-center gap-2"><i class="fa-solid fa-user-graduate text-slate-400"></i> ${sw.nama_siswa}</span>
                         <div class="flex items-center gap-2 flex-shrink-0">
-                            <span class="text-[10px] font-black px-2 py-1 rounded-md ${urgentClass}">${paketLabel}</span>
+                            <span class="text-[10px] font-black px-2.5 py-1 rounded-md ${urgentClass}">${paketLabel}</span>
                         </div>
                     </div>
                     <div class="h-3 bg-slate-100 rounded-full overflow-hidden shadow-inner border border-slate-200">
                         <div class="h-full rounded-full transition-all duration-1000 ease-out" style="width:${pct}%;background:${color}"></div>
                     </div>
                     <div class="flex justify-between mt-1.5 font-bold">
-                        <span class="text-[10px] text-slate-400">${pct}% terpakai</span>
-                        <span class="text-[10px] text-slate-500"><i class="fa-solid fa-hourglass-half"></i> Sisa: ${Math.max(0, sw.paket - sw.count)} sesi</span>
+                        <span class="text-[10px] text-slate-500">${pct}% terpakai</span>
+                        <span class="text-[10px] text-slate-500"><i class="fa-solid fa-hourglass-half text-slate-400"></i> Sisa: ${Math.max(0, sw.paket - sw.count)} sesi</span>
                     </div>
                 </div>`;
         });
@@ -2118,10 +2125,10 @@ async function loadDataSiswaPage() {
         let html = '';
         dataSiswa.forEach(s => {
             const badgeSisa = s.sisa_sesi > 0
-                ? `<span class="bg-gradient-to-r from-emerald-100 to-teal-100 text-teal-700 text-[10px] font-black px-3 py-1.5 rounded-xl border border-teal-200 shadow-sm"><i class="fa-solid fa-layer-group"></i> ${s.sisa_sesi} Sesi</span>`
-                : `<span class="bg-gradient-to-r from-red-100 to-rose-100 text-red-600 text-[10px] font-black px-3 py-1.5 rounded-xl border border-red-200 shadow-sm"><i class="fa-solid fa-triangle-exclamation"></i> Habis!</span>`;
+                ? `<span class="bg-gradient-to-r from-emerald-100 to-teal-100 text-teal-800 text-[10px] font-black px-3 py-1.5 rounded-xl border border-teal-300 shadow-sm"><i class="fa-solid fa-layer-group"></i> ${s.sisa_sesi} Sesi</span>`
+                : `<span class="bg-gradient-to-r from-red-100 to-rose-100 text-red-700 text-[10px] font-black px-3 py-1.5 rounded-xl border border-red-300 shadow-sm"><i class="fa-solid fa-triangle-exclamation"></i> Habis!</span>`;
             const jadwalBadge = siswaJadwalHariIni(s)
-                ? `<div class="bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-lg mt-1 inline-block shadow-sm"><i class="fa-solid fa-bolt"></i> HARI INI</div>` : '';
+                ? `<div class="bg-emerald-500 text-white border border-emerald-600 text-[9px] font-black px-2 py-0.5 rounded-lg mt-1 inline-block shadow-sm"><i class="fa-solid fa-bolt"></i> HARI INI</div>` : '';
             html += `
                 <tr>
                     <td class="p-4 text-sm font-black text-slate-800 whitespace-nowrap">
@@ -2135,15 +2142,15 @@ async function loadDataSiswaPage() {
                     <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
                     <td class="p-4 text-sm whitespace-nowrap">
                         <div class="flex gap-2">
-                            <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-white bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl transition hover:scale-105 shadow-md shadow-indigo-200" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
-                            <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-xl transition hover:bg-emerald-100 shadow-sm" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
-                            <button onclick='editDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-blue-600 bg-blue-50 border border-blue-200 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick='deleteDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-red-500 bg-red-50 border border-red-200 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-white bg-gradient-to-br from-blue-600 to-indigo-600 border border-blue-400 rounded-xl transition hover:scale-105 shadow-md shadow-blue-200" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
+                            <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-emerald-700 bg-emerald-50 border border-emerald-300 rounded-xl transition hover:bg-emerald-100 shadow-sm" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
+                            <button onclick='editDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-blue-700 bg-blue-50 border border-blue-300 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick='deleteDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 border border-red-300 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </td>
                 </tr>`;
         });
-        document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-10 text-slate-400 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl"></i></div>Belum ada data siswa.</td></tr>';
+        document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>Belum ada data siswa.</td></tr>';
     } catch (e) { }
     showLoading(false);
 }
@@ -2226,40 +2233,40 @@ async function loadDataGuruPage() {
         dataSiswa = (await apiCall('getSiswa')) || [];
         const container = document.getElementById('guruAssignSiswaContainer');
         container.innerHTML = dataSiswa.length === 0
-            ? '<p class="text-sm text-red-500 font-bold bg-red-50 p-3 rounded-lg border border-red-100 col-span-3 text-center"><i class="fa-solid fa-triangle-exclamation"></i> Belum ada data siswa.</p>'
+            ? '<p class="text-sm text-red-600 font-bold bg-red-50 p-3 rounded-lg border border-red-200 col-span-3 text-center"><i class="fa-solid fa-triangle-exclamation"></i> Belum ada data siswa.</p>'
             : dataSiswa.map(s => `
-                <label class="flex items-center gap-3 text-sm cursor-pointer bg-white p-3 rounded-xl border-2 border-slate-100 hover:border-indigo-300 hover:bg-indigo-50 transition shadow-sm">
-                    <input type="checkbox" name="assignSiswaCb" value="${s.id_siswa}" class="w-5 h-5 rounded text-indigo-600">
-                    <span class="text-slate-700 font-bold">${s.nama_siswa}</span>
+                <label class="flex items-center gap-3 text-sm cursor-pointer bg-white p-3 rounded-xl border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 transition shadow-sm">
+                    <input type="checkbox" name="assignSiswaCb" value="${s.id_siswa}" class="w-5 h-5 rounded text-blue-600 border-slate-300">
+                    <span class="text-slate-800 font-bold">${s.nama_siswa}</span>
                 </label>`).join('');
         dataGuru = (await apiCall('getGuru')) || [];
         let html = '';
         dataGuru.forEach(g => {
             const arr = (g.assigned_siswa || '').split(',').filter(x=>x);
             const names = arr.map(id => dataSiswa.find(x=>x.id_siswa===id)?.nama_siswa || id).join(', ')
-                || '<span class="text-slate-400 italic text-xs font-bold bg-slate-100 px-2 py-1 rounded-md border border-slate-200">Belum ditugaskan</span>';
+                || '<span class="text-slate-500 italic text-xs font-bold bg-slate-100 px-2 py-1 rounded-md border border-slate-200">Belum ditugaskan</span>';
             html += `
                 <tr>
                     <td class="p-4 text-sm font-black text-slate-800 whitespace-nowrap">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 border border-indigo-200 flex items-center justify-center text-indigo-500 text-xs"><i class="fa-solid fa-chalkboard-user"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 border border-blue-200 flex items-center justify-center text-blue-600 text-xs"><i class="fa-solid fa-chalkboard-user"></i></div>
                             ${g.nama_lengkap}
                         </div>
                     </td>
                     <td class="p-4 text-sm text-slate-500 whitespace-nowrap font-medium">
-                        <div class="font-mono text-[11px] bg-slate-100 border border-slate-200 px-2 py-1 rounded-md text-slate-700 font-bold inline-block"><i class="fa-solid fa-at text-slate-400 mr-1"></i>${g.username}</div>
-                        <div class="font-mono text-[11px] text-slate-400 mt-1 flex items-center"><i class="fa-solid fa-key mr-1 text-[10px]"></i>${g.password}</div>
+                        <div class="font-mono text-[11px] bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-md text-slate-800 font-black inline-block"><i class="fa-solid fa-at text-slate-400 mr-1"></i>${g.username}</div>
+                        <div class="font-mono text-[11px] text-slate-500 mt-1 flex items-center font-bold"><i class="fa-solid fa-key mr-1.5 text-[10px] text-slate-400"></i>${g.password}</div>
                     </td>
                     <td class="p-4 text-sm text-slate-600 font-bold max-w-xs leading-relaxed">${names}</td>
                     <td class="p-4 text-sm whitespace-nowrap">
                         <div class="flex gap-2">
-                            <button onclick='editDataGuru("${g.username}")' class="w-9 h-9 flex items-center justify-center text-blue-600 bg-blue-50 border border-blue-200 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick='deleteDataGuru("${g.username}")' class="w-9 h-9 flex items-center justify-center text-red-500 bg-red-50 border border-red-200 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick='editDataGuru("${g.username}")' class="w-9 h-9 flex items-center justify-center text-blue-700 bg-blue-50 border border-blue-300 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick='deleteDataGuru("${g.username}")' class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 border border-red-300 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </td>
                 </tr>`;
         });
-        document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-10 text-slate-400 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl"></i></div>Belum ada data tutor.</td></tr>';
+        document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>Belum ada data tutor.</td></tr>';
     } catch (e) { }
     showLoading(false);
 }
@@ -2426,10 +2433,10 @@ async function loadRiwayat() {
         });
 
         const statusColors = {
-            'Selesai': 'bg-emerald-50 border-2 border-emerald-100 text-emerald-700 shadow-sm',
-            'Batal': 'bg-red-50 border-2 border-red-100 text-red-600 shadow-sm',
-            'Reschedule': 'bg-amber-50 border-2 border-amber-100 text-amber-700 shadow-sm',
-            'Libur': 'bg-slate-50 border-2 border-slate-200 text-slate-600 shadow-sm'
+            'Selesai': 'bg-emerald-50 border-2 border-emerald-200 text-emerald-800 shadow-sm',
+            'Batal': 'bg-red-50 border-2 border-red-200 text-red-800 shadow-sm',
+            'Reschedule': 'bg-amber-50 border-2 border-amber-200 text-amber-800 shadow-sm',
+            'Libur': 'bg-slate-100 border-2 border-slate-300 text-slate-700 shadow-sm'
         };
 
         // Urutkan filtered dari terbaru ke terlama untuk tampilan
@@ -2441,26 +2448,26 @@ async function loadRiwayat() {
             const canEdit = currentUser.role === 'admin' || currentUser.username === s.id_guru;
             const noPertemuan = pertemuanByIdSesi[s.id_sesi];
             const pertemuanBadge = noPertemuan
-                ? `<span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-100 to-indigo-100 text-indigo-800 border border-indigo-200 text-xs font-black px-3 py-1.5 rounded-xl shadow-sm">
-                       <i class="fa-solid fa-bolt text-indigo-400"></i> Ke-${noPertemuan}
+                ? `<span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-100 to-blue-50 text-blue-800 border-2 border-blue-200 text-[11px] font-black px-3 py-1.5 rounded-xl shadow-sm">
+                       <i class="fa-solid fa-bolt text-blue-500"></i> Ke-${noPertemuan}
                    </span>`
-                : `<span class="text-slate-300 text-xs italic font-bold">—</span>`;
+                : `<span class="text-slate-400 text-[11px] italic font-bold">—</span>`;
             html += `
                 <tr>
-                    <td class="p-4 text-sm text-slate-600 font-bold whitespace-nowrap"><i class="fa-regular fa-calendar mr-1 text-slate-400"></i> ${s.tanggal}</td>
-                    <td class="p-4 text-sm font-black text-slate-800 whitespace-nowrap">${s.nama_siswa}</td>
-                    <td class="p-4 text-sm text-slate-500 font-bold whitespace-nowrap"><i class="fa-solid fa-chalkboard-user mr-1 text-slate-400"></i> ${s.nama_guru}</td>
+                    <td class="p-4 text-sm text-slate-700 font-bold whitespace-nowrap"><i class="fa-regular fa-calendar mr-2 text-slate-400"></i> ${s.tanggal}</td>
+                    <td class="p-4 text-sm font-black text-slate-900 whitespace-nowrap">${s.nama_siswa}</td>
+                    <td class="p-4 text-sm text-slate-600 font-bold whitespace-nowrap"><i class="fa-solid fa-chalkboard-user mr-2 text-slate-400"></i> ${s.nama_guru}</td>
                     <td class="p-4 text-sm whitespace-nowrap">${pertemuanBadge}</td>
-                    <td class="p-4 text-sm whitespace-nowrap"><span class="px-3 py-1.5 text-[11px] rounded-xl font-black uppercase tracking-wider ${badge}">${s.status_sesi}</span></td>
+                    <td class="p-4 text-sm whitespace-nowrap"><span class="px-3 py-1.5 text-[10px] rounded-xl font-black uppercase tracking-wider ${badge}">${s.status_sesi}</span></td>
                     <td class="p-4 text-sm whitespace-nowrap">${canEdit ? `
                         <div class="flex gap-2">
-                            <button onclick='editSesi("${s.id_sesi}")' class="w-9 h-9 flex items-center justify-center text-blue-600 bg-blue-50 border border-blue-200 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick='deleteSesi("${s.id_sesi}")' class="w-9 h-9 flex items-center justify-center text-red-500 bg-red-50 border border-red-200 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick='editSesi("${s.id_sesi}")' class="w-9 h-9 flex items-center justify-center text-blue-700 bg-blue-50 border border-blue-300 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick='deleteSesi("${s.id_sesi}")' class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 border border-red-300 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
                         </div>` : '-'}
                     </td>
                 </tr>`;
         });
-        document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="6" class="text-center p-10 text-slate-400 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl"></i></div>Belum ada riwayat jurnal.</td></tr>';
+        document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="6" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>Belum ada riwayat jurnal.</td></tr>';
     } catch (e) { console.error(e); }
     showLoading(false);
 }
