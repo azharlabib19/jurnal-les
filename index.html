@@ -10,6 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary: #2563eb;
@@ -293,13 +294,15 @@
                 <p class="text-slate-600 text-sm mb-4 font-bold">Pilih cara download:</p>
 
                 <div class="flex flex-col gap-3">
+                    <!-- Opsi 0: Download langsung ke Unduhan (paling andal) -->
                     <button onclick="downloadPDFDirect()" class="w-full bg-gradient-to-r from-rose-600 to-red-500 border-2 border-rose-400 text-white font-black px-4 py-4 rounded-2xl hover:opacity-90 shadow-lg transition flex items-center justify-center gap-3 text-sm">
                         <i class="fa-solid fa-download text-lg"></i>
                         <div class="text-left">
                             <div>Simpan ke Unduhan</div>
-                            <div class="text-xs font-semibold opacity-80">Langsung tersimpan di HP / PC</div>
+                            <div class="text-xs font-semibold opacity-80">Langsung tersimpan di HP / APK</div>
                         </div>
                     </button>
+                    <!-- Opsi 1: Share API (simpan ke Files/Drive/WA) -->
                     <button onclick="sharePDF()" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 border-2 border-emerald-400 text-white font-black px-4 py-4 rounded-2xl hover:opacity-90 shadow-lg transition flex items-center justify-center gap-3 text-sm">
                         <i class="fa-solid fa-share-nodes text-lg"></i>
                         <div class="text-left">
@@ -307,15 +310,18 @@
                             <div class="text-xs font-semibold opacity-80">WhatsApp, Drive, Email, dll</div>
                         </div>
                     </button>
+                    <!-- Opsi 2: Buka di Chrome → download dari sana -->
                     <button onclick="bukadiChrome()" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 border-2 border-blue-400 text-white font-black px-4 py-4 rounded-2xl hover:opacity-90 shadow-lg transition flex items-center justify-center gap-3 text-sm">
                         <i class="fa-solid fa-globe text-lg"></i>
                         <div class="text-left">
-                            <div>Buka di Tab Baru</div>
-                            <div class="text-xs font-semibold opacity-80">Buka PDF di browser langsung</div>
+                            <div>Buka di Chrome</div>
+                            <div class="text-xs font-semibold opacity-80">Lalu tekan ⋮ → Download</div>
                         </div>
                     </button>
                     <button onclick="closePdfModal()" class="w-full bg-slate-100 text-slate-800 border-2 border-slate-200 font-black px-4 py-3.5 rounded-2xl hover:bg-slate-200 transition">Batal</button>
                 </div>
+
+                <p class="text-slate-400 text-xs mt-4 font-semibold">📁 File tersimpan di folder <strong>Unduhan / Downloads</strong></p>
             </div>
         </div>
     </div>
@@ -424,18 +430,11 @@
                 </div>
                 <h1 class="font-black text-white text-3xl tracking-tight mb-2" style="font-family:'DM Serif Display',serif; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">LBB SAINSPIQ</h1>
                 <div class="inline-block bg-white/20 px-5 py-2 rounded-full backdrop-blur-md border-2 border-white/30">
-                    <p class="text-xs font-black tracking-widest text-white uppercase">Versi Dummy Offline</p>
+                    <p class="text-xs font-black tracking-widest text-white uppercase">Jurnal Digital</p>
                 </div>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-5">
-                <!-- Hint Login -->
-                <div class="bg-blue-900/40 p-4 rounded-xl border border-blue-400/50 mb-4 text-center">
-                    <p class="text-[11px] text-white font-bold mb-1">AKUN DUMMY UNTUK TEST:</p>
-                    <p class="text-[12px] text-blue-200 font-black">Admin: <span class="text-white">admin / admin</span></p>
-                    <p class="text-[12px] text-blue-200 font-black">Tutor: <span class="text-white">budi / 123</span> atau <span class="text-white">siti / 123</span></p>
-                </div>
-
                 <div>
                     <div class="relative">
                         <span class="absolute left-5 top-1/2 -translate-y-1/2" style="color:#2563eb">
@@ -551,7 +550,7 @@
                         <!-- Injected HTML -->
                     </div>
 
-                    <!-- Grafik Progress Pertemuan (Admin Only) -->
+                    <!-- Grafik Progress Pertemuan -->
                     <div id="grafikProgressSection" class="hide mb-6">
                         <div class="bg-white rounded-3xl border-2 border-slate-200 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden relative">
                             <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -translate-y-32 translate-x-20 pointer-events-none"></div>
@@ -565,7 +564,7 @@
                                         <p class="text-slate-500 text-xs mt-1 font-bold">Pantau ketercapaian paket sesi</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-2" id="grafikFilterWrapper">
                                     <select id="grafikFilterGuru" onchange="renderGrafikProgress()" class="text-sm bg-slate-50 border-2 border-slate-200 text-slate-800 rounded-xl px-4 py-2.5 font-black outline-none focus:border-blue-500 shadow-sm cursor-pointer transition-all">
                                         <option value="ALL">Semua Tutor</option>
                                     </select>
@@ -829,7 +828,7 @@
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight pr-4">Input Jurnal Sesi</h2>
                     </div>
 
-                    <!-- Banner Aturan / Peringatan Admin -->
+                    <!-- Banner Aturan / Peringatan Admin DIPINDAHKAN KESINI -->
                     <div id="rekapAdminBanner" class="mb-6 relative rounded-[1.5rem] border-2 border-rose-300 bg-white shadow-lg overflow-hidden group hover:border-rose-400 transition">
                         <div class="absolute left-0 top-0 bottom-0 w-2.5 bg-gradient-to-b from-rose-500 to-red-600"></div>
                         <div class="px-6 py-5 flex items-start gap-4">
@@ -1138,9 +1137,13 @@
 
 <script>
 // ============================================================
-// ⚡ KONFIGURASI DUMMY (LOCAL STORAGE)
+// ⚡ KONFIGURASI
 // ============================================================
-// Supabase dihapus & diganti dengan simulasi in-memory LocalStorage
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwq763_Zuc8aNYuUmVjidGqP6eyy131USCwzbdTGzyHBxQPUuNulz1QT5zx4bMrslSK/exec";
+
+const SUPABASE_URL = "https://napymkogkzwtvdjictip.supabase.co".trim();
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHlta29na3p3dHZkamljdGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2OTM5NDIsImV4cCI6MjA5MzI2OTk0Mn0.t3r51kXGSBoZuzZh35htYzRviWZTnhukpsJbd_hjIrc".trim();
+const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const NOTIF_HOUR = 20;
 
 let currentUser = null;
@@ -1149,101 +1152,20 @@ let dataSesi = [];
 let dataGuru = [];
 
 // ============================================================
-// GENERATE DUMMY DATA SEED
-// ============================================================
-function initDummyData() {
-    if (!localStorage.getItem('dummy_initialized')) {
-        const dummyUsers = [
-            { id_user: "U1", username: "admin", password: "admin", role: "admin", nama_lengkap: "Administrator", status_aktif: "aktif", assigned_siswa: "", no_hp: "0812345678", alamat: "Pusat LBB", mapel: "Semua", daerah: "Semua", bio: "Admin Pusat" },
-            { id_user: "U2", username: "budi", password: "123", role: "guru", nama_lengkap: "Budi Santoso", status_aktif: "aktif", assigned_siswa: "S1,S2,S3,S4,S10,S11", no_hp: "08199988877", alamat: "Jl. Mawar No 10", mapel: "Matematika, Fisika", daerah: "Bandung Barat", bio: "Tutor berpengalaman di bidang eksakta." },
-            { id_user: "U3", username: "siti", password: "123", role: "guru", nama_lengkap: "Siti Aminah", status_aktif: "aktif", assigned_siswa: "S5,S6,S7,S8,S9", no_hp: "08133344455", alamat: "Jl. Melati No 5", mapel: "Bahasa Inggris", daerah: "Bandung Selatan", bio: "Menyenangkan dan sabar dalam mengajar anak-anak." },
-            { id_user: "U4", username: "andi", password: "123", role: "guru", nama_lengkap: "Andi Wijaya", status_aktif: "aktif", assigned_siswa: "S12,S13,S14,S15", no_hp: "08122233344", alamat: "Jl. Anggrek No 3", mapel: "Kimia, Biologi", daerah: "Bandung Timur", bio: "Lulusan Biologi UPI." }
-        ];
-
-        const dummySiswa = [
-            { id_siswa: "S1", nama_siswa: "Rudi Hartono", program_les: "Matematika SD", kelas: "6 SD", alamat_rumah: "Jl. Sukamaju No 12", sisa_sesi: 4, jadwal_hari: "Senin, Rabu", jadwal_tanggal: "" },
-            { id_siswa: "S2", nama_siswa: "Agus Pratama", program_les: "Fisika SMP", kelas: "8 SMP", alamat_rumah: "Jl. Ciganitri No 45", sisa_sesi: 2, jadwal_hari: "Selasa, Kamis", jadwal_tanggal: "" },
-            { id_siswa: "S3", nama_siswa: "Bambang Pamungkas", program_les: "Matematika SMA", kelas: "12 SMA", alamat_rumah: "Komp. GBA Barat", sisa_sesi: 0, jadwal_hari: "Jumat", jadwal_tanggal: "" },
-            { id_siswa: "S4", nama_siswa: "Dina Mariana", program_les: "Fisika SMA", kelas: "11 SMA", alamat_rumah: "Jl. Margahayu No 9", sisa_sesi: 8, jadwal_hari: "Sabtu, Minggu", jadwal_tanggal: "" },
-            { id_siswa: "S5", nama_siswa: "Eka Saputra", program_les: "Bahasa Inggris SD", kelas: "5 SD", alamat_rumah: "Jl. Raya Bojongsoang", sisa_sesi: 6, jadwal_hari: "Senin, Kamis", jadwal_tanggal: "" },
-            { id_siswa: "S6", nama_siswa: "Fani Ayu", program_les: "Bahasa Inggris SMP", kelas: "7 SMP", alamat_rumah: "Komp. Podomoro", sisa_sesi: 3, jadwal_hari: "Selasa, Jumat", jadwal_tanggal: "" },
-            { id_siswa: "S7", nama_siswa: "Gita Gutawa", program_les: "Bahasa Inggris SMA", kelas: "10 SMA", alamat_rumah: "Jl. Buah Batu", sisa_sesi: 5, jadwal_hari: "Rabu, Sabtu", jadwal_tanggal: "" },
-            { id_siswa: "S8", nama_siswa: "Hendra Setiawan", program_les: "English Conversation", kelas: "Umum", alamat_rumah: "Jl. Lengkong", sisa_sesi: 7, jadwal_hari: "", jadwal_tanggal: "1,15" },
-            { id_siswa: "S9", nama_siswa: "Iwan Fals", program_les: "Bahasa Inggris SD", kelas: "4 SD", alamat_rumah: "Jl. Burangrang", sisa_sesi: 1, jadwal_hari: "Senin, Rabu", jadwal_tanggal: "" },
-            { id_siswa: "S10", nama_siswa: "Joko Widodo", program_les: "Matematika SMP", kelas: "9 SMP", alamat_rumah: "Jl. Merdeka", sisa_sesi: 8, jadwal_hari: "Selasa, Kamis", jadwal_tanggal: "" },
-            { id_siswa: "S11", nama_siswa: "Kaesang Pangarep", program_les: "Matematika SD", kelas: "3 SD", alamat_rumah: "Jl. Merdeka Baru", sisa_sesi: 5, jadwal_hari: "Jumat, Sabtu", jadwal_tanggal: "" },
-            { id_siswa: "S12", nama_siswa: "Lesti Kejora", program_les: "Biologi SMA", kelas: "12 SMA", alamat_rumah: "Jl. Soekarno Hatta", sisa_sesi: 6, jadwal_hari: "Senin, Kamis", jadwal_tanggal: "" },
-            { id_siswa: "S13", nama_siswa: "Maudy Ayunda", program_les: "Kimia SMA", kelas: "11 SMA", alamat_rumah: "Jl. Riau", sisa_sesi: 2, jadwal_hari: "Selasa, Jumat", jadwal_tanggal: "" },
-            { id_siswa: "S14", nama_siswa: "Nia Ramadhani", program_les: "Biologi SMP", kelas: "8 SMP", alamat_rumah: "Jl. Dago", sisa_sesi: 8, jadwal_hari: "Rabu, Sabtu", jadwal_tanggal: "" },
-            { id_siswa: "S15", nama_siswa: "Oka Antara", program_les: "IPA Terpadu SD", kelas: "6 SD", alamat_rumah: "Jl. Cihampelas", sisa_sesi: 4, jadwal_hari: "Minggu", jadwal_tanggal: "" }
-        ];
-
-        // Generate 40 past sessions (Selesai, Reschedule, Batal)
-        const dummySesi = [];
-        const today = new Date();
-        for (let i = 0; i < 40; i++) {
-            const randomDaysAgo = Math.floor(Math.random() * 30);
-            const pastDate = new Date(today);
-            pastDate.setDate(today.getDate() - randomDaysAgo);
-            
-            const randomSiswa = dummySiswa[Math.floor(Math.random() * dummySiswa.length)];
-            // Cari guru yang di-assign ke siswa ini
-            const guruList = dummyUsers.filter(u => u.role === 'guru' && u.assigned_siswa.includes(randomSiswa.id_siswa));
-            const guruObj = guruList.length > 0 ? guruList[0] : dummyUsers[1];
-            
-            const statArr = ['Selesai', 'Selesai', 'Selesai', 'Selesai', 'Reschedule', 'Batal', 'Libur'];
-            const status = statArr[Math.floor(Math.random() * statArr.length)];
-
-            dummySesi.push({
-                id_sesi: "SESI-" + (Date.now() - (i * 100000)),
-                tanggal: pastDate.toISOString().split('T')[0],
-                id_guru: guruObj.username,
-                nama_guru: guruObj.nama_lengkap,
-                id_siswa: randomSiswa.id_siswa,
-                nama_siswa: randomSiswa.nama_siswa,
-                status_sesi: status,
-                jurnal_materi: status === 'Selesai' 
-                    ? `Siswa mempelajari materi bab ${Math.floor(Math.random() * 5) + 1}. Pemahaman cukup baik, dapat menjawab 80% soal latihan dengan benar.`
-                    : status === 'Reschedule' ? 'Diganti ke hari lain karena siswa ada acara keluarga.' : status === 'Libur' ? 'Libur Nasional.' : 'Siswa mendadak sakit.'
-            });
-        }
-
-        const dummyLowongan = [
-            { id_lowongan: "LWN-1", posisi: "Tutor Matematika SMA", lokasi: "Bandung Timur", status: "open", keterangan: "Diutamakan mahasiswa S1 aktif atau fresh graduate. Pengalaman mengajar nilai plus.", kontak: "081122334455", deadline: "2026-12-31" },
-            { id_lowongan: "LWN-2", posisi: "Tutor Bahasa Inggris SD", lokasi: "Soreang / Kopo", status: "soon", keterangan: "Segera dibuka kelas baru untuk 3 siswa SD. Membutuhkan tutor yang sabar dan kreatif.", kontak: "081122334455", deadline: "" },
-            { id_lowongan: "LWN-3", posisi: "Tutor Fisika Olimpiade", lokasi: "Online", status: "closed", keterangan: "Posisi sudah terisi.", kontak: "", deadline: "" }
-        ];
-
-        localStorage.setItem('users', JSON.stringify(dummyUsers));
-        localStorage.setItem('siswa', JSON.stringify(dummySiswa));
-        localStorage.setItem('sesi_les', JSON.stringify(dummySesi));
-        localStorage.setItem('lowongan_tutor', JSON.stringify(dummyLowongan));
-        localStorage.setItem('dummy_initialized', 'true');
-    }
-}
-initDummyData();
-
-// ============================================================
-// ✅ AI BACKEND (DUMMY FALLBACK)
+// ✅ AI BACKEND
 // ============================================================
 async function callAIBackend(action, payload) {
-    // Simulasi delay request AI
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            if (action === 'enhanceJurnal') {
-                resolve(`${payload.rawText}\n\n[Dirapikan oleh AI]:\nSiswa menunjukkan kemajuan yang positif dalam memahami materi hari ini. Antusiasme belajar sangat baik. Rekomendasi untuk pertemuan selanjutnya adalah memperbanyak latihan soal variatif agar konsep semakin matang.`);
-            }
-            if (action === 'reportNarrative') {
-                resolve("Berdasarkan riwayat belajar, siswa menunjukkan tren pemahaman yang stabil dan partisipasi aktif selama sesi. Konsep-konsep dasar sudah dikuasai dengan baik. Sangat disarankan untuk terus mempertahankan ritme belajar ini dan mulai mencoba soal-soal tingkat lanjut untuk persiapan ujian.");
-            }
-            if (action === 'teachingIdeas') {
-                resolve("Berikut 3 Ide Seru untuk Topik: '" + payload.topic + "'\n\n1. Role Play (Bermain Peran): Biarkan siswa menjadi 'Guru Cilik' yang menjelaskan ulang konsep ini kepada Anda.\n2. Kuis Berburu Harta Karun: Sembunyikan soal-soal di sekitar ruangan (atau gunakan papan virtual). Siswa harus memecahkan soal untuk mendapat petunjuk selanjutnya.\n3. Hubungan Dunia Nyata: Tantang siswa mencari 3 contoh penerapan konsep ini dari barang-barang di dalam rumah mereka.");
-            }
-            if (action === 'analyzeStudent') {
-                resolve("Analisis Siswa: " + payload.namaSiswa + "\n\nKehadiran: Konsisten.\nSisa Paket: " + payload.sisaSesi + " sesi.\nBerdasarkan jurnal terakhir, siswa unggul di pemahaman konsep awal tetapi butuh dorongan di kecepatan berhitung. \n\nSaran Tutor: Berikan 'Timer Challenge' 5 menit di awal sesi untuk pemanasan.");
-            }
-        }, 1200);
-    });
+    if (!GAS_URL || GAS_URL === "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI") {
+        throw new Error("URL Google Apps Script belum dikonfigurasi. Hubungi admin.");
+    }
+    // Menggunakan GET + query param untuk menghindari CORS redirect issue
+    const params = encodeURIComponent(JSON.stringify({ action, payload }));
+    const url = GAS_URL + "?data=" + params;
+    const response = await fetch(url, { method: "GET" });
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+    if (data.error) throw new Error(data.error);
+    return data.result;
 }
 
 async function enhanceJurnalWithAI() {
@@ -1488,63 +1410,55 @@ function scrollToTop() {
 }
 
 // ============================================================
-// LOCAL STORAGE API (REPLACEMENT FOR SUPABASE)
+// SUPABASE API
 // ============================================================
 async function apiCall(action, payload = {}) {
-    // Delay untuk simulasi loading dari server asli
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    const getDb = (table) => JSON.parse(localStorage.getItem(table) || '[]');
-    const setDb = (table, data) => localStorage.setItem(table, JSON.stringify(data));
-
     try {
         if (action === 'login') {
-            const users = getDb('users');
-            const user = users.find(u => u.username === payload.username.trim() && u.password === payload.password.trim() && u.status_aktif === 'aktif');
-            if (!user) throw new Error("Username atau Password Salah!");
-            return user;
+            const { data, error } = await dbClient.from('users').select('*')
+                .eq('username', payload.username.trim()).eq('password', payload.password.trim()).eq('status_aktif', 'aktif');
+            if (error) throw new Error("Gagal membaca database.");
+            if (!data || data.length === 0) throw new Error("Username atau Password Salah!");
+            return data[0];
         }
         else if (action === 'getGuru') {
-            return getDb('users').filter(u => u.role === 'guru');
+            const { data, error } = await dbClient.from('users').select('*').eq('role', 'guru');
+            if (error) throw error;
+            return data || [];
         }
         else if (action === 'saveGuru') {
-            let users = getDb('users');
             const targetUsername = payload.old_username || payload.username;
-            const existingIndex = users.findIndex(u => u.username === targetUsername);
-            
-            if (existingIndex > -1) {
-                users[existingIndex] = {
-                    ...users[existingIndex],
-                    username: payload.username,
-                    password: payload.password,
-                    nama_lengkap: payload.nama_lengkap,
-                    assigned_siswa: payload.assigned_siswa
-                };
-            } else {
-                users.push({
-                    id_user: "U" + Date.now(), 
-                    username: payload.username, 
-                    password: payload.password,
-                    role: "guru", 
-                    nama_lengkap: payload.nama_lengkap, 
-                    status_aktif: "aktif",
-                    assigned_siswa: payload.assigned_siswa,
-                    no_hp: '', alamat: '', mapel: '', daerah: '', bio: ''
-                });
+            if (targetUsername) {
+                const { data: existing } = await dbClient.from('users').select('id_user').eq('username', targetUsername).maybeSingle();
+                if (existing) {
+                    const { error } = await dbClient.from('users').update({
+                        username: payload.username, password: payload.password,
+                        nama_lengkap: payload.nama_lengkap, assigned_siswa: payload.assigned_siswa
+                    }).eq('id_user', existing.id_user);
+                    if (error) throw error;
+                    return true;
+                }
             }
-            setDb('users', users);
+            const { error } = await dbClient.from('users').insert([{
+                id_user: "U" + Date.now(), username: payload.username, password: payload.password,
+                role: "guru", nama_lengkap: payload.nama_lengkap, status_aktif: "aktif",
+                assigned_siswa: payload.assigned_siswa,
+                no_hp: '', alamat: '', mapel: '', daerah: '', bio: ''
+            }]);
+            if (error) throw error;
             return true;
         }
         else if (action === 'deleteGuru') {
-            let users = getDb('users').filter(u => u.username !== payload.username);
-            setDb('users', users);
+            const { error } = await dbClient.from('users').delete().eq('username', payload.username);
+            if (error) throw error;
             return true;
         }
         else if (action === 'getSiswa') {
-            return getDb('siswa');
+            const { data, error } = await dbClient.from('siswa').select('*');
+            if (error) throw error;
+            return data || [];
         }
         else if (action === 'saveSiswa') {
-            let siswaList = getDb('siswa');
             const d = {
                 nama_siswa: payload.nama_siswa, program_les: payload.program_les,
                 kelas: payload.kelas, alamat_rumah: payload.alamat_rumah,
@@ -1553,83 +1467,73 @@ async function apiCall(action, payload = {}) {
                 jadwal_tanggal: payload.jadwal_tanggal || ''
             };
             if (payload.id_siswa) {
-                const idx = siswaList.findIndex(s => s.id_siswa === payload.id_siswa);
-                if(idx > -1) siswaList[idx] = { ...siswaList[idx], ...d };
+                const { error } = await dbClient.from('siswa').update(d).eq('id_siswa', payload.id_siswa);
+                if (error) throw error;
             } else {
-                siswaList.push({ id_siswa: "S" + Date.now(), ...d });
+                const { error } = await dbClient.from('siswa').insert([{ id_siswa: "S" + Date.now(), ...d }]);
+                if (error) throw error;
             }
-            setDb('siswa', siswaList);
             return true;
         }
         else if (action === 'deleteSiswa') {
-            let siswaList = getDb('siswa').filter(s => s.id_siswa !== payload.id_siswa);
-            setDb('siswa', siswaList);
+            const { error } = await dbClient.from('siswa').delete().eq('id_siswa', payload.id_siswa);
+            if (error) throw error;
             return true;
         }
         else if (action === 'getSesi') {
-            return getDb('sesi_les').sort((a,b) => new Date(b.tanggal) - new Date(a.tanggal));
+            const { data, error } = await dbClient.from('sesi_les').select('*').order('tanggal', { ascending: false });
+            if (error) throw error;
+            return data || [];
         }
         else if (action === 'saveSesi') {
-            let sesiList = getDb('sesi_les');
-            let siswaList = getDb('siswa');
-            let sIdx = siswaList.findIndex(s => s.id_siswa === payload.id_siswa);
-            let currentSisa = sIdx > -1 ? (parseInt(siswaList[sIdx].sisa_sesi) || 0) : 0;
-
+            let currentSisa = 0;
+            const { data: sd } = await dbClient.from('siswa').select('sisa_sesi').eq('id_siswa', payload.id_siswa).maybeSingle();
+            if (sd) currentSisa = parseInt(sd.sisa_sesi) || 0;
             if (!payload.id_sesi) {
-                sesiList.push({
+                const { error } = await dbClient.from('sesi_les').insert([{
                     id_sesi: "SESI-" + Date.now(), tanggal: payload.tanggal,
                     id_guru: payload.id_guru, nama_guru: payload.nama_guru,
                     id_siswa: payload.id_siswa, nama_siswa: payload.nama_siswa,
                     status_sesi: payload.status_sesi, jurnal_materi: payload.jurnal_materi
-                });
-                if (payload.status_sesi === 'Selesai' && sIdx > -1) {
-                    siswaList[sIdx].sisa_sesi = Math.max(0, currentSisa - 1);
+                }]);
+                if (error) throw error;
+                if (payload.status_sesi === 'Selesai') {
+                    await dbClient.from('siswa').update({ sisa_sesi: Math.max(0, currentSisa - 1) }).eq('id_siswa', payload.id_siswa);
                 }
             } else {
-                const oldSesiIdx = sesiList.findIndex(s => s.id_sesi === payload.id_sesi);
-                if (oldSesiIdx > -1) {
-                    const oldStatus = sesiList[oldSesiIdx].status_sesi;
-                    sesiList[oldSesiIdx] = {
-                        ...sesiList[oldSesiIdx],
-                        tanggal: payload.tanggal, id_siswa: payload.id_siswa,
-                        nama_siswa: payload.nama_siswa, status_sesi: payload.status_sesi,
-                        jurnal_materi: payload.jurnal_materi
-                    };
-                    if (sIdx > -1) {
-                        if (oldStatus === "Selesai" && payload.status_sesi !== "Selesai") {
-                            siswaList[sIdx].sisa_sesi = currentSisa + 1;
-                        } else if (oldStatus !== "Selesai" && payload.status_sesi === "Selesai") {
-                            siswaList[sIdx].sisa_sesi = Math.max(0, currentSisa - 1);
-                        }
-                    }
+                const { data: oldSesi } = await dbClient.from('sesi_les').select('status_sesi').eq('id_sesi', payload.id_sesi).maybeSingle();
+                const oldStatus = oldSesi?.status_sesi;
+                const { error } = await dbClient.from('sesi_les').update({
+                    tanggal: payload.tanggal, id_siswa: payload.id_siswa,
+                    nama_siswa: payload.nama_siswa, status_sesi: payload.status_sesi,
+                    jurnal_materi: payload.jurnal_materi
+                }).eq('id_sesi', payload.id_sesi);
+                if (error) throw error;
+                if (oldStatus === "Selesai" && payload.status_sesi !== "Selesai") {
+                    await dbClient.from('siswa').update({ sisa_sesi: currentSisa + 1 }).eq('id_siswa', payload.id_siswa);
+                } else if (oldStatus !== "Selesai" && payload.status_sesi === "Selesai") {
+                    await dbClient.from('siswa').update({ sisa_sesi: Math.max(0, currentSisa - 1) }).eq('id_siswa', payload.id_siswa);
                 }
             }
-            setDb('sesi_les', sesiList);
-            setDb('siswa', siswaList);
             return true;
         }
         else if (action === 'deleteSesi') {
-            let sesiList = getDb('sesi_les');
-            let siswaList = getDb('siswa');
-            const oldSesi = sesiList.find(s => s.id_sesi === payload.id_sesi);
-            
-            if (oldSesi && oldSesi.status_sesi === 'Selesai') {
-                let sIdx = siswaList.findIndex(s => s.id_siswa === oldSesi.id_siswa);
-                if (sIdx > -1) {
-                    siswaList[sIdx].sisa_sesi = (parseInt(siswaList[sIdx].sisa_sesi) || 0) + 1;
-                    setDb('siswa', siswaList);
-                }
+            const { data: oldSesi } = await dbClient.from('sesi_les').select('id_siswa,status_sesi').eq('id_sesi', payload.id_sesi).maybeSingle();
+            if (oldSesi?.status_sesi === 'Selesai') {
+                const { data: sd } = await dbClient.from('siswa').select('sisa_sesi').eq('id_siswa', oldSesi.id_siswa).maybeSingle();
+                await dbClient.from('siswa').update({ sisa_sesi: (parseInt(sd?.sisa_sesi) || 0) + 1 }).eq('id_siswa', oldSesi.id_siswa);
             }
-            sesiList = sesiList.filter(s => s.id_sesi !== payload.id_sesi);
-            setDb('sesi_les', sesiList);
+            const { error } = await dbClient.from('sesi_les').delete().eq('id_sesi', payload.id_sesi);
+            if (error) throw error;
             return true;
         }
         // ── LOWONGAN TUTOR ──
         else if (action === 'getLowongan') {
-            return getDb('lowongan_tutor');
+            const { data, error } = await dbClient.from('lowongan_tutor').select('*').order('created_at', { ascending: false });
+            if (error) throw error;
+            return data || [];
         }
         else if (action === 'saveLowongan') {
-            let lowonganList = getDb('lowongan_tutor');
             const row = {
                 id_lowongan: payload.id_lowongan,
                 posisi: payload.posisi,
@@ -1639,22 +1543,24 @@ async function apiCall(action, payload = {}) {
                 kontak: payload.kontak || null,
                 deadline: payload.deadline || null,
             };
-            const existingIdx = lowonganList.findIndex(l => l.id_lowongan === payload.id_lowongan);
-            if (existingIdx > -1) {
-                lowonganList[existingIdx] = row;
+            // Cek apakah sudah ada (update) atau baru (insert)
+            const { data: existing } = await dbClient.from('lowongan_tutor').select('id_lowongan').eq('id_lowongan', payload.id_lowongan).maybeSingle();
+            if (existing) {
+                const { error } = await dbClient.from('lowongan_tutor').update(row).eq('id_lowongan', payload.id_lowongan);
+                if (error) throw error;
             } else {
-                lowonganList.unshift(row); // Tambah di atas
+                const { error } = await dbClient.from('lowongan_tutor').insert([row]);
+                if (error) throw error;
             }
-            setDb('lowongan_tutor', lowonganList);
             return true;
         }
         else if (action === 'deleteLowongan') {
-            let lowonganList = getDb('lowongan_tutor').filter(l => l.id_lowongan !== payload.id_lowongan);
-            setDb('lowongan_tutor', lowonganList);
+            const { error } = await dbClient.from('lowongan_tutor').delete().eq('id_lowongan', payload.id_lowongan);
+            if (error) throw error;
             return true;
         }
     } catch (error) {
-        console.error("Local DB Error:", error);
+        console.error("DB Error:", error);
         throw error;
     }
 }
@@ -1664,8 +1570,7 @@ async function apiCall(action, payload = {}) {
 // ============================================================
 async function checkMissingSesi() {
     const today = getTodayDate();
-    const allSesi = JSON.parse(localStorage.getItem('sesi_les') || '[]');
-    const sesiHariIni = allSesi.filter(s => s.tanggal === today);
+    const { data: sesiHariIni } = await dbClient.from('sesi_les').select('id_siswa,status_sesi').eq('tanggal', today);
     // Sesi dianggap "sudah diinput" hanya jika ada entri dengan status apapun (Selesai/Batal/Reschedule/Libur)
     const sudahInputIds = new Set((sesiHariIni || []).map(s => s.id_siswa));
     // Filter siswa berdasarkan role: guru hanya melihat siswa yang ditugaskan kepadanya
@@ -2057,19 +1962,20 @@ async function loadDashboard() {
                 <h3 class="text-3xl font-black text-slate-900 mt-1">${reschedule}</h3>
             </div>`;
 
-        // Grafik progress hanya untuk admin
+        // Grafik progress untuk admin dan guru
+        document.getElementById('grafikProgressSection').classList.remove('hide');
         if (currentUser.role === 'admin') {
-            document.getElementById('grafikProgressSection').classList.remove('hide');
+            document.getElementById('grafikFilterWrapper').classList.remove('hide');
             // Isi filter dropdown guru
             const guruSel = document.getElementById('grafikFilterGuru');
             guruSel.innerHTML = '<option value="ALL">Semua Tutor</option>';
             dataGuru.forEach(g => {
                 guruSel.innerHTML += `<option value="${g.username}">${g.nama_lengkap}</option>`;
             });
-            renderGrafikProgress();
         } else {
-            document.getElementById('grafikProgressSection').classList.add('hide');
+            document.getElementById('grafikFilterWrapper').classList.add('hide');
         }
+        renderGrafikProgress();
 
         await checkMissingSesi();
     } catch (e) {
@@ -2080,7 +1986,7 @@ async function loadDashboard() {
 }
 
 function renderGrafikProgress() {
-    const filterGuru = document.getElementById('grafikFilterGuru')?.value || 'ALL';
+    const filterGuru = currentUser.role === 'admin' ? (document.getElementById('grafikFilterGuru')?.value || 'ALL') : currentUser.username;
     const container = document.getElementById('grafikProgressContainer');
     const emptyMsg = document.getElementById('grafikEmptyMsg');
 
@@ -2481,13 +2387,8 @@ async function saveProfil() {
     };
     showLoading(true, "Menyimpan profil...");
     try {
-        const allUsers = JSON.parse(localStorage.getItem('users') || '[]');
-        const userIndex = allUsers.findIndex(u => u.username === currentUser.username);
-        if(userIndex > -1) {
-            allUsers[userIndex] = { ...allUsers[userIndex], ...payload };
-            localStorage.setItem('users', JSON.stringify(allUsers));
-        }
-
+        const { error } = await dbClient.from('users').update(payload).eq('username', currentUser.username);
+        if (error) throw error;
         // Update local currentUser
         Object.assign(currentUser, payload);
         localStorage.setItem('les_user', JSON.stringify(currentUser));
@@ -2658,6 +2559,7 @@ function getPdfFileName() {
     const namaSiswa = document.getElementById('reportSiswaName')?.innerText?.trim() || '';
     const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
     if (namaSiswa && namaSiswa !== 'Semua Siswa' && namaSiswa !== '-') {
+        // Bersihkan nama: hapus karakter non-alfanumerik selain spasi, ganti spasi dgn _
         const bersih = namaSiswa.replace(/[^a-zA-Z0-9 ]/g,'').trim().replace(/\s+/g,'_');
         return `Rekap_${bersih}_${today}.pdf`;
     }
@@ -2667,13 +2569,15 @@ function getPdfFileName() {
 function exportToPDF() {
     showLoading(true, "Menyiapkan PDF...");
     _pdfFileName = getPdfFileName();
+    // Beri waktu UI render loading dulu sebelum proses berat dimulai
     setTimeout(() => {
         const el = document.getElementById('pdfContent');
+        // Reset any transform/offset yang bisa bikin margin geser
         const prevStyle = el.getAttribute('style');
         el.style.transform = 'none';
         el.style.position = 'static';
         html2pdf().set({
-            margin: [15, 0, 15, 0], 
+            margin: [15, 0, 15, 0],   // Margin atas-bawah 15mm. Kiri-kanan diatur dari padding HTML
             filename: _pdfFileName,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: {
@@ -2692,10 +2596,12 @@ function exportToPDF() {
             .then((dataUri) => {
                 showLoading(false);
                 _pdfDataUri = dataUri;
+                // Cek apakah berjalan di dalam WebView APK atau browser biasa
                 const isWebView = /wv|WebView/.test(navigator.userAgent) || 
                     (typeof Android !== 'undefined') ||
                     window.navigator.userAgent.indexOf('Android') > -1 && !window.chrome;
                 if (isWebView) {
+                    // Di WebView APK: langsung coba download / share
                     tryDownloadInWebView();
                 } else {
                     document.getElementById('pdfModal').classList.remove('hide');
@@ -2709,8 +2615,10 @@ function exportToPDF() {
     }, 300);
 }
 
+// Fungsi khusus untuk download di dalam WebView APK
 function tryDownloadInWebView() {
     if (!_pdfDataUri) return;
+    // Coba Web Share API dulu (paling kompatibel di Android)
     const file = dataUriToFile(_pdfDataUri, _pdfFileName);
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({
@@ -2721,10 +2629,12 @@ function tryDownloadInWebView() {
             showToast("✅ PDF berhasil disimpan/dibagikan!");
         }).catch((e) => {
             if (e.name !== 'AbortError') {
+                // fallback ke modal pilihan
                 document.getElementById('pdfModal').classList.remove('hide');
             }
         });
     } else {
+        // Langsung download jika share API tidak tersedia
         downloadPDFDirect();
     }
 }
@@ -2734,4 +2644,130 @@ function closePdfModal() {
     _pdfDataUri = null;
 }
 
-function dataUriToFile(dataUri
+// Konversi dataURI ke Blob/File
+function dataUriToFile(dataUri, filename) {
+    const arr = dataUri.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new File([u8arr], filename, { type: mime });
+}
+
+// Opsi 1: Share via Web Share API → dialog native Android muncul (WA, Drive, Files, dll)
+async function sharePDF() {
+    if (!_pdfDataUri) return;
+    const file = dataUriToFile(_pdfDataUri, _pdfFileName);
+    try {
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                files: [file],
+                title: 'Laporan Belajar SAINSPIQ',
+                text: 'Laporan Les Privat'
+            });
+            closePdfModal();
+            showToast("✅ PDF berhasil disimpan/dibagikan!");
+            return;
+        }
+    } catch(e) {
+        if (e.name === 'AbortError') return; // user cancel, tidak perlu fallback
+        // error lain → coba download langsung
+    }
+    // Fallback: download langsung via <a> tag
+    downloadPDFDirect();
+}
+
+// Download langsung — simpan file ke folder Unduhan HP
+function downloadPDFDirect() {
+    if (!_pdfDataUri) return;
+    try {
+        const arr = _pdfDataUri.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while(n--) u8arr[n] = bstr.charCodeAt(n);
+        const blob = new Blob([u8arr], {type: mime});
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = _pdfFileName;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { 
+            try { URL.revokeObjectURL(blobUrl); } catch(e){}
+            try { a.remove(); } catch(e){}
+        }, 5000);
+        closePdfModal();
+        showToast("✅ PDF disimpan ke folder Unduhan!");
+    } catch(e) {
+        console.error('downloadPDFDirect error:', e);
+        // Fallback: coba via dataUri langsung
+        try {
+            const a = document.createElement('a');
+            a.href = _pdfDataUri;
+            a.download = _pdfFileName;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => { try { a.remove(); } catch(e){} }, 3000);
+            closePdfModal();
+            showToast("✅ PDF sedang diunduh...");
+        } catch(e2) {
+            // Last resort: buka di Chrome
+            bukadiChrome();
+        }
+    }
+}
+
+// Opsi: Buka PDF di browser Chrome bawaan Android
+// Di Chrome, user bisa tekan ⋮ → Download → file masuk ke folder Unduhan
+function bukadiChrome() {
+    if (!_pdfDataUri) return;
+    closePdfModal();
+    try {
+        // Cara 1: Buat Blob PDF dan buka di tab baru
+        const arr = _pdfDataUri.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while(n--) u8arr[n] = bstr.charCodeAt(n);
+        const blob = new Blob([u8arr], {type: 'application/pdf'});
+        const blobUrl = URL.createObjectURL(blob);
+        const win = window.open(blobUrl, '_blank');
+        if (!win) {
+            // Jika popup diblokir, buka halaman wrapper HTML
+            bukaHalamanPDFWrapper();
+        } else {
+            showToast("PDF terbuka — tekan ⋮ → Download untuk simpan");
+        }
+    } catch(e) {
+        bukaHalamanPDFWrapper();
+    }
+}
+
+// Fallback: Buka halaman HTML wrapper dengan iframe PDF
+function bukaHalamanPDFWrapper() {
+    if (!_pdfDataUri) return;
+    const html = '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">'
+        + '<title>Laporan PDF - SAINSPIQ</title>'
+        + '<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#1e1e1e;display:flex;flex-direction:column;height:100vh}'
+        + '.bar{background:#2563eb;color:white;padding:14px 16px;font-family:sans-serif;font-size:14px;font-weight:700;display:flex;align-items:center;gap:10px;flex-shrink:0}'
+        + '.hint{background:#1d4ed8;color:#bfdbfe;font-size:11px;padding:8px 16px;font-family:sans-serif;flex-shrink:0}'
+        + 'iframe{flex:1;width:100%;border:none}'
+        + '</style></head><body>'
+        + '<div class="bar"><span>📄</span> ' + _pdfFileName + '</div>'
+        + '<div class="hint">💡 Tekan menu ⋮ pojok kanan atas → "Download" untuk menyimpan ke Unduhan</div>'
+        + '<iframe src="' + _pdfDataUri + '"></iframe>'
+        + '</body></html>';
+    const blob = new Blob([html], {type: 'text/html'});
+    const blobUrl = URL.createObjectURL(blob);
+    window.open(blobUrl, '_blank');
+    showToast("PDF terbuka — tekan ⋮ → Download");
+}
+</script>
+</body>
+</html>
