@@ -1156,9 +1156,9 @@ let dataGuru = [];
 // ✅ AI BACKEND — Google Apps Script + Gemini
 // ============================================================
 async function callAIBackend(action, payload) {
-    if (!GAS_URL || GAS_URL === "https://script.google.com/macros/s/AKfycbyK24wSA7Lic8EHx_3x91eYQcOr067EHndi1QHintfvrJbrQZMJ03NWQTjO4dN7YBIk/exec") {
-        throw new Error("⚙️ URL Google Apps Script belum diisi.\n\nBuka file HTML → cari GAS_URL → tempel URL deployment GAS kamu.\n\nPanduan: lihat file Code_GAS_AI_SAINSPIQ.js");
-    }
+    if (!GAS_URL) {
+    throw new Error("⚙️ URL Google Apps Script belum diisi.");
+}
     try {
         // Encode payload sebagai query param (menghindari CORS preflight)
         const params = encodeURIComponent(JSON.stringify({ action, payload }));
