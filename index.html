@@ -1140,7 +1140,7 @@
 // ⚡ KONFIGURASI
 // ============================================================
 // 👇 Ganti dengan URL deployment Google Apps Script kamu
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyMRvwk4EXcdTjCPkzQGsjAQsnChABOWxGHdA1CbCBXRk9UiRUO8veHqpk6vYrZS3_K/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyK24wSA7Lic8EHx_3x91eYQcOr067EHndi1QHintfvrJbrQZMJ03NWQTjO4dN7YBIk/exec";
 
 const SUPABASE_URL = "https://napymkogkzwtvdjictip.supabase.co".trim();
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHlta29na3p3dHZkamljdGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2OTM5NDIsImV4cCI6MjA5MzI2OTk0Mn0.t3r51kXGSBoZuzZh35htYzRviWZTnhukpsJbd_hjIrc".trim();
@@ -1156,7 +1156,7 @@ let dataGuru = [];
 // ✅ AI BACKEND — Google Apps Script + Gemini
 // ============================================================
 async function callAIBackend(action, payload) {
-    if (!GAS_URL || GAS_URL === "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI") {
+    if (!GAS_URL || GAS_URL === "https://script.google.com/macros/s/AKfycbyK24wSA7Lic8EHx_3x91eYQcOr067EHndi1QHintfvrJbrQZMJ03NWQTjO4dN7YBIk/exec") {
         throw new Error("⚙️ URL Google Apps Script belum diisi.\n\nBuka file HTML → cari GAS_URL → tempel URL deployment GAS kamu.\n\nPanduan: lihat file Code_GAS_AI_SAINSPIQ.js");
     }
     try {
