@@ -1157,8 +1157,8 @@ let dataGuru = [];
 // ============================================================
 async function callAIBackend(action, payload) {
     if (!GAS_URL) {
-    throw new Error("⚙️ URL Google Apps Script belum diisi.");
-}
+        throw new Error("⚙️ URL Google Apps Script belum diisi.");
+    }
     try {
         // Encode payload sebagai query param (menghindari CORS preflight)
         const params = encodeURIComponent(JSON.stringify({ action, payload }));
@@ -1204,7 +1204,7 @@ async function enhanceJurnalWithAI() {
         const result = await callAIBackend("enhanceJurnal", { rawText: raw });
         textarea.value = result;
         showToast("✨ Jurnal disempurnakan AI!");
-    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    } catch (err) { showToast("Gagal AI: " + err.message, "error"); }
     finally {
         icon.className = "fa-solid fa-wand-magic-sparkles";
         txt.innerText = "Rapikan AI";
@@ -1222,7 +1222,10 @@ async function generateReportNarrativeWithAI() {
     }
     const journals = Array.from(rows).map(r => {
         const c = r.querySelectorAll('td');
-        return c.length === 4 ? `- Tanggal: ${c[0].innerText}, Materi: ${c[3].innerText}` : null;
+        if (c.length !== 4) return null;
+        const materi = c[3].innerText.trim();
+        if (!materi) return null; // Fix: skip jurnal kosong
+        return `- Tanggal: ${c[0].innerText}, Guru: ${c[1].innerText}, Materi: ${materi}`; // Fix: sertakan nama guru
     }).filter(Boolean);
     const namaSiswa = document.getElementById('reportSiswaName').innerText;
     icon.className = "fa-solid fa-spinner fa-spin text-purple-600 text-xl";
@@ -1235,7 +1238,7 @@ async function generateReportNarrativeWithAI() {
         document.getElementById('aiModalTitle').innerHTML = '<div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center border border-white/30 shadow-inner"><i class="fa-solid fa-wand-magic-sparkles"></i></div> Evaluasi AI';
         document.getElementById('aiModalContent').innerText = "Teks ini sudah ditambahkan ke PDF:\n\n" + hasil;
         document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    } catch (err) { showToast("Gagal AI: " + err.message, "error"); }
     finally {
         icon.className = "fa-solid fa-wand-magic-sparkles text-purple-600 text-xl";
         txt.innerText = "Buat Evaluasi AI Otomatis";
@@ -1257,7 +1260,7 @@ async function getTeachingIdeasWithAI() {
         document.getElementById('aiModalTitle').innerHTML = '<div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center border border-white/30"><i class="fa-solid fa-lightbulb text-yellow-300"></i></div> Ide Mengajar';
         document.getElementById('aiModalContent').innerText = hasil;
         document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    } catch (err) { showToast("Gagal AI: " + err.message, "error"); }
     finally {
         icon.className = "fa-solid fa-wand-magic-sparkles text-lg";
         txt.innerText = "Cari Ide Seru";
@@ -1271,8 +1274,8 @@ async function analyzeStudentWithAI(id) {
     showLoading(true, "Menganalisis...");
     try {
         const sesi = (await apiCall('getSesi')) || [];
-        const filtered = currentUser.role === 'guru' ? sesi.filter(s => s.id_guru === currentUser.username) : sesi;
-        const riwayat = filtered.filter(s => s.id_siswa === id);
+        // Ambil SEMUA riwayat siswa ini (dari semua guru), bukan hanya dari guru yang login
+        const riwayat = sesi.filter(s => s.id_siswa === id);
         const riwayatArr = riwayat.map(s => `- ${s.tanggal}: ${s.status_sesi} | ${s.jurnal_materi}`);
         const hasil = await callAIBackend("analyzeStudent", {
             namaSiswa: siswa.nama_siswa, kelas: siswa.kelas || siswa.program_les || '-',
@@ -1281,7 +1284,7 @@ async function analyzeStudentWithAI(id) {
         document.getElementById('aiModalTitle').innerHTML = `<div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center border border-white/30"><i class="fa-solid fa-brain"></i></div> Analisis: ${siswa.nama_siswa}`;
         document.getElementById('aiModalContent').innerText = hasil;
         document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { alert("GAGAL AI ❌\n\n" + err.message); }
+    } catch (err) { showToast("Gagal AI: " + err.message, "error"); }
     finally { showLoading(false); }
 }
 
