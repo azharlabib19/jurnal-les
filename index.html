@@ -242,27 +242,6 @@
     </div>
 
     <!-- ===== MODALS ===== -->
-    <!-- AI Modal -->
-    <div id="aiModal" class="modal-backdrop hide">
-        <div class="modal-card max-w-lg flex flex-col max-h-[90vh]">
-            <div style="background:linear-gradient(135deg,#1e40af,#3b82f6)" class="p-6 flex justify-between items-center relative overflow-hidden border-b-[3px] border-blue-300">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-xl translate-x-10 -translate-y-10"></div>
-                <h3 class="text-white font-black text-lg flex items-center gap-3 relative z-10" id="aiModalTitle">
-                    <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/30 shadow-inner">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div> 
-                    Hasil AI
-                </h3>
-                <button onclick="closeAiModal()" class="text-white/80 hover:text-white w-10 h-10 rounded-full bg-white/10 hover:bg-white/30 flex items-center justify-center transition relative z-10 border border-transparent hover:border-white/30">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <div class="p-7 overflow-y-auto text-slate-800 text-sm whitespace-pre-wrap leading-relaxed flex-1 font-bold bg-slate-50" id="aiModalContent"></div>
-            <div class="p-5 border-t-2 border-slate-200 bg-white text-right">
-                <button onclick="closeAiModal()" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-black px-8 py-3.5 rounded-2xl hover:opacity-90 transition shadow-lg shadow-blue-500/30 border-2 border-blue-400">Tutup</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Confirm Modal -->
     <div id="confirmModal" class="modal-backdrop hide">
@@ -616,33 +595,6 @@
                         </div>
                     </div>
 
-                    <!-- AI Asisten -->
-                    <div class="bg-white rounded-3xl border-2 border-blue-200 shadow-xl p-8 relative overflow-hidden group">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition duration-500 pointer-events-none"></div>
-                        <div class="absolute -bottom-10 -right-10 opacity-[0.04] transform group-hover:scale-110 transition duration-500">
-                            <i class="fa-solid fa-robot text-[150px] text-blue-900"></i>
-                        </div>
-                        <div class="relative z-10">
-                            <h3 class="font-black text-slate-900 text-xl mb-2 flex items-center gap-3">
-                                <div class="bg-gradient-to-br from-amber-400 to-orange-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-200 transform -rotate-6 border-2 border-amber-200"><i class="fa-solid fa-lightbulb text-2xl"></i></div>
-                                <span class="grad-text">AI Asisten Mengajar</span>
-                            </h3>
-                            <p class="text-sm text-slate-600 mb-6 font-bold max-w-lg">Buntu ide mengajar? Beritahu AI topik yang akan dibahas dan dapatkan 3 ide aktivitas interaktif yang seru!</p>
-                            <div class="flex flex-col sm:flex-row gap-4">
-                                <div class="relative flex-1">
-                                    <div class="absolute left-5 top-1/2 -translate-y-1/2 text-blue-500"><i class="fa-solid fa-magnifying-glass text-lg"></i></div>
-                                    <input type="text" id="aiTopicInput"
-                                        class="w-full pl-14 pr-5 py-4 border-2 border-blue-200 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 font-bold text-slate-800 bg-slate-50 shadow-inner transition-all focus:bg-white"
-                                        placeholder="Cth: Belajar pecahan matematika SD">
-                                </div>
-                                <button onclick="getTeachingIdeasWithAI()" id="btnAIIdeas"
-                                    class="bg-gradient-to-r from-blue-600 to-indigo-600 border-2 border-blue-400 text-white font-black px-8 py-4 rounded-2xl flex items-center justify-center gap-3 whitespace-nowrap shadow-xl shadow-blue-300 hover:-translate-y-1 hover:shadow-blue-400 transition-all duration-300">
-                                    <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
-                                    <span>Cari Ide Seru</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- ===== DATA SISWA ===== -->
@@ -887,16 +839,7 @@
                                 <textarea id="sesiJurnal" rows="6"
                                     class="form-input resize-none leading-relaxed font-bold border-2 border-slate-300 transition-all group-hover:border-blue-400 focus:bg-white bg-slate-50"
                                     placeholder="Catat materi yang dibahas, pemahaman siswa, evaluasi singkat, atau tugas yang diberikan..." required></textarea>
-                                <div class="absolute bottom-4 right-4">
-                                    <button type="button" id="btnAIEnhance" onclick="enhanceJurnalWithAI()"
-                                        style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)"
-                                        class="text-xs text-white font-black px-5 py-3 rounded-xl shadow-lg shadow-blue-500/30 flex items-center gap-2 hover:-translate-y-1 hover:shadow-blue-500/50 transition-all border-2 border-blue-400">
-                                        <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
-                                        <span id="textAIEnhance">Rapikan AI</span>
-                                    </button>
-                                </div>
                             </div>
-                            <p class="text-[11px] text-slate-500 mt-3 font-bold flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200"><i class="fa-solid fa-lightbulb text-amber-500 text-lg"></i> Tulis poin-poin kasar, lalu klik tombol AI agar kalimatnya rapi & profesional.</p>
                         </div>
 
                         <div class="flex gap-4 pt-6 border-t-2 border-slate-100 relative z-10">
@@ -965,11 +908,6 @@
                             <p class="text-indigo-800 text-sm mb-8 font-black relative z-10 bg-white inline-block px-5 py-2.5 rounded-full border-2 border-indigo-100 shadow-sm tracking-wide">Total kehadiran: <strong class="text-indigo-600 text-xl mx-1" id="reportVisualTotalHadir">0</strong> sesi.</p>
                             
                             <div class="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-                                <button type="button" id="btnAINarrative" onclick="generateReportNarrativeWithAI()"
-                                    class="bg-white text-indigo-800 border-2 border-indigo-300 font-black px-8 py-4 rounded-2xl shadow-md hover:bg-indigo-50 hover:border-indigo-400 transition flex items-center justify-center gap-3 text-sm">
-                                    <i class="fa-solid fa-wand-magic-sparkles text-purple-600 text-xl"></i>
-                                    <span id="textAINarrative">Buat Evaluasi AI Otomatis</span>
-                                </button>
                                 <button onclick="exportToPDF()" class="bg-gradient-to-r from-rose-600 to-red-600 border-2 border-rose-400 text-white font-black px-8 py-4 rounded-2xl shadow-xl shadow-rose-500/40 hover:opacity-90 transition flex items-center justify-center gap-3 text-sm">
                                     <i class="fa-solid fa-file-pdf text-2xl"></i> Download PDF
                                 </button>
@@ -1024,11 +962,6 @@
                                 </thead>
                                 <tbody id="reportTableBody" style="color:#1f2937;"></tbody>
                             </table>
-                            <!-- AI Narrative -->
-                            <div id="aiNarrativeContainer" class="hide" style="margin-top:20px;background:#faf5ff;padding:14px 16px;border-radius:8px;border:1px solid #d8b4fe;font-size:12px;color:#374151;">
-                                <div style="font-weight:800;color:#7c3aed;margin-bottom:6px;">💡 Ringkasan Evaluasi (Generated by AI):</div>
-                                <p id="aiNarrativeText" style="margin:0;line-height:1.7;font-style:italic;text-align:justify;"></p>
-                            </div>
                             <!-- Tanda Tangan -->
                             <div style="margin-top:40px;display:flex;justify-content:flex-end;">
                                 <div style="text-align:center;min-width:180px;">
@@ -1139,8 +1072,6 @@
 // ============================================================
 // ⚡ KONFIGURASI
 // ============================================================
-// 👇 Ganti dengan URL deployment Google Apps Script kamu
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwriqWHwANDmvwh9KNW3PVI1zwV1QT4ebLW_bgol-tAmgtZZmft8JdQHzREM_4eXPhi/exec";
 
 const SUPABASE_URL = "https://napymkogkzwtvdjictip.supabase.co".trim();
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHlta29na3p3dHZkamljdGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2OTM5NDIsImV4cCI6MjA5MzI2OTk0Mn0.t3r51kXGSBoZuzZh35htYzRviWZTnhukpsJbd_hjIrc".trim();
@@ -1152,138 +1083,6 @@ let dataSiswa = [];
 let dataSesi = [];
 let dataGuru = [];
 
-// ============================================================
-// ✅ AI BACKEND — Google Apps Script + Gemini (UPDATED TO POST)
-// ============================================================
-async function callAIBackend(action, payload) {
-    if (!GAS_URL) {
-        throw new Error("⚙️ URL Google Apps Script belum diisi.");
-    }
-    try {
-        // Menggunakan POST agar bisa mengirim teks panjang (Jurnal)
-        const response = await fetch(GAS_URL, {
-            method: "POST",
-            body: JSON.stringify({ action, payload }),
-            // Tidak perlu headers khusus agar tidak kena CORS Preflight di GAS
-        });
-
-        // Tangkap teks balasan dari GAS
-        const text = await response.text();
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch (_) {
-            throw new Error("Respons dari server bukan JSON yang valid. Cek URL GAS kamu.\n\nRespons: " + text.substring(0, 200));
-        }
-        if (data.error) throw new Error(data.error);
-        if (data.result === undefined) throw new Error("Respons GAS tidak memiliki field 'result'. Pastikan kode GAS sudah di-deploy ulang.");
-        return data.result;
-    } catch (err) {
-        // Tangkap error network (CORS, offline, dll)
-        if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
-            throw new Error("Gagal terhubung ke server AI.\n\n• Pastikan URL GAS sudah benar\n• Pastikan deployment GAS menggunakan POST & akses 'Anyone'\n• Coba deploy ulang GAS sebagai New Deployment");
-        }
-        throw err;
-    }
-}
-
-async function enhanceJurnalWithAI() {
-    const textarea = document.getElementById('sesiJurnal');
-    const raw = textarea.value.trim();
-    const btn = document.getElementById('btnAIEnhance');
-    const icon = btn.querySelector('i');
-    const txt = document.getElementById('textAIEnhance');
-    if (!raw) { showToast("Ketik catatan kasar dulu!", "error"); return; }
-    icon.className = "fa-solid fa-spinner fa-spin";
-    txt.innerText = "Memproses...";
-    btn.disabled = true;
-    try {
-        const result = await callAIBackend("enhanceJurnal", { rawText: raw });
-        textarea.value = result;
-        showToast("✨ Jurnal disempurnakan AI!");
-    } catch (err) { showToast("Gagal AI: " + err.message, "error"); }
-    finally {
-        icon.className = "fa-solid fa-wand-magic-sparkles";
-        txt.innerText = "Rapikan AI";
-        btn.disabled = false;
-    }
-}
-
-async function generateReportNarrativeWithAI() {
-    const rows = document.getElementById('reportTableBody').querySelectorAll('tr');
-    const btn = document.getElementById('btnAINarrative');
-    const icon = btn.querySelector('i');
-    const txt = document.getElementById('textAINarrative');
-    if (!rows.length || rows[0].innerText.includes('Tidak ada data')) {
-        showToast("Tidak ada data sesi.", "error"); return;
-    }
-    const journals = Array.from(rows).map(r => {
-        const c = r.querySelectorAll('td');
-        if (c.length !== 4) return null;
-        const materi = c[3].innerText.trim();
-        if (!materi) return null; // Fix: skip jurnal kosong
-        return `- Tanggal: ${c[0].innerText}, Guru: ${c[1].innerText}, Materi: ${materi}`; // Fix: sertakan nama guru
-    }).filter(Boolean);
-    const namaSiswa = document.getElementById('reportSiswaName').innerText;
-    icon.className = "fa-solid fa-spinner fa-spin text-purple-600 text-xl";
-    txt.innerText = "Menulis...";
-    btn.disabled = true;
-    try {
-        const hasil = await callAIBackend("reportNarrative", { namaSiswa, journals });
-        document.getElementById('aiNarrativeText').innerText = hasil;
-        document.getElementById('aiNarrativeContainer').classList.remove('hide');
-        document.getElementById('aiModalTitle').innerHTML = '<div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center border border-white/30 shadow-inner"><i class="fa-solid fa-wand-magic-sparkles"></i></div> Evaluasi AI';
-        document.getElementById('aiModalContent').innerText = "Teks ini sudah ditambahkan ke PDF:\n\n" + hasil;
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { showToast("Gagal AI: " + err.message, "error"); }
-    finally {
-        icon.className = "fa-solid fa-wand-magic-sparkles text-purple-600 text-xl";
-        txt.innerText = "Buat Evaluasi AI Otomatis";
-        btn.disabled = false;
-    }
-}
-
-async function getTeachingIdeasWithAI() {
-    const topic = document.getElementById('aiTopicInput').value.trim();
-    const btn = document.getElementById('btnAIIdeas');
-    const icon = btn.querySelector('i');
-    const txt = btn.querySelector('span');
-    if (!topic) { showToast("Masukkan topik dulu!", "error"); return; }
-    icon.className = "fa-solid fa-spinner fa-spin text-lg";
-    txt.innerText = "Mencari...";
-    btn.disabled = true;
-    try {
-        const hasil = await callAIBackend("teachingIdeas", { topic });
-        document.getElementById('aiModalTitle').innerHTML = '<div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center border border-white/30"><i class="fa-solid fa-lightbulb text-yellow-300"></i></div> Ide Mengajar';
-        document.getElementById('aiModalContent').innerText = hasil;
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { showToast("Gagal AI: " + err.message, "error"); }
-    finally {
-        icon.className = "fa-solid fa-wand-magic-sparkles text-lg";
-        txt.innerText = "Cari Ide Seru";
-        btn.disabled = false;
-    }
-}
-
-async function analyzeStudentWithAI(id) {
-    const siswa = dataSiswa.find(s => s.id_siswa === id);
-    if (!siswa) return;
-    showLoading(true, "Menganalisis...");
-    try {
-        const sesi = (await apiCall('getSesi')) || [];
-        // Ambil SEMUA riwayat siswa ini (dari semua guru), bukan hanya dari guru yang login
-        const riwayat = sesi.filter(s => s.id_siswa === id);
-        const riwayatArr = riwayat.map(s => `- ${s.tanggal}: ${s.status_sesi} | ${s.jurnal_materi}`);
-        const hasil = await callAIBackend("analyzeStudent", {
-            namaSiswa: siswa.nama_siswa, kelas: siswa.kelas || siswa.program_les || '-',
-            sisaSesi: siswa.sisa_sesi, jadwal: formatJadwal(siswa), riwayat: riwayatArr
-        });
-        document.getElementById('aiModalTitle').innerHTML = `<div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center border border-white/30"><i class="fa-solid fa-brain"></i></div> Analisis: ${siswa.nama_siswa}`;
-        document.getElementById('aiModalContent').innerText = hasil;
-        document.getElementById('aiModal').classList.remove('hide');
-    } catch (err) { showToast("Gagal AI: " + err.message, "error"); }
-    finally { showLoading(false); }
-}
 
 // ============================================================
 // HELPER: HARI & JADWAL
@@ -1325,7 +1124,6 @@ function setSelectedHari(hariStr) {
 // ============================================================
 // MODAL HELPERS
 // ============================================================
-function closeAiModal() { document.getElementById('aiModal').classList.add('hide'); }
 
 let confirmCallback = null;
 function showConfirm(title, text, onConfirm) {
@@ -2161,7 +1959,6 @@ async function loadDataSiswaPage() {
                     <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
                     <td class="p-4 text-sm whitespace-nowrap">
                         <div class="flex gap-2">
-                            <button onclick='analyzeStudentWithAI("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-white bg-gradient-to-br from-blue-600 to-indigo-600 border border-blue-400 rounded-xl transition hover:scale-105 shadow-md shadow-blue-200" title="Analisis AI"><i class="fa-solid fa-brain"></i></button>
                             <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-emerald-700 bg-emerald-50 border border-emerald-300 rounded-xl transition hover:bg-emerald-100 shadow-sm" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
                             <button onclick='editDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-blue-700 bg-blue-50 border border-blue-300 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
                             <button onclick='deleteDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 border border-red-300 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
@@ -2559,8 +2356,6 @@ async function generateReport() {
         document.getElementById('reportTableBody').innerHTML = html || '<tr><td colspan="4" class="text-center p-6 italic text-gray-500">Tidak ada data.</td></tr>';
         document.getElementById('reportVisualTotalHadir').innerText = hadir;
         document.getElementById('reportTotalHadir').innerText = hadir;
-        document.getElementById('aiNarrativeContainer').classList.add('hide');
-        document.getElementById('aiNarrativeText').innerText = '';
         document.getElementById('reportContainer').classList.remove('hide');
         if (currentUser.role === 'guru' && idSiswa && idSiswa !== 'ALL') {
             const sw = dataSiswa.find(s => s.id_siswa === idSiswa);
