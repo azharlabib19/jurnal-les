@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <script>
-        const APP_VERSION = "2026.06.12-v3"; // ← GANTI INI setiap push update ke GitHub
+        const APP_VERSION = "2026.06.12-v2"; // ← GANTI INI setiap push update ke GitHub
 
         const savedVersion = localStorage.getItem('app_version');
         if (savedVersion !== APP_VERSION) {
@@ -147,47 +147,6 @@
         .login-btn:active { transform: translateY(0) scale(0.98); }
         .login-orb { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; }
 
-        /* ── PWA INSTALL BUTTON ── */
-        #pwaInstallBtn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px 20px;
-            margin-top: 12px;
-            border-radius: 18px;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.35);
-            color: white;
-            font-family: var(--font);
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            letter-spacing: 0.03em;
-        }
-        #pwaInstallBtn:hover {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.6);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-        #pwaInstallBtn:active { transform: scale(0.97); }
-        #pwaInstallBtn .pwa-icon {
-            width: 32px; height: 32px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px; flex-shrink: 0;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        @keyframes pwaShimmer {
-            0%,100%{opacity:1} 50%{opacity:0.6}
-        }
-        .pwa-pulse { animation: pwaShimmer 2s ease-in-out infinite; }
-
         /* ── TOAST (MODERN ANIMATION) ── */
         #toast {
             position: fixed; top: 30px; left: 50%; transform: translate(-50%, -40px) scale(0.8);
@@ -293,6 +252,44 @@
         .badge-soon { background: #fef9c3; color: #92400e; border: 2px solid #fde047; box-shadow: 0 2px 8px rgba(146,64,14,0.15);}
         
         .grad-text { background: linear-gradient(135deg, #1e3a8a, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* ── PWA INSTALL BUTTON ── */
+        #pwaInstallBtn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px 18px;
+            margin-top: 12px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.4);
+            color: white;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 0.02em;
+            text-align: left;
+        }
+        #pwaInstallBtn:hover {
+            background: rgba(255,255,255,0.28);
+            border-color: rgba(255,255,255,0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+        }
+        #pwaInstallBtn .pwa-icon {
+            width: 36px; height: 36px; flex-shrink: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        @keyframes pwaGlow { 0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.3)} 50%{box-shadow:0 0 0 6px rgba(255,255,255,0)} }
+        #pwaInstallBtn { animation: pwaGlow 2.5s ease-in-out infinite; }
     </style>
 </head>
 <body>
@@ -497,17 +494,17 @@
                 <button type="submit" class="login-btn w-full py-4 rounded-2xl text-base mt-4 uppercase tracking-widest flex items-center justify-center gap-3">
                     MASUK SEKARANG <i class="fa-solid fa-arrow-right"></i>
                 </button>
-
-                <!-- PWA Install Button - hanya muncul jika belum install -->
-                <button type="button" id="pwaInstallBtn" class="hide pwa-pulse" onclick="triggerPwaInstall()">
-                    <div class="pwa-icon">📲</div>
-                    <div class="text-left">
-                        <div class="text-sm">Install Aplikasi</div>
-                        <div class="text-xs font-semibold opacity-75">Sekali klik, langsung di HP kamu</div>
-                    </div>
-                    <i class="fa-solid fa-download ml-auto opacity-80"></i>
-                </button>
             </form>
+
+            <!-- PWA Install Button — di LUAR form agar tidak ganggu login -->
+            <button id="pwaInstallBtn" class="hide" onclick="triggerPwaInstall()">
+                <div class="pwa-icon">📲</div>
+                <div style="flex:1">
+                    <div>Install Aplikasi SAINSPIQ</div>
+                    <div style="font-size:11px;font-weight:600;opacity:0.75;margin-top:2px">Sekali klik, langsung ada di layar HP</div>
+                </div>
+                <i class="fa-solid fa-download" style="opacity:0.8;font-size:16px"></i>
+            </button>
 
             <p class="text-center mt-8 text-xs font-bold" style="color:rgba(255,255,255,0.6)">
                 © 2024 LBB SAINSPIQ · All rights reserved
@@ -2473,104 +2470,78 @@ function bukaHalamanPDFWrapper() {
     window.open(blobUrl, '_blank');
     showToast("PDF terbuka — tekan ⋮ → Download");
 }
-<!-- ===== PWA SERVICE WORKER & INSTALL LOGIC ===== -->
+</script>
+
+<!-- ===== PWA INSTALL LOGIC ===== -->
 <script>
-(function() {
-    // ── Register Service Worker ──
-    if ('serviceWorker' in navigator) {
-        // Buat service worker via inline blob agar single-file tetap berfungsi
-        // CATATAN: Untuk produksi GitHub Pages, letakkan sw.js di root repo
-        // File manifest.json & sw.js harus ada di root GitHub Pages repo
-        navigator.serviceWorker.register('/sw.js').catch(() => {
-            // Fallback: jika sw.js belum ada, buat inline blob SW
-            const swCode = `
-const CACHE_NAME = 'sainspiq-v1';
-const ASSETS = ['/'];
-self.addEventListener('install', e => {
-    e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
-});
-self.addEventListener('activate', e => {
-    e.waitUntil(clients.claim());
-});
-self.addEventListener('fetch', e => {
-    if (e.request.method !== 'GET') return;
-    e.respondWith(
-        fetch(e.request).catch(() => caches.match(e.request))
-    );
-});
-            `;
-            const blob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(swUrl).catch(console.warn);
-        });
+(function () {
+    var deferredPrompt = null;
+
+    function isStandalone() {
+        return window.matchMedia('(display-mode: standalone)').matches
+            || window.navigator.standalone === true;
     }
 
-    // ── PWA Install Prompt ──
-    let deferredPrompt = null;
-    const btnInstall = document.getElementById('pwaInstallBtn');
+    function getBtn() { return document.getElementById('pwaInstallBtn'); }
 
-    // Cek apakah sudah terinstall sebagai PWA
-    function isInstalled() {
-        return window.matchMedia('(display-mode: standalone)').matches 
-            || window.navigator.standalone === true
-            || document.referrer.includes('android-app://');
-    }
-
-    // Tampilkan tombol install
-    function showInstallBtn() {
-        if (btnInstall && !isInstalled()) {
-            btnInstall.classList.remove('hide');
+    function showBtn() {
+        var btn = getBtn();
+        if (btn && !isStandalone() && localStorage.getItem('pwa_installed') !== '1') {
+            btn.classList.remove('hide');
         }
     }
 
-    // Sembunyikan tombol install (setelah terinstall)
-    function hideInstallBtn() {
-        if (btnInstall) {
-            btnInstall.classList.add('hide');
-        }
+    function hideBtn() {
+        var btn = getBtn();
+        if (btn) btn.classList.add('hide');
     }
 
-    // Tangkap event beforeinstallprompt (Chrome/Android)
-    window.addEventListener('beforeinstallprompt', (e) => {
+    // Tangkap prompt install dari browser (Chrome Android)
+    window.addEventListener('beforeinstallprompt', function (e) {
         e.preventDefault();
         deferredPrompt = e;
-        showInstallBtn();
+        showBtn();
     });
 
-    // Jika sudah terinstall, sembunyikan tombol
-    window.addEventListener('appinstalled', () => {
+    // Setelah berhasil install
+    window.addEventListener('appinstalled', function () {
         deferredPrompt = null;
-        hideInstallBtn();
-        // Simpan status terinstall
+        hideBtn();
         localStorage.setItem('pwa_installed', '1');
         if (typeof showToast === 'function') {
             showToast('✅ Aplikasi SAINSPIQ berhasil diinstall!', 'success');
         }
     });
 
-    // Fungsi trigger install (dipanggil dari tombol)
-    window.triggerPwaInstall = async function() {
-        if (!deferredPrompt) {
-            // Fallback untuk iOS Safari
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-                alert('📲 Untuk install di iPhone/iPad:\n\n1. Ketuk tombol Share (kotak + panah atas)\n2. Pilih "Add to Home Screen"\n3. Ketuk "Add"');
-            } else {
+    // Fungsi yang dipanggil tombol
+    window.triggerPwaInstall = async function () {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            var result = await deferredPrompt.userChoice;
+            if (result.outcome === 'accepted') {
+                hideBtn();
+                localStorage.setItem('pwa_installed', '1');
+            }
+            deferredPrompt = null;
+        } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+            alert('📲 Install di iPhone/iPad:\n\n1. Ketuk ikon Share (kotak + panah ke atas)\n2. Pilih "Tambah ke Layar Utama"\n3. Ketuk "Tambah"');
+        } else {
+            if (typeof showToast === 'function') {
                 showToast('Buka di Chrome untuk install aplikasi', 'error');
             }
-            return;
         }
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            hideInstallBtn();
-            localStorage.setItem('pwa_installed', '1');
-        }
-        deferredPrompt = null;
     };
 
-    // Jika sudah pernah install, jangan tampilkan tombol
-    if (localStorage.getItem('pwa_installed') === '1' || isInstalled()) {
-        hideInstallBtn();
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(function () {
+            console.warn('SW tidak terdaftar — pastikan sw.js ada di root GitHub Pages');
+        });
+    }
+
+    // Sudah terinstall? Sembunyikan tombol
+    if (isStandalone() || localStorage.getItem('pwa_installed') === '1') {
+        hideBtn();
     }
 })();
 </script>
