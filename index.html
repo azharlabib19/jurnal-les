@@ -565,6 +565,30 @@
                         </div>
                     </div>
 
+                    <!-- Statistik Admin: Guru & Siswa Aktif -->
+                    <div id="adminStatsSection" class="hide grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white rounded-[1.5rem] border-2 border-blue-100 shadow-[0_10px_30px_-10px_rgba(37,99,235,0.15)] p-5 flex items-center gap-4 relative overflow-hidden">
+                            <div class="absolute -top-6 -right-6 w-24 h-24 bg-blue-50 rounded-full blur-2xl opacity-80 pointer-events-none"></div>
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-200 border-2 border-blue-100 flex-shrink-0 relative z-10">
+                                <i class="fa-solid fa-chalkboard-user text-xl"></i>
+                            </div>
+                            <div class="relative z-10">
+                                <p class="text-slate-500 text-[11px] font-black uppercase tracking-wider">Guru Aktif</p>
+                                <p id="statGuruAktif" class="text-slate-900 font-black text-3xl leading-tight">0</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-[1.5rem] border-2 border-emerald-100 shadow-[0_10px_30px_-10px_rgba(16,185,129,0.15)] p-5 flex items-center gap-4 relative overflow-hidden">
+                            <div class="absolute -top-6 -right-6 w-24 h-24 bg-emerald-50 rounded-full blur-2xl opacity-80 pointer-events-none"></div>
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-lg shadow-emerald-200 border-2 border-emerald-100 flex-shrink-0 relative z-10">
+                                <i class="fa-solid fa-user-graduate text-xl"></i>
+                            </div>
+                            <div class="relative z-10">
+                                <p class="text-slate-500 text-[11px] font-black uppercase tracking-wider">Siswa Aktif</p>
+                                <p id="statSiswaAktif" class="text-slate-900 font-black text-3xl leading-tight">0</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Lowongan Tutor -->
                     <div class="lowongan-card mb-6" id="lowonganSection">
                         <div class="px-6 py-5 flex items-center justify-between bg-white border-b-2 border-slate-100">
@@ -1767,8 +1791,12 @@ async function loadDashboard() {
             dataGuru.forEach(g => {
                 guruSel.innerHTML += `<option value="${g.username}">${g.nama_lengkap}</option>`;
             });
+            document.getElementById('adminStatsSection').classList.remove('hide');
+            document.getElementById('statGuruAktif').innerText = dataGuru.length;
+            document.getElementById('statSiswaAktif').innerText = dataSiswa.length;
         } else {
             document.getElementById('grafikFilterWrapper').classList.add('hide');
+            document.getElementById('adminStatsSection').classList.add('hide');
         }
         renderGrafikProgress();
         await checkMissingSesi();
