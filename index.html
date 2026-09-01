@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <script>
-        const APP_VERSION = "2026.06.12-v2"; // ← GANTI INI setiap push update ke GitHub
+        const APP_VERSION = "2026.07.16-v4"; // ← GANTI INI setiap push update ke GitHub
 
         const savedVersion = localStorage.getItem('app_version');
         if (savedVersion !== APP_VERSION) {
@@ -507,7 +507,7 @@
             </button>
 
             <p class="text-center mt-8 text-xs font-bold" style="color:rgba(255,255,255,0.6)">
-                © 2024 LBB SAINSPIQ · All rights reserved
+                © 2026 LBB SAINSPIQ · All rights reserved
             </p>
         </div>
     </div>
@@ -588,6 +588,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Peringatan Siswa Yatim (tercatat di histori/tutor tapi hilang dari Data Siswa) -->
+                    <div id="siswaYatimSection" class="hide mb-6"></div>
+
+                    <!-- Panel Guru Belum Input Sesi (potensi "Guru Malas") -->
+                    <div id="guruMalasSection" class="hide mb-6"></div>
 
                     <!-- Lowongan Tutor -->
                     <div class="lowongan-card mb-6" id="lowonganSection">
@@ -758,9 +764,15 @@
                     </form>
                     
                     <div class="bg-white rounded-[2rem] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] border-2 border-slate-200 overflow-hidden">
-                        <div class="bg-slate-50 px-6 py-5 border-b-2 border-slate-200 flex items-center gap-3">
-                            <div class="w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center"><i class="fa-solid fa-list-ul text-slate-500"></i></div>
-                            <h3 class="font-black text-slate-800 text-sm tracking-wide uppercase">Daftar Siswa Aktif</h3>
+                        <div class="bg-slate-50 px-6 py-5 border-b-2 border-slate-200 flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center"><i class="fa-solid fa-list-ul text-slate-500"></i></div>
+                                <h3 class="font-black text-slate-800 text-sm tracking-wide uppercase">Daftar Siswa Aktif</h3>
+                            </div>
+                            <div class="relative w-full sm:w-72">
+                                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                                <input type="text" id="searchSiswa" oninput="filterDataSiswa()" placeholder="Cari nama siswa / program..." class="form-input pl-11 text-sm py-2.5 bg-white">
+                            </div>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="data-table min-w-[600px]">
@@ -832,9 +844,15 @@
                     </form>
 
                     <div class="bg-white rounded-[2rem] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] border-2 border-slate-200 overflow-hidden">
-                        <div class="bg-slate-50 px-6 py-5 border-b-2 border-slate-200 flex items-center gap-3">
-                            <div class="w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center"><i class="fa-solid fa-list-ul text-slate-500"></i></div>
-                            <h3 class="font-black text-slate-800 text-sm tracking-wide uppercase">Daftar Tutor Aktif</h3>
+                        <div class="bg-slate-50 px-6 py-5 border-b-2 border-slate-200 flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-white border border-slate-200 rounded-lg flex items-center justify-center"><i class="fa-solid fa-list-ul text-slate-500"></i></div>
+                                <h3 class="font-black text-slate-800 text-sm tracking-wide uppercase">Daftar Tutor Aktif</h3>
+                            </div>
+                            <div class="relative w-full sm:w-72">
+                                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                                <input type="text" id="searchGuru" oninput="filterDataGuru()" placeholder="Cari nama tutor / username..." class="form-input pl-11 text-sm py-2.5 bg-white">
+                            </div>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="data-table min-w-[600px]">
@@ -1046,15 +1064,23 @@
 
                     <!-- Riwayat -->
                     <div class="mt-8">
-                        <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-3 tracking-tight">
-                            <div class="w-12 h-12 rounded-xl bg-slate-200 border border-slate-300 text-slate-700 flex items-center justify-center shadow-sm"><i class="fa-solid fa-clock-rotate-left text-lg"></i></div>
-                            Riwayat Jurnal Keseluruhan
-                        </h3>
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                            <h3 class="text-xl font-black text-slate-900 flex items-center gap-3 tracking-tight">
+                                <div class="w-12 h-12 rounded-xl bg-slate-200 border border-slate-300 text-slate-700 flex items-center justify-center shadow-sm"><i class="fa-solid fa-clock-rotate-left text-lg"></i></div>
+                                Riwayat Jurnal Keseluruhan
+                            </h3>
+                            <div id="bulkDeleteBar" class="hide items-center gap-3 bg-red-50 border-2 border-red-300 rounded-2xl px-5 py-3 shadow-sm">
+                                <span class="text-sm font-black text-red-700"><span id="bulkDeleteCount">0</span> sesi dipilih</span>
+                                <button onclick="bulkDeleteSesi()" class="bg-red-600 hover:bg-red-700 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow-sm transition flex items-center gap-2"><i class="fa-solid fa-trash-can"></i> Hapus Terpilih</button>
+                                <button onclick="cancelBulkSelect()" class="bg-white border border-slate-300 text-slate-600 font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-slate-50 transition">Batal</button>
+                            </div>
+                        </div>
                         <div class="bg-white rounded-[2rem] shadow-xl border-2 border-slate-200 overflow-hidden">
                             <div class="overflow-x-auto p-2">
                                 <table class="data-table min-w-[700px]">
                                     <thead>
                                         <tr>
+                                            <th class="w-10"><input type="checkbox" id="checkAllRiwayat" onchange="toggleAllRiwayat(this)" class="w-4 h-4 cursor-pointer"></th>
                                             <th>Tanggal</th>
                                             <th>Siswa</th>
                                             <th>Tutor</th>
@@ -1159,6 +1185,15 @@ function siswaJadwalHariIni(siswa) {
     let adaH = false, adaT = false;
     if (siswa.jadwal_hari?.trim()) adaH = siswa.jadwal_hari.split(',').map(h=>h.trim()).includes(hariIni);
     if (siswa.jadwal_tanggal?.trim()) adaT = siswa.jadwal_tanggal.split(',').map(t=>parseInt(t.trim())).includes(tglIni);
+    return adaH || adaT;
+}
+
+function siswaJadwalPadaTanggal(siswa, dateObj) {
+    const namaHari = NAMA_HARI[dateObj.getDay()];
+    const tgl = dateObj.getDate();
+    let adaH = false, adaT = false;
+    if (siswa.jadwal_hari?.trim()) adaH = siswa.jadwal_hari.split(',').map(h=>h.trim()).includes(namaHari);
+    if (siswa.jadwal_tanggal?.trim()) adaT = siswa.jadwal_tanggal.split(',').map(t=>parseInt(t.trim())).includes(tgl);
     return adaH || adaT;
 }
 
@@ -1292,7 +1327,8 @@ async function apiCall(action, payload = {}) {
             return data[0];
         }
         else if (action === 'getGuru') {
-            const { data, error } = await dbClient.from('users').select('*').eq('role', 'guru');
+            const { data, error } = await dbClient.from('users').select('*').eq('role', 'guru')
+                .order('nama_lengkap', { ascending: true }).limit(10000);
             if (error) throw error;
             return data || [];
         }
@@ -1324,7 +1360,8 @@ async function apiCall(action, payload = {}) {
             return true;
         }
         else if (action === 'getSiswa') {
-            const { data, error } = await dbClient.from('siswa').select('*');
+            const { data, error } = await dbClient.from('siswa').select('*')
+                .order('nama_siswa', { ascending: true }).limit(10000);
             if (error) throw error;
             return data || [];
         }
@@ -1347,6 +1384,24 @@ async function apiCall(action, payload = {}) {
         }
         else if (action === 'deleteSiswa') {
             const { error } = await dbClient.from('siswa').delete().eq('id_siswa', payload.id_siswa);
+            if (error) throw error;
+            // Bersihkan referensi siswa ini dari daftar assigned_siswa semua guru
+            const { data: guruTerkait } = await dbClient.from('users').select('id_user,username,assigned_siswa')
+                .eq('role', 'guru').like('assigned_siswa', `%${payload.id_siswa}%`);
+            if (guruTerkait && guruTerkait.length > 0) {
+                for (const g of guruTerkait) {
+                    const sisa = (g.assigned_siswa || '').split(',').map(x => x.trim()).filter(x => x && x !== payload.id_siswa).join(',');
+                    await dbClient.from('users').update({ assigned_siswa: sisa }).eq('id_user', g.id_user);
+                }
+            }
+            return true;
+        }
+        else if (action === 'restoreSiswa') {
+            const { error } = await dbClient.from('siswa').upsert([{
+                id_siswa: payload.id_siswa, nama_siswa: payload.nama_siswa,
+                program_les: '-', kelas: '', alamat_rumah: '-', sisa_sesi: 0,
+                jadwal_hari: '', jadwal_tanggal: ''
+            }], { onConflict: 'id_siswa' });
             if (error) throw error;
             return true;
         }
@@ -1690,8 +1745,22 @@ async function initApp() {
     buildNavigation();
     dataSiswa = (await apiCall('getSiswa')) || [];
     dataGuru = (await apiCall('getGuru')) || [];
+    refreshCurrentUserFromServer();
     loadSiswaOptions();
     navigate('dashboard');
+}
+
+// Menyamakan currentUser (termasuk assigned_siswa milik tutor) dengan data terbaru
+// dari database. Sebelumnya currentUser hanya diambil sekali dari localStorage saat
+// login, jadi kalau admin menambah/mengubah siswa yang ditugaskan ke tutor setelah
+// tutor login, HP tutor tidak akan tahu perubahan itu sampai logout lalu login lagi.
+function refreshCurrentUserFromServer() {
+    if (!currentUser || currentUser.role !== 'guru') return;
+    const fresh = dataGuru.find(g => g.username === currentUser.username);
+    if (fresh) {
+        currentUser = fresh;
+        localStorage.setItem('les_user', JSON.stringify(currentUser));
+    }
 }
 
 // ============================================================
@@ -1783,6 +1852,8 @@ async function loadDashboard() {
         dataSesi = (await apiCall('getSesi')) || [];
         dataSiswa = (await apiCall('getSiswa')) || [];
         dataGuru = (await apiCall('getGuru')) || [];
+        refreshCurrentUserFromServer();
+        loadSiswaOptions();
         document.getElementById('grafikProgressSection').classList.remove('hide');
         if (currentUser.role === 'admin') {
             document.getElementById('grafikFilterWrapper').classList.remove('hide');
@@ -1798,6 +1869,8 @@ async function loadDashboard() {
             document.getElementById('grafikFilterWrapper').classList.add('hide');
             document.getElementById('adminStatsSection').classList.add('hide');
         }
+        renderSiswaYatim();
+        renderGuruMalas();
         renderGrafikProgress();
         await checkMissingSesi();
     } catch (e) {
@@ -1806,6 +1879,156 @@ async function loadDashboard() {
     }
     await loadLowongan();
     showLoading(false);
+}
+
+function renderSiswaYatim() {
+    const el = document.getElementById('siswaYatimSection');
+    if (currentUser.role !== 'admin') { el.classList.add('hide'); el.innerHTML = ''; return; }
+
+    const knownIds = new Set(dataSiswa.map(s => s.id_siswa));
+    const yatimMap = {};
+
+    dataGuru.forEach(g => {
+        (g.assigned_siswa || '').split(',').map(x => x.trim()).filter(Boolean).forEach(id => {
+            if (!knownIds.has(id) && !yatimMap[id]) yatimMap[id] = { id, nama: null, sumber: 'Ditugaskan ke ' + g.nama_lengkap };
+        });
+    });
+    // Catatan: dulu ada juga pengecekan dari riwayat sesi (dataSesi), tapi itu membuat
+    // siswa yang MEMANG SENGAJA dihapus akan terus-menerus muncul di sini selamanya
+    // (karena histori sesi lama tidak pernah hilang). Sekarang deteksi "siswa hilang"
+    // hanya berdasarkan referensi assigned_siswa milik guru yang belum sempat
+    // dibersihkan (misal data lama sebelum ada auto-cleanup di deleteSiswa),
+    // sehingga siswa yang dihapus lewat tombol Hapus akan langsung hilang dari Beranda.
+
+    const list = Object.values(yatimMap);
+    if (list.length === 0) { el.classList.add('hide'); el.innerHTML = ''; return; }
+
+    el.classList.remove('hide');
+    let html = `
+        <div class="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 shadow-sm">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-md"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div>
+                    <h3 class="font-black text-amber-900 text-sm">Ada Siswa Hilang dari Data Siswa</h3>
+                    <p class="text-amber-800 text-xs font-bold">Nama berikut masih muncul di tutor/histori sesi, tapi datanya tidak ada di halaman Data Siswa. Kemungkinan terhapus tidak sengaja.</p>
+                </div>
+            </div>
+            <div class="space-y-2">`;
+    list.forEach(y => {
+        const namaTampil = y.nama || '(nama tidak diketahui, ID: ' + y.id + ')';
+        html += `
+                <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-amber-200">
+                    <div>
+                        <p class="font-black text-slate-800 text-sm">${namaTampil}</p>
+                        <p class="text-[11px] text-slate-500 font-bold">${y.sumber} &middot; ID: ${y.id}</p>
+                    </div>
+                    <button onclick='pulihkanSiswaYatim("${y.id}", "${(y.nama || '').replace(/"/g, '&quot;')}")' class="bg-amber-500 hover:bg-amber-600 text-white font-black text-xs px-4 py-2 rounded-xl transition shadow-sm flex items-center gap-2"><i class="fa-solid fa-rotate-left"></i> Pulihkan</button>
+                </div>`;
+    });
+    html += `</div></div>`;
+    el.innerHTML = html;
+}
+
+async function pulihkanSiswaYatim(id, namaTerdeteksi) {
+    showPrompt("Pulihkan Data Siswa", "Konfirmasi nama siswa untuk dipulihkan (ID: " + id + "):", namaTerdeteksi || "", async (nama) => {
+        if (!nama || !nama.trim()) { showToast("Nama tidak boleh kosong!", "error"); return; }
+        showLoading(true, "Memulihkan data siswa...");
+        try {
+            await apiCall('restoreSiswa', { id_siswa: id, nama_siswa: nama.trim() });
+            showToast("Siswa berhasil dipulihkan! Silakan lengkapi datanya di halaman Data Siswa.");
+            dataSiswa = (await apiCall('getSiswa')) || [];
+            renderSiswaYatim();
+            renderGrafikProgress();
+        } catch (e) { showToast("Gagal memulihkan: " + e.message, "error"); }
+        showLoading(false);
+    });
+}
+
+const HARI_CEK_GURU_MALAS = 7;   // jendela pengamatan (hari ke belakang, tidak termasuk hari ini)
+const BATAS_HARI_GURU_MALAS = 2; // minimal jumlah hari lalai untuk masuk kategori "malas"
+
+function computeGuruMalasData() {
+    const inputSet = new Set(dataSesi.map(s => `${s.id_guru}_${s.id_siswa}_${s.tanggal}`));
+    const now = new Date();
+    const hasil = {};
+    for (let d = 1; d <= HARI_CEK_GURU_MALAS; d++) {
+        const tglObj = new Date(now);
+        tglObj.setDate(now.getDate() - d);
+        const tglStr = tglObj.toISOString().split('T')[0];
+        dataGuru.forEach(g => {
+            const assigned = (g.assigned_siswa || '').split(',').map(x => x.trim()).filter(Boolean);
+            assigned.forEach(idSiswa => {
+                const siswa = dataSiswa.find(s => s.id_siswa === idSiswa);
+                if (!siswa || !siswaJadwalPadaTanggal(siswa, tglObj)) return;
+                const key = `${g.username}_${idSiswa}_${tglStr}`;
+                if (inputSet.has(key)) return;
+                if (!hasil[g.username]) hasil[g.username] = { nama_guru: g.nama_lengkap, missed: [] };
+                hasil[g.username].missed.push({ tanggal: tglStr, tanggalObj: tglObj, nama_siswa: siswa.nama_siswa });
+            });
+        });
+    }
+    Object.values(hasil).forEach(h => {
+        const tanggalSet = new Set(h.missed.map(m => m.tanggal));
+        h.hariLalai = tanggalSet.size;
+        let streak = 0;
+        for (let d = 1; d <= HARI_CEK_GURU_MALAS; d++) {
+            const tglObj = new Date(now);
+            tglObj.setDate(now.getDate() - d);
+            const tglStr = tglObj.toISOString().split('T')[0];
+            if (tanggalSet.has(tglStr)) streak++; else break;
+        }
+        h.streak = streak;
+    });
+    return hasil;
+}
+
+function renderGuruMalas() {
+    const el = document.getElementById('guruMalasSection');
+    if (currentUser.role !== 'admin') { el.classList.add('hide'); el.innerHTML = ''; return; }
+
+    const data = computeGuruMalasData();
+    const list = Object.values(data).filter(h => h.hariLalai >= BATAS_HARI_GURU_MALAS)
+        .sort((a, b) => (b.streak - a.streak) || (b.hariLalai - a.hariLalai));
+
+    if (list.length === 0) { el.classList.add('hide'); el.innerHTML = ''; return; }
+
+    el.classList.remove('hide');
+    let html = `
+        <div class="bg-rose-50 border-2 border-rose-300 rounded-3xl p-5 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center shadow-md"><i class="fa-solid fa-user-clock"></i></div>
+                <div>
+                    <h3 class="font-black text-rose-900 text-sm">Guru Belum Input Sesi (${HARI_CEK_GURU_MALAS} Hari Terakhir)</h3>
+                    <p class="text-rose-800 text-xs font-bold">Sudah punya jadwal tapi belum diisi sama sekali (Selesai/Batal/Reschedule/Libur). Minimal ${BATAS_HARI_GURU_MALAS} hari lalai.</p>
+                </div>
+            </div>
+            <div class="space-y-3">`;
+    list.forEach(h => {
+        const pct = Math.min(100, Math.round((h.hariLalai / HARI_CEK_GURU_MALAS) * 100));
+        const streakBadge = h.streak >= BATAS_HARI_GURU_MALAS
+            ? `<span class="bg-rose-600 text-white text-[10px] font-black px-2.5 py-1 rounded-lg"><i class="fa-solid fa-fire"></i> ${h.streak} hari beruntun</span>`
+            : '';
+        const contohMissed = h.missed.slice(0, 4)
+            .map(m => `${m.tanggalObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} (${m.nama_siswa})`)
+            .join(', ');
+        const sisaLain = h.missed.length > 4 ? ` +${h.missed.length - 4} lainnya` : '';
+        html += `
+                <div class="bg-white p-4 rounded-2xl border border-rose-200">
+                    <div class="flex items-center justify-between gap-3 mb-2">
+                        <span class="font-black text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-chalkboard-user text-rose-500"></i> ${h.nama_guru}</span>
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            ${streakBadge}
+                            <span class="bg-rose-100 text-rose-700 border border-rose-300 text-[10px] font-black px-2.5 py-1 rounded-lg">${h.hariLalai} / ${HARI_CEK_GURU_MALAS} hari lalai</span>
+                        </div>
+                    </div>
+                    <div class="h-2.5 bg-rose-100 rounded-full overflow-hidden border border-rose-200 mb-2">
+                        <div class="h-full rounded-full bg-rose-500" style="width:${pct}%"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-500 font-bold">Contoh terlewat: ${contohMissed}${sisaLain}</p>
+                </div>`;
+    });
+    html += `</div></div>`;
+    el.innerHTML = html;
 }
 
 function renderGrafikProgress() {
@@ -1831,12 +2054,13 @@ function renderGrafikProgress() {
     const allSorted = [...dataSesi].filter(s => s.status_sesi === 'Selesai').sort((a,b) => new Date(a.tanggal) - new Date(b.tanggal));
     allSorted.forEach(s => {
         if (filterGuru !== 'ALL' && s.id_guru !== filterGuru) return;
+        const siswaObj = dataSiswa.find(x => x.id_siswa === s.id_siswa);
+        if (!siswaObj) return; // siswa sudah dihapus dari Data Siswa, jangan tampilkan di Beranda
         const gKey = s.id_guru;
         const sKey = s.id_siswa;
         if (!guruMap[gKey]) guruMap[gKey] = { nama_guru: s.nama_guru, siswaMap: {} };
         if (!guruMap[gKey].siswaMap[sKey]) {
-            const siswaObj = dataSiswa.find(x => x.id_siswa === sKey);
-            guruMap[gKey].siswaMap[sKey] = { nama_siswa: s.nama_siswa, count: 0, paket: siswaObj ? ((siswaObj.sisa_sesi || 0) + 0) : 0 };
+            guruMap[gKey].siswaMap[sKey] = { nama_siswa: s.nama_siswa, count: 0, paket: siswaObj.sisa_sesi || 0 };
         }
         guruMap[gKey].siswaMap[sKey].count++;
     });
@@ -1945,36 +2169,55 @@ async function loadDataSiswaPage() {
     showLoading(true);
     try {
         dataSiswa = (await apiCall('getSiswa')) || [];
-        let html = '';
-        dataSiswa.forEach(s => {
-            const badgeSisa = s.sisa_sesi > 0
-                ? `<span class="bg-gradient-to-r from-emerald-100 to-teal-100 text-teal-800 text-[10px] font-black px-3 py-1.5 rounded-xl border border-teal-300 shadow-sm"><i class="fa-solid fa-layer-group"></i> ${s.sisa_sesi} Sesi</span>`
-                : `<span class="bg-gradient-to-r from-red-100 to-rose-100 text-red-700 text-[10px] font-black px-3 py-1.5 rounded-xl border border-red-300 shadow-sm"><i class="fa-solid fa-triangle-exclamation"></i> Habis!</span>`;
-            const jadwalBadge = siswaJadwalHariIni(s)
-                ? `<div class="bg-emerald-500 text-white border border-emerald-600 text-[9px] font-black px-2 py-0.5 rounded-lg mt-1 inline-block shadow-sm"><i class="fa-solid fa-bolt"></i> HARI INI</div>` : '';
-            html += `
-                <tr>
-                    <td class="p-4 text-sm font-black text-slate-800 whitespace-nowrap">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 text-xs"><i class="fa-solid fa-user"></i></div>
-                            ${s.nama_siswa}
-                        </div>
-                    </td>
-                    <td class="p-4 text-sm text-slate-600 font-bold whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
-                    <td class="p-4 text-sm text-slate-600 font-bold leading-tight">${formatJadwal(s)}<br>${jadwalBadge}</td>
-                    <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
-                    <td class="p-4 text-sm whitespace-nowrap">
-                        <div class="flex gap-2">
-                            <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-emerald-700 bg-emerald-50 border border-emerald-300 rounded-xl transition hover:bg-emerald-100 shadow-sm" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
-                            <button onclick='editDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-blue-700 bg-blue-50 border border-blue-300 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick='deleteDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 border border-red-300 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </td>
-                </tr>`;
-        });
-        document.getElementById('tabelDataSiswa').innerHTML = html || '<tr><td colspan="5" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>Belum ada data siswa.</td></tr>';
+        renderTabelSiswa(dataSiswa);
     } catch (e) { }
     showLoading(false);
+}
+
+function renderTabelSiswa(list) {
+    let html = '';
+    list.forEach(s => {
+        const badgeSisa = s.sisa_sesi > 0
+            ? `<span class="bg-gradient-to-r from-emerald-100 to-teal-100 text-teal-800 text-[10px] font-black px-3 py-1.5 rounded-xl border border-teal-300 shadow-sm"><i class="fa-solid fa-layer-group"></i> ${s.sisa_sesi} Sesi</span>`
+            : `<span class="bg-gradient-to-r from-red-100 to-rose-100 text-red-700 text-[10px] font-black px-3 py-1.5 rounded-xl border border-red-300 shadow-sm"><i class="fa-solid fa-triangle-exclamation"></i> Habis!</span>`;
+        const jadwalBadge = siswaJadwalHariIni(s)
+            ? `<div class="bg-emerald-500 text-white border border-emerald-600 text-[9px] font-black px-2 py-0.5 rounded-lg mt-1 inline-block shadow-sm"><i class="fa-solid fa-bolt"></i> HARI INI</div>` : '';
+        html += `
+            <tr>
+                <td class="p-4 text-sm font-black text-slate-800 whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 text-xs"><i class="fa-solid fa-user"></i></div>
+                        ${s.nama_siswa}
+                    </div>
+                </td>
+                <td class="p-4 text-sm text-slate-600 font-bold whitespace-nowrap">${s.kelas || s.program_les || '-'}</td>
+                <td class="p-4 text-sm text-slate-600 font-bold leading-tight">${formatJadwal(s)}<br>${jadwalBadge}</td>
+                <td class="p-4 text-sm whitespace-nowrap">${badgeSisa}</td>
+                <td class="p-4 text-sm whitespace-nowrap">
+                    <div class="flex gap-2">
+                        <button onclick='topUpSesiSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-emerald-700 bg-emerald-50 border border-emerald-300 rounded-xl transition hover:bg-emerald-100 shadow-sm" title="Perpanjang Paket"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button onclick='editDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-blue-700 bg-blue-50 border border-blue-300 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick='deleteDataSiswa("${s.id_siswa}")' class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 border border-red-300 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                </td>
+            </tr>`;
+    });
+    const emptyMsg = dataSiswa.length === 0
+        ? 'Belum ada data siswa.'
+        : 'Tidak ada siswa yang cocok dengan pencarian.';
+    document.getElementById('tabelDataSiswa').innerHTML = html || `<tr><td colspan="5" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>${emptyMsg}</td></tr>`;
+}
+
+function filterDataSiswa() {
+    const q = (document.getElementById('searchSiswa').value || '').trim().toLowerCase();
+    if (!q) { renderTabelSiswa(dataSiswa); return; }
+    const filtered = dataSiswa.filter(s =>
+        (s.nama_siswa || '').toLowerCase().includes(q) ||
+        (s.kelas || '').toLowerCase().includes(q) ||
+        (s.program_les || '').toLowerCase().includes(q) ||
+        (s.alamat_rumah || '').toLowerCase().includes(q)
+    );
+    renderTabelSiswa(filtered);
 }
 
 async function handleSaveSiswa(e) {
@@ -2062,35 +2305,52 @@ async function loadDataGuruPage() {
                     <span class="text-slate-800 font-bold">${s.nama_siswa}</span>
                 </label>`).join('');
         dataGuru = (await apiCall('getGuru')) || [];
-        let html = '';
-        dataGuru.forEach(g => {
-            const arr = (g.assigned_siswa || '').split(',').map(x=>x.trim()).filter(Boolean);
-            const names = arr.map(id => dataSiswa.find(x=>x.id_siswa===id)?.nama_siswa || id).join(', ')
-                || '<span class="text-slate-500 italic text-xs font-bold bg-slate-100 px-2 py-1 rounded-md border border-slate-200">Belum ditugaskan</span>';
-            html += `
-                <tr>
-                    <td class="p-4 text-sm font-black text-slate-800 whitespace-nowrap">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 border border-blue-200 flex items-center justify-center text-blue-600 text-xs"><i class="fa-solid fa-chalkboard-user"></i></div>
-                            ${g.nama_lengkap}
-                        </div>
-                    </td>
-                    <td class="p-4 text-sm text-slate-500 whitespace-nowrap font-medium">
-                        <div class="font-mono text-[11px] bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-md text-slate-800 font-black inline-block"><i class="fa-solid fa-at text-slate-400 mr-1"></i>${g.username}</div>
-                        <div class="font-mono text-[11px] text-slate-500 mt-1 flex items-center font-bold"><i class="fa-solid fa-key mr-1.5 text-[10px] text-slate-400"></i>${g.password}</div>
-                    </td>
-                    <td class="p-4 text-sm text-slate-600 font-bold max-w-xs leading-relaxed">${names}</td>
-                    <td class="p-4 text-sm whitespace-nowrap">
-                        <div class="flex gap-2">
-                            <button onclick='editDataGuru("${g.username}")' class="w-9 h-9 flex items-center justify-center text-blue-700 bg-blue-50 border border-blue-300 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick='deleteDataGuru("${g.username}")' class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 border border-red-300 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </td>
-                </tr>`;
-        });
-        document.getElementById('tabelDataGuru').innerHTML = html || '<tr><td colspan="4" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>Belum ada data tutor.</td></tr>';
+        renderTabelGuru(dataGuru);
     } catch (e) { }
     showLoading(false);
+}
+
+function renderTabelGuru(list) {
+    let html = '';
+    list.forEach(g => {
+        const arr = (g.assigned_siswa || '').split(',').map(x=>x.trim()).filter(Boolean);
+        const names = arr.map(id => dataSiswa.find(x=>x.id_siswa===id)?.nama_siswa || id).join(', ')
+            || '<span class="text-slate-500 italic text-xs font-bold bg-slate-100 px-2 py-1 rounded-md border border-slate-200">Belum ditugaskan</span>';
+        html += `
+            <tr>
+                <td class="p-4 text-sm font-black text-slate-800 whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 border border-blue-200 flex items-center justify-center text-blue-600 text-xs"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        ${g.nama_lengkap}
+                    </div>
+                </td>
+                <td class="p-4 text-sm text-slate-500 whitespace-nowrap font-medium">
+                    <div class="font-mono text-[11px] bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-md text-slate-800 font-black inline-block"><i class="fa-solid fa-at text-slate-400 mr-1"></i>${g.username}</div>
+                    <div class="font-mono text-[11px] text-slate-500 mt-1 flex items-center font-bold"><i class="fa-solid fa-key mr-1.5 text-[10px] text-slate-400"></i>${g.password}</div>
+                </td>
+                <td class="p-4 text-sm text-slate-600 font-bold max-w-xs leading-relaxed">${names}</td>
+                <td class="p-4 text-sm whitespace-nowrap">
+                    <div class="flex gap-2">
+                        <button onclick='editDataGuru("${g.username}")' class="w-9 h-9 flex items-center justify-center text-blue-700 bg-blue-50 border border-blue-300 rounded-xl transition hover:bg-blue-100 shadow-sm" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick='deleteDataGuru("${g.username}")' class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 border border-red-300 rounded-xl transition hover:bg-red-100 shadow-sm" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                </td>
+            </tr>`;
+    });
+    const emptyMsg = dataGuru.length === 0
+        ? 'Belum ada data tutor.'
+        : 'Tidak ada tutor yang cocok dengan pencarian.';
+    document.getElementById('tabelDataGuru').innerHTML = html || `<tr><td colspan="4" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>${emptyMsg}</td></tr>`;
+}
+
+function filterDataGuru() {
+    const q = (document.getElementById('searchGuru').value || '').trim().toLowerCase();
+    if (!q) { renderTabelGuru(dataGuru); return; }
+    const filtered = dataGuru.filter(g =>
+        (g.nama_lengkap || '').toLowerCase().includes(q) ||
+        (g.username || '').toLowerCase().includes(q)
+    );
+    renderTabelGuru(filtered);
 }
 
 async function handleSaveGuru(e) {
@@ -2253,6 +2513,7 @@ async function loadRiwayat() {
         };
         const filteredSorted = [...filtered].sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
         let html = '';
+        selectedSesiIds.clear();
         filteredSorted.forEach(s => {
             const badge = statusColors[s.status_sesi] || 'bg-slate-50 text-slate-600';
             const canEdit = currentUser.role === 'admin' || currentUser.username === s.id_guru;
@@ -2262,6 +2523,7 @@ async function loadRiwayat() {
                 : `<span class="text-slate-400 text-[11px] italic font-bold">—</span>`;
             html += `
                 <tr>
+                    <td class="p-4 text-sm whitespace-nowrap">${canEdit ? `<input type="checkbox" class="riwayat-checkbox w-4 h-4 cursor-pointer" value="${s.id_sesi}" onchange="toggleRiwayatCheck('${s.id_sesi}', this.checked)">` : ''}</td>
                     <td class="p-4 text-sm text-slate-700 font-bold whitespace-nowrap"><i class="fa-regular fa-calendar mr-2 text-slate-400"></i> ${s.tanggal}</td>
                     <td class="p-4 text-sm font-black text-slate-900 whitespace-nowrap">${s.nama_siswa}</td>
                     <td class="p-4 text-sm text-slate-600 font-bold whitespace-nowrap"><i class="fa-solid fa-chalkboard-user mr-2 text-slate-400"></i> ${s.nama_guru}</td>
@@ -2275,7 +2537,8 @@ async function loadRiwayat() {
                     </td>
                 </tr>`;
         });
-        document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="6" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>Belum ada riwayat jurnal.</td></tr>';
+        document.getElementById('tabelRiwayat').innerHTML = html || '<tr><td colspan="7" class="text-center p-10 text-slate-500 font-bold text-sm"><div class="w-16 h-16 bg-slate-50 border-2 border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-3"><i class="fa-solid fa-folder-open text-2xl text-slate-400"></i></div>Belum ada riwayat jurnal.</td></tr>';
+        updateBulkBar();
     } catch (e) { console.error(e); }
     showLoading(false);
 }
@@ -2299,6 +2562,62 @@ async function deleteSesi(id) {
             showToast("Sesi dihapus.");
             loadRiwayat();
         } catch (e) { showToast("Gagal: " + e.message, "error"); }
+        showLoading(false);
+    });
+}
+
+// ============================================================
+// BULK DELETE RIWAYAT (centang banyak sesi sekaligus)
+// ============================================================
+let selectedSesiIds = new Set();
+
+function toggleRiwayatCheck(id, checked) {
+    if (checked) selectedSesiIds.add(id); else selectedSesiIds.delete(id);
+    updateBulkBar();
+}
+
+function toggleAllRiwayat(el) {
+    document.querySelectorAll('.riwayat-checkbox').forEach(cb => {
+        cb.checked = el.checked;
+        if (el.checked) selectedSesiIds.add(cb.value); else selectedSesiIds.delete(cb.value);
+    });
+    updateBulkBar();
+}
+
+function updateBulkBar() {
+    const bar = document.getElementById('bulkDeleteBar');
+    const count = selectedSesiIds.size;
+    document.getElementById('bulkDeleteCount').innerText = count;
+    bar.classList.toggle('hide', count === 0);
+    bar.classList.toggle('flex', count > 0);
+    const checkAll = document.getElementById('checkAllRiwayat');
+    if (checkAll) {
+        const boxes = document.querySelectorAll('.riwayat-checkbox');
+        checkAll.checked = boxes.length > 0 && count === boxes.length;
+        checkAll.indeterminate = count > 0 && count < boxes.length;
+    }
+}
+
+function cancelBulkSelect() {
+    selectedSesiIds.clear();
+    document.querySelectorAll('.riwayat-checkbox').forEach(cb => cb.checked = false);
+    updateBulkBar();
+}
+
+async function bulkDeleteSesi() {
+    if (selectedSesiIds.size === 0) return;
+    const ids = Array.from(selectedSesiIds);
+    showConfirm('Hapus Sesi Terpilih', `${ids.length} sesi akan dihapus dan sisa paket dikalkulasi ulang.`, async () => {
+        showLoading(true, `Menghapus ${ids.length} sesi...`);
+        let gagal = 0;
+        for (const id of ids) {
+            try { await apiCall('deleteSesi', { id_sesi: id }); }
+            catch (e) { gagal++; console.error(e); }
+        }
+        selectedSesiIds.clear();
+        if (gagal === 0) showToast(`${ids.length} sesi berhasil dihapus.`);
+        else showToast(`${ids.length - gagal} sesi dihapus, ${gagal} gagal.`, gagal === ids.length ? "error" : "success");
+        loadRiwayat();
         showLoading(false);
     });
 }
