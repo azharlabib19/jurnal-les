@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <script>
-        const APP_VERSION = "2026.07.16-v4"; // ← GANTI INI setiap push update ke GitHub
+        const APP_VERSION = "2026.09.1-v4"; // ← GANTI INI setiap push update ke GitHub
 
         const savedVersion = localStorage.getItem('app_version');
         if (savedVersion !== APP_VERSION) {
@@ -210,6 +210,9 @@
         .data-table tbody tr { transition: all 0.2s; }
         .data-table tbody tr td { border-bottom: 1px dashed #e2e8f0; padding: 16px; font-size: 13.5px; }
         .data-table tbody tr:hover td { background: #f1f5f9; }
+        .sticky-col { position: sticky; left: 0; z-index: 2; background: #fff; box-shadow: 2px 0 6px rgba(0,0,0,0.06); }
+        .data-table thead .sticky-col { background: #f8fafc; z-index: 3; }
+        .data-table tbody tr:hover .sticky-col { background: #f1f5f9; }
 
         /* Animations */
         @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -1080,7 +1083,7 @@
                                 <table class="data-table min-w-[700px]">
                                     <thead>
                                         <tr>
-                                            <th class="w-10"><input type="checkbox" id="checkAllRiwayat" onchange="toggleAllRiwayat(this)" class="w-4 h-4 cursor-pointer"></th>
+                                            <th class="w-12 sticky-col"><input type="checkbox" id="checkAllRiwayat" onchange="toggleAllRiwayat(this)" class="w-5 h-5 cursor-pointer accent-red-600"></th>
                                             <th>Tanggal</th>
                                             <th>Siswa</th>
                                             <th>Tutor</th>
@@ -2523,7 +2526,7 @@ async function loadRiwayat() {
                 : `<span class="text-slate-400 text-[11px] italic font-bold">—</span>`;
             html += `
                 <tr>
-                    <td class="p-4 text-sm whitespace-nowrap">${canEdit ? `<input type="checkbox" class="riwayat-checkbox w-4 h-4 cursor-pointer" value="${s.id_sesi}" onchange="toggleRiwayatCheck('${s.id_sesi}', this.checked)">` : ''}</td>
+                    <td class="p-4 text-sm whitespace-nowrap sticky-col">${canEdit ? `<input type="checkbox" class="riwayat-checkbox w-5 h-5 cursor-pointer accent-red-600" value="${s.id_sesi}" onchange="toggleRiwayatCheck('${s.id_sesi}', this.checked)">` : ''}</td>
                     <td class="p-4 text-sm text-slate-700 font-bold whitespace-nowrap"><i class="fa-regular fa-calendar mr-2 text-slate-400"></i> ${s.tanggal}</td>
                     <td class="p-4 text-sm font-black text-slate-900 whitespace-nowrap">${s.nama_siswa}</td>
                     <td class="p-4 text-sm text-slate-600 font-bold whitespace-nowrap"><i class="fa-solid fa-chalkboard-user mr-2 text-slate-400"></i> ${s.nama_guru}</td>
